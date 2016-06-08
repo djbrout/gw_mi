@@ -65,7 +65,7 @@ class event:
         skymap = self.skymap.strip('\n')
 
         # make the maps
-        probs, times = getHexObservations.prepare(
+        probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
             skymap, mjd, trigger_id,
             self.outfolder, outputDir,
             exposure_list=config.exposure_list,
