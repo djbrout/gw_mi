@@ -62,7 +62,7 @@ class event:
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
         trigger_id = self.trigger_id
-        skymap = self.skymap
+        skymap = self.skymap.strip('\n')
 
         # make the maps
         probs, times = getHexObservations.prepare(
