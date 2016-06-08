@@ -13,6 +13,7 @@ import requests
 import healpy as hp
 import subprocess
 #from astropy.time import Time
+import checkevent_config as config
 
 def sendFirstTriggerEmail(trigger_id,far):
     import smtplib
@@ -22,15 +23,19 @@ def sendFirstTriggerEmail(trigger_id,far):
     msg = MIMEText(text)
 
     me = 'automated-desGW@fnal.gov'
-    you = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+    if config.sendEveryoneEmails:
+        you = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+    else:
+        you = ['djbrout@gmail.com']
 
-    msg['Subject'] =  'Trigger '+trigger_id+' FAR: '+str(far)
-    msg['From'] = me
-    msg['To'] = you
+    for y in you:
+        msg['Subject'] =  'Trigger '+trigger_id+' FAR: '+str(far)
+        msg['From'] = me
+        msg['To'] = y
 
-    s = smtplib.SMTP('localhost')
-    s.sendmail(me, [you], msg.as_string())
-    s.quit()
+        s = smtplib.SMTP('localhost')
+        s.sendmail(me, y, msg.as_string())
+        s.quit()
     print 'Trigger email sent...'
 
 def get_skymap(root,outfolder,trigger_id,skymap_url,skymap_filename):
@@ -69,18 +74,25 @@ def get_skymap(root,outfolder,trigger_id,skymap_url,skymap_filename):
 # Function to call every time a GCN is received.
 # Run only for notices of type LVC_INITIAL or LVC_UPDATE.
 @gcn.handlers.include_notice_types(
+    gcn.notice_types.LVC_PRELIMINARY,
     gcn.notice_types.LVC_INITIAL,
     gcn.notice_types.LVC_UPDATE)
 def process_gcn(payload, root):
     # Print the alert
-    import listener_config as config
+    #import checkevent_config as config
 
     # Respond only to 'test' events.
     # VERY IMPORTANT! Replce with the following line of code
     # to respond to only real 'observation' events. DO SO IN CONFIG FILE
+    print 'GOT GCN LIGO EVENT'
+    
     if root.attrib['role'] != config.mode.lower(): return #This can be changed in the config file
+    
 
     trigger_id = str(root.find("./What/Param[@name='GraceID']").attrib['value'])
+
+    sendFirstTriggerEmail(trigger_id,'NA')
+
 
     # Respond only to 'CBC' events. Change 'CBC' to "Burst' to respond to only
     # unmodeled burst events.
@@ -180,9 +192,9 @@ def process_gcn(payload, root):
              boc = event_params['boc']
              )
 
-    if config.mode.lower() == 'observation':
-        sendFirstTriggerEmail(trigger_id,event_params['FAR'])
-    
+    #if config.mode.lower() == 'observation':
+    sendFirstTriggerEmail(trigger_id,event_params['FAR'])
+
     print 'Trigger ID HEERERERERE '+trigger_id
     #save payload to file
     open(os.path.join(outfolder,trigger_id+'_payload.xml'), 'w').write(payload)
@@ -215,18 +227,24 @@ def imAliveEmail():
     msg = MIMEText(text)
 
     me = 'imAlive-desGW@fnal.gov'
-    you = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+    if config.sendEveryoneEmails:
+        you = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+    else:
+        you = ['djbrout@gmail.com']
 
-    msg['Subject'] = 'MainInjector is Alive'
-    msg['From'] = me
-    msg['To'] = you
+    for y in you:
+        msg['Subject'] = 'MainInjector is Alive'
+        msg['From'] = me
+        msg['To'] = y
 
-    s = smtplib.SMTP('localhost')
-    s.sendmail(me, [you], msg.as_string())
-    s.quit()
+        s = smtplib.SMTP('localhost')
+        s.sendmail(me, y, msg.as_string())
+        s.quit()
     print 'Im alive email sent...'
-    returnTimer(43200,imAliveEmail).start()
-    
+    Timer(43200,imAliveEmail).start()
+
+    return
+
 import logging
 # Set up logger
 logging.basicConfig(level=logging.INFO)

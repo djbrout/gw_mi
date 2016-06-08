@@ -3,7 +3,7 @@ import sys, getopt
 import numpy as np
 import triggerpages as tp
 import getHexObservations
-import annis_config as config
+import recycler_config as config
 import subprocess
 
 class event:
