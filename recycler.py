@@ -62,16 +62,16 @@ class event:
         outputDir = self.mapspath
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
-	trigger_id = self.trigger_id
-	skymap = self.skymap
+	    trigger_id = self.trigger_id
+	    skymap = self.skymap
 
-	# make the maps
-    probs,times = getHexObservations.prepare(
-        skymap, mjd, trigger_id,
-        self.outfolder, outputDir,
-        exposure_list=config.exposure_list,
-        filter_list=config.filter_list,
-        distance=distance)
+	    # make the maps
+        probs,times = getHexObservations.prepare(
+            skymap, mjd, trigger_id,
+            self.outfolder, outputDir,
+            exposure_list=config.exposure_list,
+            filter_list=config.filter_list,
+            distance=distance)
 
 	# figure out how to divide the night
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
