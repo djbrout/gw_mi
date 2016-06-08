@@ -1,4 +1,4 @@
-trigger_path  = '/data/des41.a/data/desgw/maininjector/real-triggers'
+trigger_path  = '/data/des41.a/data/desgw/gw_mi/real-triggers'
 exposure_list = [180.] #sec
 filter_list = ['i']
 hours_available = 3.  # how many hours are we going to observe on night 1
