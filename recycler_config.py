@@ -1,5 +1,6 @@
 trigger_path  = '/data/des41.a/data/desgw/maininjector/real-triggers'
-exposure_length = 180. #sec
+exposure_list = [180.] #sec
+filter_list = ['i']
 hours_available = 3.  # how many hours are we going to observe on night 1
 
 ####Only used for testing####

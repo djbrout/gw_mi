@@ -43,7 +43,7 @@ class event:
         os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
         
         
-    def mapMaker(self, hours_available=None, exposure_length=None):
+    def mapMaker(self, hours_available=None):
         
         try:
             distance = self.event_params['MaxDistance']
@@ -53,8 +53,9 @@ class event:
         except:
             distance = 60.#hardcode unknown distance to 60Mpc
 
-        if exposure_length is None:
-            exposure_length = config.exposure_length
+        #if exposure_length is None:
+        #exposure_list = config.exposure_list
+        #filter_list = config.filter_list
         if hours_available is None:
             hours_available = config.hours_available
 
@@ -67,7 +68,9 @@ class event:
 	# make the maps
         probs,times = getHexObservations.prepare(
             skymap, mjd, trigger_id, outputDir,
-            exposure_length=exposure_length, distance=distance)
+            exposure_list=config.exposure_list,
+            filter_list=config.filter_list,
+            distance=distance)
 
 	# figure out how to divide the night
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
@@ -334,8 +337,8 @@ if __name__ == "__main__":
             trigger_ids = [str(a)]
         elif o in ["-mjd","--mjd"]:
             mjd = float(a)
-        elif o in ["-exp","--exposure_length"]:
-            exposure_length = float(a)
+        #elif o in ["-exp","--exposure_length"]:
+        #    exposure_length = float(a)
         elif o in ["-hours","--hours_available"]:
             hours_available = float(a)
         elif o in ["-sky","--skymapfilename"]:
@@ -379,8 +382,8 @@ if __name__ == "__main__":
                       os.path.join(trigger_path,
                                    trigger_id),
                       trigger_id, mjd)
-            e.mapMaker(hours_available=hours_available, exposure_length=exposure_length)
-            e.getContours(exposure_length=exposure_length)
+            e.mapMaker(hours_available=hours_available)
+            e.getContours()
             e.makeJSON()
             e.make_cumulative_probs()
             e.updateTriggerIndex()
