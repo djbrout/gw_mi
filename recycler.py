@@ -24,8 +24,12 @@ class event:
             os.makedirs(self.website_imagespath)
         
         self.event_paramfile = os.path.join(outfolder,trigger_id+'_params.npz')
-        self.event_params = np.load(self.event_paramfile)
-
+        self.weHaveParamFile = True
+        try:
+            self.event_params = np.load(self.event_paramfile)
+        except:
+            self.event_params = {}
+            self.weHaveParamFile = False
         '''
         krbdir = '/usr/krb5/bin'
         ticket_cache = '/var/keytab/desgw.keytab'
@@ -197,20 +201,36 @@ class event:
         from time import gmtime, strftime
         timeprocessed = strftime("%H:%M:%S GMT \t %b %d, %Y", gmtime())
 
-        np.savez(self.event_paramfile,
-             MJD=self.event_params['MJD'], 
-             ETA=self.event_params['ETA'],
-             FAR=self.event_params['FAR'],
-             ChirpMass=self.event_params['ChirpMass'],
-             MaxDistance=self.event_params['MaxDistance'],
-             integrated_prob=integrated_prob,
-             M1 = self.event_params['M1'],
-             M2 = self.event_params['M2'],
-             nHexes = nHexes,
-             time_processed = timeprocessed,
-             boc = self.event_params['boc'],
-             CentralFreq = self.event_params['CentralFreq']
-             )
+        if self.weHaveParamFile:
+            np.savez(self.event_paramfile,
+                MJD=self.event_params['MJD'],
+                ETA=self.event_params['ETA'],
+                FAR=self.event_params['FAR'],
+                ChirpMass=self.event_params['ChirpMass'],
+                MaxDistance=self.event_params['MaxDistance'],
+                integrated_prob=integrated_prob,
+                M1 = self.event_params['M1'],
+                M2 = self.event_params['M2'],
+                nHexes = nHexes,
+                time_processed = timeprocessed,
+                boc = self.event_params['boc'],
+                CentralFreq = self.event_params['CentralFreq']
+                )
+        else:
+            np.savez(self.event_paramfile,
+                     MJD='NAN',
+                     ETA='NAN',
+                     FAR='NAN',
+                     ChirpMass='NAN',
+                     MaxDistance='NAN',
+                     integrated_prob='NAN',
+                     M1='NAN',
+                     M2='NAN',
+                     nHexes=nHexes,
+                     time_processed=timeprocessed,
+                     boc='NAN',
+                     CentralFreq='NAN',
+                     )
 
         #Copy json file to web server for public download
         if not os.path.exists(jsonFile) :
