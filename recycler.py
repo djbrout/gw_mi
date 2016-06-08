@@ -66,11 +66,12 @@ class event:
 	skymap = self.skymap
 
 	# make the maps
-        probs,times = getHexObservations.prepare(
-            skymap, mjd, trigger_id, outputDir,
-            exposure_list=config.exposure_list,
-            filter_list=config.filter_list,
-            distance=distance)
+    probs,times = getHexObservations.prepare(
+        skymap, mjd, trigger_id,
+        self.outfolder, outputDir,
+        exposure_list=config.exposure_list,
+        filter_list=config.filter_list,
+        distance=distance)
 
 	# figure out how to divide the night
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
