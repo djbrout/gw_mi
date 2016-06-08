@@ -320,7 +320,6 @@ if __name__ == "__main__":
 
     trigger_ids = [config.trigger_id]
     mjd = config.test_mjd
-    exposure_length = config.exposure_length
     hours_available = config.hours_available
 
     force_mjd = config.force_mjd
