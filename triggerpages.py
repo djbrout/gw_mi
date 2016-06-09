@@ -39,21 +39,17 @@ html = '<!DOCTYPE HTML>\
 	                <!-- Header -->\
 	                        <header id="header">\
 	                                <div class="content">\
-	                                        <h1><a href="https://gracedb.ligo.org/events/' + str(
-	trigger_id) + '">Trigger ' + str(trigger_id) + '</a></h1>\
-	                                        <p>Probability of Detection: ' + str(
-	round(float(str(event_params['integrated_prob'])), 6)) + '<br />\
+	                                        <h1><a href="https://gracedb.ligo.org/events/' + str(trigger_id) + '">Trigger ' + str(trigger_id) + '</a></h1>\
+	                                        <p>Probability of Detection: ' + str(round(float(str(event_params['integrated_prob'])), 6)) + '<br />\
                                                 <p>Last Processed: ' + str(event_params['time_processed']) + '<br />\
 	                                        <p>Trigger Time: ' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '</p>\
 	                                        <p>MJD: ' + str(event_params['MJD']) + '<br />\
-	                                        <p># Hexes: ' + str(event_params['nHexes']) + '<br /><p>Type: ' + str(
-	event_params['boc']) + '<br /><p>Central Frequency: ' + str(event_params['CentralFreq']) + '<br />\
+	                                        <p># Hexes: ' + str(event_params['nHexes']) + '<br /><p>Type: ' + str(event_params['boc']) + '<br /><p>Central Frequency: ' + str(event_params['CentralFreq']) + '<br />\
 	                                        <p><ul class="actions">\
 												<li><a href="' + str(trigger_id) + '.json.tar" download class="button special icon fa-download">.json</a></li>\
 											</ul><br />\
 									</div>\
-	                                <div class="5u"><div class="image fit"><a href="imageviewer.html"><img src="images/' + str(
-	trigger_id) + '-observingPlot.png" alt=""  /></a></div></div>\
+	                                <div class="5u"><div class="image fit"><a href="imageviewer.html"><img src="images/' + str(trigger_id) + '-observingPlot.png" alt=""  /></a></div></div>\
 	                        </header>\
 	                <section>\
 	                <section id="one" class="wrapper style2 special">\
@@ -90,43 +86,37 @@ html = '<!DOCTYPE HTML>\
 	                        <section id="two" class="wrapper">\
 	                                <div class="inner alt">\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '-probabilityPlot.png"><img src="images/' + str(trigger_id) + '-probabilityPlot.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '-probabilityPlot.png"><img src="images/' + str(trigger_id) + '-probabilityPlot.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Probability of Detection of Source vs Night Slot Number</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '-and-sim-cumprobs.png"><img src="images/' + str(trigger_id) + '-and-sim-cumprobs.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '-and-sim-cumprobs.png"><img src="images/' + str(trigger_id) + '-and-sim-cumprobs.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>Cumulative Probability vs Hex Number</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '_LIGO.png"><img src="images/' + str(trigger_id) + '_LIGO.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '_LIGO.png"><img src="images/' + str(trigger_id) + '_LIGO.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>LIGO Detection Probability Map</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '_limitingMagMap.png"><img src="images/' + str(trigger_id) + '_limitingMagMap.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '_limitingMagMap.png"><img src="images/' + str(trigger_id) + '_limitingMagMap.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Limiting Magnitude</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '_sourceProbMap.png"><img src="images/' + str(trigger_id) + '_sourceProbMap.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '_sourceProbMap.png"><img src="images/' + str(trigger_id) + '_sourceProbMap.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Probability of Detecting Source</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
-	trigger_id) + '_sourceProbxLIGO.png"><img src="images/' + str(trigger_id) + '_sourceProbxLIGO.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(trigger_id) + '_sourceProbxLIGO.png"><img src="images/' + str(trigger_id) + '_sourceProbxLIGO.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Source Prob x LIGO Detection Prob</h3>\
 	                                                </div>\
@@ -142,8 +132,7 @@ html = '<!DOCTYPE HTML>\
 	                                </header> -->\
 	                                <ul class="actions">\
 	                                        <li><a href="../../" class="button special icon fa-download">View All Triggers</a></li>\
-	                                        <li><a href="mailto:dbrout@physics.upenn.edu?subject=DESGW Trigger ' + str(
-	trigger_id) + ' Issue Report&body=Please address issue related to trigger ' + str(trigger_id) + '." class="button">Report Issue</a></li>\
+	                                        <li><a href="mailto:dbrout@physics.upenn.edu?subject=DESGW Trigger ' + str(trigger_id) + ' Issue Report&body=Please address issue related to trigger ' + str(trigger_id) + '." class="button">Report Issue</a></li>\
 	                                </ul>\
 	                        </section>\
 	                <!-- Scripts -->\
