@@ -8,19 +8,21 @@ def mjd_to_datetime(mjd):
     d = mjd_epoch + datetime.timedelta(mjd)
     return d
 
-def makeNewPage(outfilename,trigger_id,event_paramfile):
 
-event_params = np.load(event_paramfile)
-print event_params.keys()
-try:
-	d = mjd_to_datetime(float(str(event_params['MJD'])))
-except:
-	d = mjd_to_datetime(float(500))
+def makeNewPage(outfilename, trigger_id, event_paramfile):
 
-html = 	'<!DOCTYPE HTML>\
+
+	event_params = np.load(event_paramfile)
+	print event_params.keys()
+	try:
+		d = mjd_to_datetime(float(str(event_params['MJD'])))
+	except:
+		d = mjd_to_datetime(float(500))
+
+html = '<!DOCTYPE HTML>\
 		<html lang="en">\
 	        <head>\
-	                <title>Trigger '+str(trigger_id)+'</title>\
+	                <title>Trigger ' + str(trigger_id) + '</title>\
 	                <meta charset="utf-8" />\
 	                <meta name="viewport" content="width=device-width, initial-scale=1" />\
 	                <link rel="stylesheet" href="../../assets/css/main.css" />\
@@ -37,17 +39,21 @@ html = 	'<!DOCTYPE HTML>\
 	                <!-- Header -->\
 	                        <header id="header">\
 	                                <div class="content">\
-	                                        <h1><a href="https://gracedb.ligo.org/events/'+str(trigger_id)+'">Trigger '+str(trigger_id)+'</a></h1>\
-	                                        <p>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'<br />\
-                                                <p>Last Processed: '+str(event_params['time_processed'])+'<br />\
-	                                        <p>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</p>\
-	                                        <p>MJD: '+str(event_params['MJD'])+'<br />\
-	                                        <p># Hexes: '+str(event_params['nHexes'])+'<br /><p>Type: '+str(event_params['boc'])+'<br /><p>Central Frequency: '+str(event_params['CentralFreq'])+'<br />\
+	                                        <h1><a href="https://gracedb.ligo.org/events/' + str(
+	trigger_id) + '">Trigger ' + str(trigger_id) + '</a></h1>\
+	                                        <p>Probability of Detection: ' + str(
+	round(float(str(event_params['integrated_prob'])), 6)) + '<br />\
+                                                <p>Last Processed: ' + str(event_params['time_processed']) + '<br />\
+	                                        <p>Trigger Time: ' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '</p>\
+	                                        <p>MJD: ' + str(event_params['MJD']) + '<br />\
+	                                        <p># Hexes: ' + str(event_params['nHexes']) + '<br /><p>Type: ' + str(
+	event_params['boc']) + '<br /><p>Central Frequency: ' + str(event_params['CentralFreq']) + '<br />\
 	                                        <p><ul class="actions">\
-												<li><a href="'+str(trigger_id)+'.json.tar" download class="button special icon fa-download">.json</a></li>\
+												<li><a href="' + str(trigger_id) + '.json.tar" download class="button special icon fa-download">.json</a></li>\
 											</ul><br />\
 									</div>\
-	                                <div class="5u"><div class="image fit"><a href="imageviewer.html"><img src="images/'+str(trigger_id)+'-observingPlot.png" alt=""  /></a></div></div>\
+	                                <div class="5u"><div class="image fit"><a href="imageviewer.html"><img src="images/' + str(
+	trigger_id) + '-observingPlot.png" alt=""  /></a></div></div>\
 	                        </header>\
 	                <section>\
 	                <section id="one" class="wrapper style2 special">\
@@ -58,22 +64,22 @@ html = 	'<!DOCTYPE HTML>\
 									<tr>\
 										<td>FAR</td>\
 										<td>False Alarm Rate </td>\
-										<td>'+str(event_params['FAR'])+'</td>\
+										<td>' + str(event_params['FAR']) + '</td>\
 									</tr>\
 									<tr>\
 										<td>ETA</td>\
 										<td>Estimated ratio of reduced mass to total mass</td>\
-										<td>'+str(event_params['ETA'])+'</td>\
+										<td>' + str(event_params['ETA']) + '</td>\
 									</tr>\
 									<tr>\
 										<td>Chirp Mass</td>\
 										<td>Estimated CBC chirp mass</td>\
-										<td>'+str(event_params['ChirpMass'])+'</td>\
+										<td>' + str(event_params['ChirpMass']) + '</td>\
 									</tr>\
 									<tr>\
 										<td>Max Dist</td>\
 										<td>Estimated maximum distance for CBC event</td>\
-										<td>'+str(event_params['MaxDistance'])+'</td>\
+										<td>' + str(event_params['MaxDistance']) + '</td>\
 									</tr>\
 								</tbody>\
 							</table>\
@@ -84,37 +90,43 @@ html = 	'<!DOCTYPE HTML>\
 	                        <section id="two" class="wrapper">\
 	                                <div class="inner alt">\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'-probabilityPlot.png"><img src="images/'+str(trigger_id)+'-probabilityPlot.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '-probabilityPlot.png"><img src="images/' + str(trigger_id) + '-probabilityPlot.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Probability of Detection of Source vs Night Slot Number</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'-and-sim-cumprobs.png"><img src="images/'+str(trigger_id)+'-and-sim-cumprobs.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '-and-sim-cumprobs.png"><img src="images/' + str(trigger_id) + '-and-sim-cumprobs.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>Cumulative Probability vs Hex Number</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'_LIGO.png"><img src="images/'+str(trigger_id)+'_LIGO.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '_LIGO.png"><img src="images/' + str(trigger_id) + '_LIGO.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>LIGO Detection Probability Map</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'_limitingMagMap.png"><img src="images/'+str(trigger_id)+'_limitingMagMap.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '_limitingMagMap.png"><img src="images/' + str(trigger_id) + '_limitingMagMap.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Limiting Magnitude</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'_sourceProbMap.png"><img src="images/'+str(trigger_id)+'_sourceProbMap.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '_sourceProbMap.png"><img src="images/' + str(trigger_id) + '_sourceProbMap.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Probability of Detecting Source</h3>\
 	                                                </div>\
 	                                        </section>\
 	                                        <section class="special">\
-	                                                <div class="12u"><div class="image fit"><a href="images/'+str(trigger_id)+'_sourceProbxLIGO.png"><img src="images/'+str(trigger_id)+'_sourceProbxLIGO.png" alt="" /></a></div></div>\
+	                                                <div class="12u"><div class="image fit"><a href="images/' + str(
+	trigger_id) + '_sourceProbxLIGO.png"><img src="images/' + str(trigger_id) + '_sourceProbxLIGO.png" alt="" /></a></div></div>\
 	                                                <div class="content">\
 	                                                        <h3>DES Source Prob x LIGO Detection Prob</h3>\
 	                                                </div>\
@@ -130,7 +142,8 @@ html = 	'<!DOCTYPE HTML>\
 	                                </header> -->\
 	                                <ul class="actions">\
 	                                        <li><a href="../../" class="button special icon fa-download">View All Triggers</a></li>\
-	                                        <li><a href="mailto:dbrout@physics.upenn.edu?subject=DESGW Trigger '+str(trigger_id)+' Issue Report&body=Please address issue related to trigger '+str(trigger_id)+'." class="button">Report Issue</a></li>\
+	                                        <li><a href="mailto:dbrout@physics.upenn.edu?subject=DESGW Trigger ' + str(
+	trigger_id) + ' Issue Report&body=Please address issue related to trigger ' + str(trigger_id) + '." class="button">Report Issue</a></li>\
 	                                </ul>\
 	                        </section>\
 	                <!-- Scripts -->\
@@ -143,7 +156,7 @@ html = 	'<!DOCTYPE HTML>\
 	</html>\
 	'
 
-a = open(outfilename,'w')
+a = open(outfilename, 'w')
 a.write(html)
 a.close()
 
