@@ -254,7 +254,7 @@ class event:
         msg = MIMEText(text)
 
         # me == the sender's email address
-        # you == the recipient's email address
+        # you == the recipient's email address#
         me = 'automated-desGW@fnal.gov'
         yous = ['djbrout@gmail.com','marcelle@fnal.gov']
         for you in yous:
