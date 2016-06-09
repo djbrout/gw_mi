@@ -256,17 +256,17 @@ class event:
         # me == the sender's email address
         # you == the recipient's email address
         me = 'automated-desGW@fnal.gov'
-        you = 'djbrout@gmail.com'
+        yous = ['djbrout@gmail.com','marcelle@fnal.gov']
+        for you in yous:
+            msg['Subject'] = 'New GW Trigger ' + self.trigger_id
+            msg['From'] = me
+            msg['To'] = you
 
-        msg['Subject'] = 'New GW Trigger ' + self.trigger_id
-        msg['From'] = me
-        msg['To'] = you
-
-        # Send the message via our own SMTP server, but don't include the
-        # envelope header.
-        s = smtplib.SMTP('localhost')
-        s.sendmail(me, [you], msg.as_string())
-        s.quit()
+            # Send the message via our own SMTP server, but don't include the
+            # envelope header.
+            s = smtplib.SMTP('localhost')
+            s.sendmail(me, [you], msg.as_string())
+            s.quit()
         print 'Email sent...'
         return
 
