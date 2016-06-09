@@ -146,7 +146,7 @@ class event:
             plt.colorbar()
             plt.xlabel('RA')
             plt.ylabel('DEC')
-            name = self.trigger_id + "_limitingMagMap.png"
+            name = self.trig    ger_id + "_limitingMagMap.png"
             plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
@@ -387,10 +387,10 @@ if __name__ == "__main__":
                       os.path.join(trigger_path,
                                    trigger_id),
                       trigger_id, mjd)
-            e.mapMaker(hours_available=hours_available)
-            e.getContours()
-            e.makeJSON()
-            e.make_cumulative_probs()
+            #e.mapMaker(hours_available=hours_available)
+            #e.getContours()
+            #e.makeJSON()
+            #e.make_cumulative_probs()
             e.updateTriggerIndex()
             e.updateWebpage()
 
