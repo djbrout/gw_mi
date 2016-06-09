@@ -17,7 +17,7 @@ def makeNewPage(outfilename, trigger_id, event_paramfile):
 	try:
 		d = mjd_to_datetime(float(str(event_params['MJD'])))
 	except:
-		d = mjd_to_datetime(float(500))
+		d = mjd_to_datetime(float(1500))
 
 	html = '<!DOCTYPE HTML>\
 			<html lang="en">\
@@ -169,7 +169,7 @@ def make_index_page(webpage_dir):
 		try:
 			d = mjd_to_datetime(float(str(params['MJD'])))
 		except:
-			d = mjd_to_datetime(float(500.))
+			d = mjd_to_datetime(float(1500.))
 
 		if float(str(params['integrated_prob'])) > .1:
 			triggers += '<tr>\
