@@ -83,7 +83,7 @@ class event:
 
         # make obsrvation plots
         n_plots = getHexObservations.makeObservingPlots(
-            n_slots, trigger_id, best_slot, outputDir)
+            n_slots, trigger_id, best_slot, self.outfolder, outputDir)
 
         self.best_slot = best_slot
         self.n_slots = n_slots
