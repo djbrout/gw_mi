@@ -387,10 +387,10 @@ if __name__ == "__main__":
                       os.path.join(trigger_path,
                                    trigger_id),
                       trigger_id, mjd)
-            #e.mapMaker(hours_available=hours_available)
-            #e.getContours()
-            #e.makeJSON()
-            #e.make_cumulative_probs()
+            e.mapMaker(hours_available=hours_available)
+            e.getContours()
+            e.makeJSON()
+            e.make_cumulative_probs()
             e.updateTriggerIndex()
             e.updateWebpage()
 
