@@ -161,10 +161,10 @@ def make_index_page(webpage_dir):
 		outfolder = outfolder.strip('\n')
 		params = np.load(os.path.join(outfolder,trig+'_params.npz'))
 
-		#try:
-		#	d = mjd_to_datetime(float(str(params['MJD'])))
-		#except:
-		#	d = mjd_to_datetime(float(0.))
+		try:
+			d = mjd_to_datetime(float(str(params['MJD'])))
+		except:
+			d = mjd_to_datetime(float(0.))
 
 		if float(str(params['integrated_prob'])) > .1:
 			triggers += '<tr>\
