@@ -146,7 +146,7 @@ class event:
             plt.colorbar()
             plt.xlabel('RA')
             plt.ylabel('DEC')
-            name = self.trig    ger_id + "_limitingMagMap.png"
+            name = self.trigger_id + "_limitingMagMap.png"
             plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
