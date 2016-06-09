@@ -10,14 +10,14 @@ def mjd_to_datetime(mjd):
 
 def makeNewPage(outfilename,trigger_id,event_paramfile):
 
-	event_params = np.load(event_paramfile)
-    print event_params.keys()
-	try:
-		d = mjd_to_datetime(float(str(event_params['MJD'])))
-	except:
-		d = mjd_to_datetime(float(500))
+event_params = np.load(event_paramfile)
+print event_params.keys()
+try:
+	d = mjd_to_datetime(float(str(event_params['MJD'])))
+except:
+	d = mjd_to_datetime(float(500))
 
-	html = 	'<!DOCTYPE HTML>\
+html = 	'<!DOCTYPE HTML>\
 		<html lang="en">\
 	        <head>\
 	                <title>Trigger '+str(trigger_id)+'</title>\
@@ -143,9 +143,9 @@ def makeNewPage(outfilename,trigger_id,event_paramfile):
 	</html>\
 	'
 
-	a = open(outfilename,'w')
-	a.write(html)
-	a.close()
+a = open(outfilename,'w')
+a.write(html)
+a.close()
 
 
 
