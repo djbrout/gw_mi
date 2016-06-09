@@ -92,8 +92,8 @@ class event:
     def getContours(self, exposure_length=None):
         import matplotlib.pyplot as plt
 
-        if exposure_length is None:
-            exposure_length = config.exposure_length
+        #if exposure_length is None:
+        #    exposure_length = config.exposure_length
         image_dir = self.website_imagespath
         map_dir = self.mapspath
 
@@ -129,7 +129,7 @@ class event:
             # there is nothing to observe, make default plots
             ra, dec, ligo, maglim, probMap = \
                 getHexObservations.nothingToObserveShowSomething( \
-                    self.skymap, self.mjd, exposure_length)
+                    self.skymap, self.mjd, config.exposure_list[0])
             print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
             print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
             print "faking it with getHexObservations.nothingToObserveShowSomething("
