@@ -6,6 +6,7 @@ import getHexObservations
 import subprocess
 import datetime
 import yaml
+import gwenv
 sys.path.append("/data/des41.a/data/desgw/")
 
 
@@ -520,7 +521,7 @@ if __name__ == "__main__":
 
 
     #Read in config
-    with open("maininjector.yaml","r") as f:
+    with open("recycler.yaml","r") as f:
         config = yaml.safe_load(f);
     #Set defaults to config
     trigger_path = config["trigger_path"]

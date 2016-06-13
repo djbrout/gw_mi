@@ -1,5 +1,5 @@
-trigger_path  : '/data/des41.a/data/desgw/maininjector_v2.0/real-triggers'
-real_or_sim: 'real' #must switch between 'sim' and 'real'
+trigger_path  : '/data/des41.a/data/desgw/gw_mi/test-triggers'
+real_or_sim: 'sim' #must switch between 'sim' and 'real'
 start_of_season : 57279.
 start_of_season_date : '09/14/2015'
 end_of_season : 57400.
@@ -22,7 +22,7 @@ skipAll : False
 
 ####Only used for testing####
 
-trigger_id : "G211117"
+trigger_id : "M189424"
 wrap_all_triggers : False
 
 mjd : 57382.152
