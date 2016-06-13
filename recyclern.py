@@ -3,7 +3,7 @@ import sys, getopt, traceback
 import numpy as np
 import triggerpages2 as tp
 import getHexObservations
-import maininjector_config as config
+import recycler_config as config
 import subprocess
 import datetime
 import yaml
