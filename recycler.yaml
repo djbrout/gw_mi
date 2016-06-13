@@ -32,4 +32,4 @@ recycler_mjd : 57385.
 force_recycler_mjd : True
 
 #skymap_filename : 'Default' #Set to default if you wish to use the LIGO map from the trigger xml
-skymap_filename : '/data/des41.a/data/desgw/maininjector/real-triggers/G211117/bayestar.fits' #Override if you wish
+skymap_filename : '/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/M189424_WNB682-LIB_C.fits.gz' #Override if you wish
