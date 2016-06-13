@@ -403,10 +403,11 @@ class event:
                      exposure_filter=expf,
                      hours=config['time_budget'],
                      nvisits=config['nvisits']
+                     )
 
         #Copy json file to web server for public download
-        if not os.path.exists(jsonFile) :
-             if integrated_prob == 0 :
+        if not os.path.exists(jsonFile):
+             if integrated_prob == 0:
                  print "zero probability, thus no jsonFile at ",jsonFile
              else:
                  try:
