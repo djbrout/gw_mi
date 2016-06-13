@@ -85,7 +85,12 @@ def process_gcn(payload, root):
     # VERY IMPORTANT! Replce with the following line of code
     # to respond to only real 'observation' events. DO SO IN CONFIG FILE
     print 'GOT GCN LIGO EVENT'
-    
+    if config.mode.lower() == 'test':
+        pass
+    elif config.mode.lower() == 'observation':
+        pass
+    else:
+        KeyError('checkevent_config.py Mode must be set to either test or observation.\nExiting...')
     if root.attrib['role'] != config.mode.lower(): return #This can be changed in the config file
     
 
