@@ -38,7 +38,7 @@ def sendFirstTriggerEmail(trigger_id,far):
         s.quit()
     print 'Trigger email sent...'
 
-def get_skymap(root,outfolder,trigger_id,skymap_url,skymap_filename):
+def get_skymap(skymap_url,skymap_filename):
     """
     Look up URL of sky map in VOEvent XML document,
     download sky map, and parse FITS file.

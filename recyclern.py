@@ -39,7 +39,12 @@ class event:
             os.makedirs(self.website_imagespath)
         
         self.event_paramfile = os.path.join(outfolder, trigger_id+'_params.npz')
-        self.event_params = np.load(self.event_paramfile)
+        self.weHaveParamFile = True
+        try:
+            self.event_params = np.load(self.event_paramfile)
+        except:
+            self.event_params = {}
+            self.weHaveParamFile = False
 
         '''
         krbdir = '/usr/krb5/bin'
@@ -80,7 +85,11 @@ class event:
         if config["force_distance"]:
             distance = config["distance"]
         else:
-            distance = self.event_params["MaxDistance"]
+            if self.weHaveParamFile:
+                distance = self.event_params["MaxDistance"]
+            else:
+                print 'THERE IS NO PARAMFILE, HARDCODING THE DISTANCE TO THE CONFIG DIST.'
+                distance = config["distance"]
 
         self.distance = distance
 
@@ -91,23 +100,23 @@ class event:
 
         # make the maps
         try:
-            where = 'getHexObservations.prepare()'
-            line = '94'
+            #where = 'getHexObservations.prepare()'
+            #line = '94'
             probs,times,slotDuration,hoursPerNight = getHexObservations.prepare(
                 skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
                 exposure_list=exposure_length, filter_list=filter_list,
                 overhead=overhead, maxHexesPerSlot=maxHexesPerSlot,skipAll=skipAll)
 
             # figure out how to divide the night
-            where = 'getHexObservations.contemplateTheDivisionsOfTime()'
-            line = '102'
+            #where = 'getHexObservations.contemplateTheDivisionsOfTime()'
+            #line = '102'
             n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
                 probs, times, hoursPerNight=hoursPerNight,
                 hoursAvailable=hoursAvailable)
     
             # compute the best observations
-            where = 'getHexObservations.now()'
-            line = '109'
+            #where = 'getHexObservations.now()'
+            #line = '109'
             best_slot = getHexObservations.now(
                 n_slots, mapDirectory=mapDir, simNumber=trigger_id,
                 maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
@@ -341,46 +350,72 @@ class event:
         except:
             boc = 'NA'
 
-        np.savez(self.event_paramfile,
-             MJD=self.event_params['MJD'], 
-             ETA=self.event_params['ETA'],
-             FAR=self.event_params['FAR'],
-             ChirpMass=self.event_params['ChirpMass'],
-             MaxDistance=self.event_params['MaxDistance'],
-             integrated_prob=integrated_prob,
-             M1 = self.event_params['M1'],
-             M2 = self.event_params['M2'],
-             nHexes = nHexes,
-             time_processed = timeprocessed,
-             boc = boc,
-             CentralFreq = self.event_params['CentralFreq'],
-             best_slot = self.best_slot,
-             n_slots = self.n_slots,
-             first_slot = self.first_slot,
-             econ_prob = self.econ_prob,
-             econ_area = self.econ_area,
-             need_area = self.need_area,
-             quality = self.quality,
-             codeDistance = self.distance,
-             exposure_times = exptimes,
-             exposure_filter = expf,
-             hours = config['time_budget'],
-             nvisits = config['nvisits']
-             )
-
+        if self.weHaveParamFile:
+            np.savez(self.event_paramfile,
+                 MJD=self.event_params['MJD'],
+                 ETA=self.event_params['ETA'],
+                 FAR=self.event_params['FAR'],
+                 ChirpMass=self.event_params['ChirpMass'],
+                 MaxDistance=self.event_params['MaxDistance'],
+                 integrated_prob=integrated_prob,
+                 M1 = self.event_params['M1'],
+                 M2 = self.event_params['M2'],
+                 nHexes = nHexes,
+                 time_processed = timeprocessed,
+                 boc = boc,
+                 CentralFreq = self.event_params['CentralFreq'],
+                 best_slot = self.best_slot,
+                 n_slots = self.n_slots,
+                 first_slot = self.first_slot,
+                 econ_prob = self.econ_prob,
+                 econ_area = self.econ_area,
+                 need_area = self.need_area,
+                 quality = self.quality,
+                 codeDistance = self.distance,
+                 exposure_times = exptimes,
+                 exposure_filter = expf,
+                 hours = config['time_budget'],
+                 nvisits = config['nvisits']
+                 )
+        else:
+            np.savez(self.event_paramfile,
+                     MJD='NAN',
+                     ETA='NAN',
+                     FAR='NAN',
+                     ChirpMass='NAN',
+                     MaxDistance='NAN',
+                     integrated_prob=integrated_prob,
+                     M1='NAN',
+                     M2='NAN',
+                     nHexes=nHexes,
+                     time_processed=timeprocessed,
+                     boc=boc,
+                     CentralFreq='NAN',
+                     best_slot=self.best_slot,
+                     n_slots=self.n_slots,
+                     first_slot=self.first_slot,
+                     econ_prob=self.econ_prob,
+                     econ_area=self.econ_area,
+                     need_area=self.need_area,
+                     quality=self.quality,
+                     codeDistance=self.distance,
+                     exposure_times=exptimes,
+                     exposure_filter=expf,
+                     hours=config['time_budget'],
+                     nvisits=config['nvisits']
 
         #Copy json file to web server for public download
         if not os.path.exists(jsonFile) :
              if integrated_prob == 0 :
                  print "zero probability, thus no jsonFile at ",jsonFile
-             else :
+             else:
                  try:
                      os.chmod(self.mapspath, 0o777)
                      os.chmod(self.mapspath+'/*.json', 0o777)
                      os.system('zip '+jsonFile+' '+self.mapspath+'/*0.json')
                  except:
                      print "no jsonFiles at ",jsonFile
-        else :
+        else:
             os.system('zip '+jsonFile+' '+self.mapspath+'/*0.json')
             os.system('cp '+jsonFile+' '+self.website_jsonpath)
         return
