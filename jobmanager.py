@@ -41,7 +41,7 @@ class eventmanager:
         for jsonfile in self.jsonfilelist:
             with open(os.path.join(self.datadir,jsonfile)) as data_file:
                 jsondata = json.load(data_file)
-            print jsondata
+            print jsondata.keys()
 
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
