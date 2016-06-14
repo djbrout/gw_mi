@@ -404,7 +404,8 @@ class event:
         jsonfilelistld = os.listdir(map_dir)
         jsonfilelist = []
         for f in jsonfilelistld:
-            jsonfilelist.append(f)
+            if '.json' in f:
+                jsonfilelist.append(f)
 
 
         if self.n_slots > 0:
