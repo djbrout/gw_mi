@@ -6,7 +6,6 @@ import getHexObservations
 import subprocess
 import datetime
 import yaml
-import gwenv
 sys.path.append("/data/des41.a/data/desgw/")
 
 
