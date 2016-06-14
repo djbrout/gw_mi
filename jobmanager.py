@@ -8,11 +8,12 @@ propid = "'2015B-0187'" # desgw
 DATABASE = 'desoper' #read only
 #DATABASE = 'destest' #We can write here
 
-class jobmanager:
+class eventmanager:
     def __init__(self,trigger_id,jsonfile):
         self.connection = ea.connect(DATABASE)
-        self.cursor = connection.cursor()
+        self.cursor = self.connection.cursor()
         self.jsonfile = jsonfile
+        self.trigger_id = trigger_id
 
         dire = './processing/'+trigger_id+'/'
         if not os.path.exists(dire):
@@ -25,10 +26,10 @@ class jobmanager:
         self.firedlist = map(str.strip, firedlist)
 
         q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum" # y1 images
-        connection.query_and_save(q1,'./processing/exposuresY1.tab')
+        self.connection.query_and_save(q1,'./processing/exposuresY1.tab')
 
         q2 = "select expnum,nite,mjd_obs,radeg,decdeg,band,exptime,propid,obstype,object from prod.exposure where nite>20150901 and obstype='object' order by expnum" # y2 and later
-        connection.query_and_save(q2,'./processing/exposuresCurrent.tab')
+        self.connection.query_and_save(q2,'./processing/exposuresCurrent.tab')
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
@@ -62,7 +63,7 @@ class jobmanager:
 
             query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE expnum > 475900 and propid="+propid+"and obstype='object'" # latest
 
-            cursor.execute(query)
+            self.cursor.execute(query)
 
 
             for s in cursor:
