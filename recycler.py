@@ -588,7 +588,7 @@ if __name__ == "__main__":
             try:
                 mapname = open(os.path.join(trigger_path,
                                                 trigger_id,
-                                                trigger_id+'_skymapURL.txt'),'r').read()
+                                                'default_skymap.txt'),'r').read()
                 skymap_filename = os.path.join(trigger_path,
                                                 trigger_id,mapname)
             except:
