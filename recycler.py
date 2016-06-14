@@ -379,7 +379,7 @@ class event:
                  exposure_filter = expf,
                  hours = config['time_budget'],
                  nvisits = config['nvisits'],
-                 mapname = self.event_params['mapname']
+                 mapname = 'NAN'
                  )
         else:
             np.savez(self.event_paramfile,
