@@ -38,38 +38,33 @@ def sendFirstTriggerEmail(trigger_id,far):
         s.quit()
     print 'Trigger email sent...'
 
-def get_skymap(skymap_url,skymap_filename):
+def get_skymap(skymap_url,skymap_path):
     """
     Look up URL of sky map in VOEvent XML document,
     download sky map, and parse FITS file.
     """
-    # Read out URL of sky map.
-    # This will be something like
-    # https://gracedb.ligo.org/apibasic/events/M131141/files/bayestar.fits.gz
-    #skymap_url = root.find(
-    ##    "./What/Param[@name='SKYMAP_URL_FITS_BASIC']").attrib['value']
-
-    #skymap_filename = os.path.join(outfolder,trigger_id+'_'+skymap_url.split('/')[-1])
+    mapname = skymap_url.split('/')[-1]
+    skymap_filename = os.path.join(skymap_path,mapname)
     try:
         subprocess.check_call([
-            'curl', '-o',skymap_filename, '--netrc',
-            skymap_url])
+            'wget','--auth-no-challenge',skymap_url,
+            '-O',skymap_filename ])
     except CalledProcessError:
         print 'excepted 1'
         #SEND EMAIL OR TEXT
         raise CalledProcessError
-    print 'skymap filename '+skymap_filename
-    # Read HEALPix data from the temporary file
-    print skymap_filename
     try:
         skymap, header = hp.read_map(skymap_filename, h=True, verbose=False)
     except:
         print 'failed to read skymap '+skymap_filename
         sys.exit()
     header = dict(header)
-
+    
+    a = open(os.path.join(skymap_path,'default_skymap.txt'),'w')
+    a.write(mapname)
+    a.close()
     # Done!
-    return skymap, header
+    return skymap, header, mapname
 
 # Function to call every time a GCN is received.
 # Run only for notices of type LVC_INITIAL or LVC_UPDATE.
@@ -182,6 +177,22 @@ def process_gcn(payload, root):
     event_params['M2'] = '-999'
     event_params['nHexes'] = '-999'
 
+
+    #if config.mode.lower() == 'observation':
+    sendFirstTriggerEmail(trigger_id,event_params['FAR'])
+
+    print 'Trigger ID HEERERERERE '+trigger_id
+    #save payload to file
+    open(os.path.join(outfolder,trigger_id+'_payload.xml'), 'w').write(payload)
+    #save url to file
+    open(os.path.join(outfolder,trigger_id+'_skymapURL.txt'), 'w').write(skymap_url)
+    #save mjd to file
+    open(os.path.join(outfolder,trigger_id+'_eventMJD.txt'), 'w').write(str(trigger_mjd))
+    
+    # Read sky map
+    skymap, header, mapname = get_skymap(root,outfolder,trigger_id,skymap_url,outfolder) 
+
+
     np.savez(event_paramfile,
              MJD=event_params['MJD'],
              ETA=event_params['ETA'],
@@ -195,22 +206,9 @@ def process_gcn(payload, root):
              CentralFreq = event_params['CentralFreq'],
              time_processed = event_params['time_processed'],
              boc = event_params['boc']
+             mapname= mapname
              )
 
-    #if config.mode.lower() == 'observation':
-    sendFirstTriggerEmail(trigger_id,event_params['FAR'])
-
-    print 'Trigger ID HEERERERERE '+trigger_id
-    #save payload to file
-    open(os.path.join(outfolder,trigger_id+'_payload.xml'), 'w').write(payload)
-    #save url to file
-    open(os.path.join(outfolder,trigger_id+'_skymapURL.txt'), 'w').write(skymap_url)
-    #save mjd to file
-    open(os.path.join(outfolder,trigger_id+'_eventMJD.txt'), 'w').write(str(trigger_mjd))
-    
-
-    # Read sky map
-    skymap, header = get_skymap(root,outfolder,trigger_id,skymap_url,skymap_filename) 
     
     #Fire off analysis code    
     #if skymap_url.split('/')[-1] == 'bayestar.fits.gz':

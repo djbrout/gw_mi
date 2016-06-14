@@ -188,6 +188,9 @@ class event:
         try:
             where = 'getHexObservations.makeObservingPlots()'
             line = '176'
+            print '888'*20
+            print n_slots,trigger_id,best_slot,outputDir,mapDir
+            print '888'*20
             n_plots = getHexObservations.makeObservingPlots(
             n_slots, trigger_id, best_slot, outputDir, mapDir)
         except:

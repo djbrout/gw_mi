@@ -20,5 +20,6 @@ setup --nolocks gw
 setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
+setup --nolocks ligo-gracedb
 
 echo $GW_DIR
