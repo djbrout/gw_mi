@@ -202,6 +202,16 @@ class event:
         self.need_area = need_area
         self.quality = quality
 
+        np.savez(os.path.join(self.outfolder,'mapmaker_results.npz')
+                 ,best_slot = best_slot
+                 ,n_slots = n_slots
+                 ,first_slot = first_slot
+                 ,econ_prob = econ_prob
+                 ,econ_area = econ_area
+                 ,need_area = need_area
+                 ,quality = quality
+                 )
+
     def getContours(self, exposure_length, config):
         import matplotlib.pyplot as plt
 
@@ -316,6 +326,17 @@ class event:
         return
 
     def makeJSON(self, config):
+
+        mapmakerresults = np.load(os.path.join(self.outfolder, 'mapmaker_results.npz'))
+
+        self.best_slot = mapmakerresults['best_slot']
+        self.n_slots = mapmakerresults['n_slots']
+        self.first_slot = mapmakerresults['first_slot']
+        self.econ_prob = mapmakerresults['econ_prob']
+        self.econ_area = mapmakerresults['econ_area']
+        self.need_area = mapmakerresults['need_area']
+        self.quality = mapmakerresults['quality']
+
         # DESGW json file (to be files once that is done)
         json_dir = self.website_jsonpath
         map_dir = self.mapspath
