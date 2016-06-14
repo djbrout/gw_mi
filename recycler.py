@@ -406,7 +406,7 @@ class event:
         for f in jsonfilelistld:
             if '-tmp' in f:
                 os.remove(os.path.join(map_dir,f))
-            if '.json' in f:
+            elif '.json' in f:
                 jsonfilelist.append(f)
 
 
