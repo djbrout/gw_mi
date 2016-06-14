@@ -645,9 +645,7 @@ if __name__ == "__main__":
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
-            print jsonfilelist
-            raw_input()
-            eventmanager = jobmanager.eventmanager(trigger_id,jsonfilelist)
+            eventmanager = jobmanager.eventmanager(trigger_id,jsonfilelist,datadir)
 
             e.send_nonurgent_Email()
         # except IOError:

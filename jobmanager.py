@@ -10,12 +10,12 @@ DATABASE = 'desoper' #read only
 #DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self,trigger_id,jsonfilelist):
+    def __init__(self,trigger_id,jsonfilelist,datadir):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
         self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
-
+        self.datadir = datadir
         dire = './processing/'+trigger_id+'/'
         if not os.path.exists(dire):
             os.makedirs(dire)
@@ -40,7 +40,7 @@ class eventmanager:
     def submit_all_images_in_LIGOxDES_footprint(self):
         for jsonfile in self.jsonfilelist:
             with open(jsonfile) as data_file:
-                jsondata = json.load(data_file)
+                jsondata = json.load(os.path.join(self.datadir,data_file))
             print jsondata.keys()
 
     # Loop queries for images frommountain and submits them
