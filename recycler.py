@@ -212,6 +212,64 @@ class event:
                  ,quality = quality
                  )
 
+        if self.weHaveParamFile:
+            np.savez(self.event_paramfile,
+                     MJD=self.event_params['MJD'],
+                     ETA=self.event_params['ETA'],
+                     FAR=self.event_params['FAR'],
+                     ChirpMass=self.event_params['ChirpMass'],
+                     MaxDistance=self.event_params['MaxDistance'],
+                     integrated_prob=integrated_prob,
+                     M1=self.event_params['M1'],
+                     M2=self.event_params['M2'],
+                     nHexes=nHexes,
+                     time_processed=timeprocessed,
+                     boc=boc,
+                     CentralFreq=self.event_params['CentralFreq'],
+                     best_slot=self.best_slot,
+                     n_slots=self.n_slots,
+                     first_slot=self.first_slot,
+                     econ_prob=self.econ_prob,
+                     econ_area=self.econ_area,
+                     need_area=self.need_area,
+                     quality=self.quality,
+                     codeDistance=self.distance,
+                     exposure_times=exptimes,
+                     exposure_filter=expf,
+                     hours=config['time_budget'],
+                     nvisits=config['nvisits'],
+                     mapname='NAN'
+                     )
+        else:
+            np.savez(self.event_paramfile,
+                     MJD='NAN',
+                     ETA='NAN',
+                     FAR='NAN',
+                     ChirpMass='NAN',
+                     MaxDistance='NAN',
+                     integrated_prob=integrated_prob,
+                     M1='NAN',
+                     M2='NAN',
+                     nHexes=nHexes,
+                     time_processed=timeprocessed,
+                     boc=boc,
+                     CentralFreq='NAN',
+                     best_slot=self.best_slot,
+                     n_slots=self.n_slots,
+                     first_slot=self.first_slot,
+                     econ_prob=self.econ_prob,
+                     econ_area=self.econ_area,
+                     need_area=self.need_area,
+                     quality=self.quality,
+                     codeDistance=self.distance,
+                     exposure_times=exptimes,
+                     exposure_filter=expf,
+                     hours=config['time_budget'],
+                     nvisits=config['nvisits'],
+                     mapname='NAN'
+                     )
+
+
     def getContours(self, exposure_length, config):
         import matplotlib.pyplot as plt
 
@@ -365,63 +423,6 @@ class event:
             boc = self.event_params['boc']
         except:
             boc = 'NA'
-
-        if self.weHaveParamFile:
-            np.savez(self.event_paramfile,
-                     MJD=self.event_params['MJD'],
-                     ETA=self.event_params['ETA'],
-                     FAR=self.event_params['FAR'],
-                     ChirpMass=self.event_params['ChirpMass'],
-                     MaxDistance=self.event_params['MaxDistance'],
-                     integrated_prob=integrated_prob,
-                     M1=self.event_params['M1'],
-                     M2=self.event_params['M2'],
-                     nHexes=nHexes,
-                     time_processed=timeprocessed,
-                     boc=boc,
-                     CentralFreq=self.event_params['CentralFreq'],
-                     best_slot=self.best_slot,
-                     n_slots=self.n_slots,
-                     first_slot=self.first_slot,
-                     econ_prob=self.econ_prob,
-                     econ_area=self.econ_area,
-                     need_area=self.need_area,
-                     quality=self.quality,
-                     codeDistance=self.distance,
-                     exposure_times=exptimes,
-                     exposure_filter=expf,
-                     hours=config['time_budget'],
-                     nvisits=config['nvisits'],
-                     mapname='NAN'
-                     )
-        else:
-            np.savez(self.event_paramfile,
-                     MJD='NAN',
-                     ETA='NAN',
-                     FAR='NAN',
-                     ChirpMass='NAN',
-                     MaxDistance='NAN',
-                     integrated_prob=integrated_prob,
-                     M1='NAN',
-                     M2='NAN',
-                     nHexes=nHexes,
-                     time_processed=timeprocessed,
-                     boc=boc,
-                     CentralFreq='NAN',
-                     best_slot=self.best_slot,
-                     n_slots=self.n_slots,
-                     first_slot=self.first_slot,
-                     econ_prob=self.econ_prob,
-                     econ_area=self.econ_area,
-                     need_area=self.need_area,
-                     quality=self.quality,
-                     codeDistance=self.distance,
-                     exposure_times=exptimes,
-                     exposure_filter=expf,
-                     hours=config['time_budget'],
-                     nvisits=config['nvisits'],
-                     mapname='NAN'
-                     )
 
         # Copy json file to web server for public download
         if not os.path.exists(jsonFile):
