@@ -39,8 +39,8 @@ class eventmanager:
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
         for jsonfile in self.jsonfilelist:
-            with open(jsonfile) as data_file:
-                jsondata = json.load(os.path.join(self.datadir,data_file))
+            with open(os.path.join(self.datadir,jsonfile)) as data_file:
+                jsondata = json.load(data_file)
             print jsondata.keys()
 
     # Loop queries for images frommountain and submits them
