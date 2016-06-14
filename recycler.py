@@ -586,11 +586,11 @@ if __name__ == "__main__":
                 mjd = 'asdf'
         if skymap_filename is None:
             try:
-                skymap_urlt = open(os.path.join(trigger_path,
+                mapname = open(os.path.join(trigger_path,
                                                 trigger_id,
-                                                trigger_id+'_skymapURL.txt'),'r').read().split('/')[-1]
+                                                trigger_id+'_skymapURL.txt'),'r').read()
                 skymap_filename = os.path.join(trigger_path,
-                                                trigger_id,trigger_id+'_'+skymap_urlt)
+                                                trigger_id,mapname)
             except:
                 badtriggers = open('badtriggers.txt','a')
                 badtriggers.write(trigger_id+'\n')
