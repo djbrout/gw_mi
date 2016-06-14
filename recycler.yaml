@@ -4,6 +4,8 @@ start_of_season : 57279.
 start_of_season_date : '09/14/2015'
 end_of_season : 57400.
 
+sendEmailsToEveryone : False
+
 events_observed : ['GW150914' , 'GW151226']
 
 exposure_length : [ 90. , 90. , 90. ] #sec

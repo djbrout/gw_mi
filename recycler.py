@@ -17,6 +17,7 @@ class event:
         self.outfolder = outfolder
         self.trigger_id = trigger_id
         self.mjd = mjd
+        self.config = config
 
         season_start_date = datetime.datetime.strptime(config["start_of_season_date"], "%m/%d/%Y")
         now = datetime.datetime.now()
@@ -329,7 +330,7 @@ class event:
         jsonname = self.trigger_id+"_JSON.zip"
         jsonFile = os.path.join(map_dir,jsonname)
 
-	if self.n_slots > 0 :
+	    if self.n_slots > 0 :
             # get statistics
             ra,dec,prob,mjd,slotNum = \
                 getHexObservations.readObservingRecord(self.trigger_id, map_dir)
@@ -438,8 +439,10 @@ class event:
         # me == the sender's email address
         # you == the recipient's email address
         me = 'automated-desGW@fnal.gov'
-        yous = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
-
+        if self.config['sendEmailsToEveryone'].lower() == 'true':
+            yous = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+        else:
+            yous = ['djbrout@gmail.com']
         msg['Subject'] = 'Finished Processing GW Trigger '+self.trigger_id
         msg['From'] = me
         for you in yous:
@@ -467,8 +470,10 @@ class event:
         msg = MIMEText(message)
 
         me = 'automated-desGW@fnal.gov'
-        yous = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
-
+        if self.config['sendEmailsToEveryone'].lower() == 'true':
+            yous = ['djbrout@gmail.com','marcelle@fnal.gov','annis@fnal.gov']
+        else:
+            yous = ['djbrout@gmail.com']
         msg['Subject'] = 'Trigger '+self.trigger_id+' Processing FAILED!'
         msg['From'] = me
         for you in yous:
@@ -606,8 +611,8 @@ if __name__ == "__main__":
                                    trigger_id),
                       trigger_id, mjd, config)
 
-            e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
-            e.getContours(exposure_length, config)
+            #e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
+            #e.getContours(exposure_length, config)
             e.makeJSON(config)
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)

@@ -2,6 +2,7 @@ import os
 import subprocess
 import time
 import easyaccess as ea
+import json
 #propid = "'2012B-0001'" # des
 propid = "'2015B-0187'" # desgw
 
@@ -9,10 +10,10 @@ DATABASE = 'desoper' #read only
 #DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self,trigger_id,jsonfile):
+    def __init__(self,trigger_id,jsonfilelist):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
-        self.jsonfile = jsonfile
+        self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
 
         dire = './processing/'+trigger_id+'/'
@@ -33,8 +34,14 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
+        self.submit_all_images_in_LIGOxDES_footprint()
+
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
+        for jsonfile in self.jsonfilelist:
+            with open(jsonfile) as data_file:
+                jsondata = json.load(data_file)
+            print jsondata.keys()
 
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
