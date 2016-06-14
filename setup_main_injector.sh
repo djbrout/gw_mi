@@ -24,4 +24,7 @@ setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
 
+source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
+setup jobsub_client
+
 echo $GW_DIR
