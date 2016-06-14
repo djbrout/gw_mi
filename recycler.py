@@ -6,6 +6,7 @@ import getHexObservations
 import subprocess
 import datetime
 import yaml
+import jobmanager
 
 sys.path.append("/data/des41.a/data/desgw/")
 
@@ -400,6 +401,11 @@ class event:
         map_dir = self.mapspath
         jsonname = self.trigger_id + "_JSON.zip"
         jsonFile = os.path.join(map_dir, jsonname)
+        jsonfilelistld = os.listdir(map_dir)
+        jsonfilelist = []
+        for f in jsonfilelistld:
+            jsonfilelist.append(f)
+
 
         if self.n_slots > 0:
             # get statistics
@@ -438,7 +444,7 @@ class event:
         else:
             os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
             os.system('cp ' + jsonFile + ' ' + self.website_jsonpath)
-        return
+        return jsonfilelist
 
     def send_nonurgent_Email(self):
         import smtplib
@@ -632,10 +638,13 @@ if __name__ == "__main__":
 
             #e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
             # e.getContours(exposure_length, config)
-            e.makeJSON(config)
+            jsonfilelist = e.makeJSON(config)
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
+            print jsonfilelist
+            raw_input()
+            eventmanager = jobmanager.eventmanager(trigger_id,jsonfilelist)
 
             e.send_nonurgent_Email()
         # except IOError:
