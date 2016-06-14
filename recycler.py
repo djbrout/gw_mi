@@ -404,6 +404,8 @@ class event:
         jsonfilelistld = os.listdir(map_dir)
         jsonfilelist = []
         for f in jsonfilelistld:
+            if '-tmp' in f:
+                os.remove(os.path.join(map_dir,f))
             if '.json' in f:
                 jsonfilelist.append(f)
 
