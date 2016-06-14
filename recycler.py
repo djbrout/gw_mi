@@ -451,7 +451,7 @@ class event:
         # me == the sender's email address
         # you == the recipient's email address
         me = 'automated-desGW@fnal.gov'
-        if self.config['sendEmailsToEveryone'].lower() == 'true':
+        if self.config['sendEmailsToEveryone']:
             yous = ['djbrout@gmail.com', 'marcelle@fnal.gov', 'annis@fnal.gov']
         else:
             yous = ['djbrout@gmail.com']
@@ -483,7 +483,7 @@ class event:
         msg = MIMEText(message)
 
         me = 'automated-desGW@fnal.gov'
-        if self.config['sendEmailsToEveryone'].lower() == 'true':
+        if self.config['sendEmailsToEveryone']:
             yous = ['djbrout@gmail.com', 'marcelle@fnal.gov', 'annis@fnal.gov']
         else:
             yous = ['djbrout@gmail.com']
@@ -629,7 +629,7 @@ if __name__ == "__main__":
                                    trigger_id),
                       trigger_id, mjd, config)
 
-            e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
+            #e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
             # e.getContours(exposure_length, config)
             e.makeJSON(config)
             e.make_cumulative_probs()
