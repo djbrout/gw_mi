@@ -329,8 +329,7 @@ class event:
         map_dir = self.mapspath
         jsonname = self.trigger_id+"_JSON.zip"
         jsonFile = os.path.join(map_dir,jsonname)
-
-	    if self.n_slots > 0 :
+        if self.n_slots > 0 :
             # get statistics
             ra,dec,prob,mjd,slotNum = \
                 getHexObservations.readObservingRecord(self.trigger_id, map_dir)
