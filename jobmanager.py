@@ -84,7 +84,7 @@ class eventmanager:
                   'off the mountain *****'
 
     def getNearbyImages(self,ras,decs):
-        allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' '):
+        allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
         print allexposures.keys()
         #for ra,dec in zip(ras,decs):
 
