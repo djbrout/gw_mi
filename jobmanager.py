@@ -84,14 +84,18 @@ class eventmanager:
                   'off the mountain *****'
 
     def getNearbyImages(self,ras,decs):
+
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
         print allexposures['EXPTIME'][0]
-        ww = np.float64(allexposures['EXPTIME']) >= jobmanager_config.min_template_exptime
-        exposedRAS = allexposures['TELRA'][ww]
-        exposedDECS = allexposures['TELDEC'][ww]
-        exposedNUMS = allexposures['EXPNUM'][ww]
 
-        print 'exposedRAS',exposedRAS
+        EXPTIME =np.array(map(float, map(lambda x: x if x != '' else '-999', allexposures['EXPTIME'])))
+        TELRA =np.array(map(float, map(lambda x: x if x != '' else '-999', allexposures['TELRA'])))
+        TELDEC =np.array(map(float, map(lambda x: x if x != '' else '-999', allexposures['TELDEC'])))
+
+        ww = EXPTIME >= jobmanager_config.min_template_exptime
+        exposedRAS = TELRA[ww]
+        exposedDECS = TELDEC[ww]
+        exposedNUMS = EXPNUM[ww]
 
         submitexpnums = []
 
