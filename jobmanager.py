@@ -86,7 +86,7 @@ class eventmanager:
     def getNearbyImages(self,ras,decs):
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
         print allexposures['EXPTIME']
-        ww = allexposures['EXPTIME'] > 10.
+        ww = np.float64(allexposures['EXPTIME']) >= jobmanager_config.min_template_exptime
         exposedRAS = allexposures['TELRA'][ww]
         exposedDECS = allexposures['TELDEC'][ww]
         exposedNUMS = allexposures['EXPNUM'][ww]
