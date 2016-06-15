@@ -7,8 +7,7 @@ import subprocess
 import datetime
 import yaml
 import jobmanager
-import thread
-
+from threading import Thread
 sys.path.append("/data/des41.a/data/desgw/")
 
 
@@ -648,15 +647,13 @@ if __name__ == "__main__":
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
 
-            eventmanager = thread(jobmanager.eventmanager, (trigger_id, jsonfilelist,
-                                                            os.path.join(trigger_path,trigger_id),
+            eventman = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
                                                             os.path.join(trigger_path, trigger_id, 'maps')))
-            eventmanager.start()
             #eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
             #                                       os.path.join(trigger_path, trigger_id, 'maps'))
             print 'THREADING HAPPENED '*20
             e.send_nonurgent_Email()
-            eventmanager.join()
+            eventman.join()
         # except IOError:
         #    print "Unexpected error:", sys.exc_info()
         #    badtriggers = open('badtriggers.txt','a')
