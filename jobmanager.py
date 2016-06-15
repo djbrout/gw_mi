@@ -52,6 +52,8 @@ class eventmanager:
 
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
+        ras = []
+        decs = []
         print '***** The current time is UTC',currentTime,'*****'
         delt = obsStartTime-currentTime
 
@@ -63,7 +65,12 @@ class eventmanager:
             for jsonfile in self.jsonfilelist:
                 with open(os.path.join(self.datadir, jsonfile)) as data_file:
                     jsondata = json.load(data_file)
-                    print jsondata[0].keys()
+                    for js in jsondata:
+                        ras.append(js[u'RA'])
+                        decs.append(js[u'dec'])
+
+            print ras,decs
+
             #unique list of hexes and filters and find the closest exposures for each hex
 
             #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
