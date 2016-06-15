@@ -59,6 +59,7 @@ class eventmanager:
         currentTime = dt.utcnow()
         ras = []
         decs = []
+        filts = []
         print '***** The current time is UTC',currentTime,'*****'
         delt = obsStartTime-currentTime
 
@@ -73,8 +74,9 @@ class eventmanager:
                     for js in jsondata:
                         ras.append(js[u'RA'])
                         decs.append(js[u'dec'])
+                        filts.append(js[u'filter'])
 
-            exposurenums = self.getNearbyImages(ras,decs)
+            exposurenums = self.getNearbyImages(ras,decs,filts)
             iii = 0
             for exp in exposurenums:
                 iii += 1
@@ -89,7 +91,7 @@ class eventmanager:
             print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first ' \
                   'images to come off the mountain *****'
 
-    def getNearbyImages(self,ras,decs):
+    def getNearbyImages(self,ras,decs,filts):
 
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
 
@@ -101,6 +103,7 @@ class eventmanager:
                                          allexposures['TELRA'])))
         TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
                                          allexposures['TELDEC'])))
+        FILT = np.array(allexposures['BAND'],dtype='str')
 
         TELRA[TELRA>180] = TELRA[TELRA>180] - 360.
 
@@ -117,10 +120,10 @@ class eventmanager:
 
         submitexpnums = []
 
-        for ra,dec in zip(ras,decs):
+        for ra,dec,filt in zip(ras,decs,filts):
             dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
             #print min(dist),max(dist)
-            nearby = dist < jobmanager_config.SE_radius
+            nearby = (dist < jobmanager_config.SE_radius) & (FILT == filt)
             submitexpnums.extend(exposedNUMS[nearby])
         submitexpnums = np.array(submitexpnums)
         _, idx = np.unique(submitexpnums, return_index=True)
@@ -129,6 +132,15 @@ class eventmanager:
         return uniquesubmitexpnums
 
     def submit_SEjob(self,expnum):
+        # jobsub_submit - -group = des - -OS = SL6 - -resource - provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M - -email - to = marcelle @ fnal.ogv - -memory = 3
+        # GB - -disk = 94
+        # GB - -cpu = 4 - -expected - lifetime = long
+        # file: // SE_job.sh - r
+        # 2 - p
+        # 05 - E
+        # 142870 - b
+        # z - n
+        # 20121025
         print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'
 
     def submit_images_to_dagmaker(self,explist):
