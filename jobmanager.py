@@ -5,6 +5,7 @@ import easyaccess as ea
 import json
 import yaml
 from datetime import datetime as dt
+from datetime import timedelta
 
 # propid = "'2012B-0001'" # des
 propid = "'2015B-0187'"  # desgw
@@ -50,11 +51,16 @@ class eventmanager:
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
         print '***** The current time is UTC',currentTime,'*****'
-        for jsonfile in self.jsonfilelist:
-            with open(os.path.join(self.datadir, jsonfile)) as data_file:
-                jsondata = json.load(data_file)
-            #print jsondata[0].keys()
-
+        timedelta = dt.timedelta(obsStartTime-currentTime).total_seconds()/3600.
+        print '***** The time delta is ',timedelta,'hours *****'
+        if timedelta > np.pi:
+            print '***** Firing off all SE jobs near our planned hexes... *****'
+            for jsonfile in self.jsonfilelist:
+                with open(os.path.join(self.datadir, jsonfile)) as data_file:
+                    jsondata = json.load(data_file)
+        else:
+            print '***** The time delta is too small, we dont have time for SE jobs, waiting for first images to come ' \
+                  'off the mountain'
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
 
