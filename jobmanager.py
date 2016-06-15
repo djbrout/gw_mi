@@ -195,7 +195,7 @@ class eventmanager:
         filterstrategy = {}
         for f in uniquefilts:
             print f ,exposure_filter[exposure_filter == f]
-            filterstrategy[f] = exposure_filter[exposure_filter == f].shape[0]
+            filterstrategy[f] = len(exposure_filter[exposure_filter == f])
 
         print 'filter strategy dictionary', filterstrategy
 
