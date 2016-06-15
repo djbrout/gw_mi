@@ -99,13 +99,15 @@ class eventmanager:
         TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
                                          allexposures['TELDEC'])))
 
+        TELRA[TELRA>180] = TELRA[TELRA>180] - 360.
+
         ww = EXPTIME >= jobmanager_config.min_template_exptime
         exposedRAS = TELRA[ww]
         exposedDECS = TELDEC[ww]
         exposedNUMS = EXPNUM[ww]
 
-        print min(exposedRAS),max(exposedRAS)
-        print min(ras),max(ras)
+        print min(exposedDECS),max(exposedDECS)
+        print min(decs),max(decs)
         print 'exposedRAS',exposedRAS,exposedRAS.shape
 
         submitexpnums = []
