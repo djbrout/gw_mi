@@ -74,7 +74,7 @@ class eventmanager:
                         ras.append(js[u'RA'])
                         decs.append(js[u'dec'])
 
-            exposurenums = self.getNearbyImages([ras[0]],[decs[0]])
+            exposurenums = self.getNearbyImages(ras,decs)
             for exp in exposurenums:
                 self.submit_SEjob(exp)
 
