@@ -71,7 +71,7 @@ class eventmanager:
                         ras.append(js[u'RA'])
                         decs.append(js[u'dec'])
 
-            exposurenums = self.getNearbyImages(ras,decs)
+            exposurenums = self.getNearbyImages([ras[0]],[decs[0]])
             for exp in exposurenums:
                 self.submit_SEjob(exp)
 
@@ -85,8 +85,18 @@ class eventmanager:
 
     def getNearbyImages(self,ras,decs):
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
-        print allexposures.keys()
-        #for ra,dec in zip(ras,decs):
+        #print allexposures.keys()
+        ww = allexposures['EXPTIME'] > 10.
+        exposedRAS = allexposures['TELRA'][ww]
+        exposedDECS = allexposures['TELDEC'][ww]
+        exposedNUMS = allexposures['EXPNUM'][ww]
+
+        submitexpnums = []
+
+        for ra,dec in zip(ras,decs):
+            dist = np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2)
+            nearby = dist < jobmanager_config.SE_radius
+            submitexpnums.extend(exposedNUMS[nearby])
 
 
 
