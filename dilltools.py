@@ -5,7 +5,7 @@ def read(filename, headline, startline, delim=' '):
     return_cols = {}
     inf = open(filename)
     for line in inf:
-        print line
+        #print line
         line = line.replace('#', '')
         line = line.strip()
         cols = line.split(delim)
