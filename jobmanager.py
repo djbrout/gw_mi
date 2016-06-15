@@ -88,9 +88,12 @@ class eventmanager:
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
         print allexposures['EXPTIME'][0]
 
-        EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999', allexposures['EXPTIME'])))
-        TELRA =np.array(map(float, map(lambda x: x if x != 'plate' else '-999', allexposures['TELRA'])))
-        TELDEC =np.array(map(float, map(lambda x: x if x != 'plate' else '-999', allexposures['TELDEC'])))
+        EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
+                                         allexposures['EXPTIME'])))
+        TELRA =np.array(map(float, map(lambda x: x if not x in ['plate','RADEG'] else '-999',
+                                         allexposures['TELRA'])))
+        TELDEC =np.array(map(float, map(lambda x: x if x != 'plate' else '-999',
+                                         allexposures['TELDEC'])))
 
         ww = EXPTIME >= jobmanager_config.min_template_exptime
         exposedRAS = TELRA[ww]
