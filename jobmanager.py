@@ -122,7 +122,7 @@ class eventmanager:
             #print min(dist),max(dist)
             nearby = dist < jobmanager_config.SE_radius
             submitexpnums.extend(exposedNUMS[nearby])
-
+        submitexpnums = np.array(submitexpnums)
         _, idx = np.unique(submitexpnums, return_index=True)
         uniquesubmitexpnums = submitexpnums[np.sort(idx)]
 
