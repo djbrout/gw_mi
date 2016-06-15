@@ -230,7 +230,7 @@ class eventmanager:
             print "EXPNUM\tNITE\tBAND\tEXPTIME\tRADEG\t DECDEG\tPROPID\tOBJECT"
             print "--------------------------------------------------------------------------------------------------"
 
-            query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM exposure WHERE " \
+            query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM prod.exposure@desoper WHERE " \
                     "expnum > 475900 and propid=" + propid + "and obstype='object' ORDER BY nite"  # latest
 
             #
