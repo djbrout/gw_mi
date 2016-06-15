@@ -206,7 +206,7 @@ class eventmanager:
         keepgoing = True
         index = -1
         submission_counter = 0
-        maxsub = 1
+        maxsub = 10000
         postprocessingtime = 1800 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             index += 1
