@@ -648,12 +648,13 @@ if __name__ == "__main__":
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
 
-            thread.start_new_thread(jobmanager.eventmanager, (trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
+            eventmanager = thread.start_new_thread(jobmanager.eventmanager, (trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
                                     os.path.join(trigger_path, trigger_id, 'maps')))
             #eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
             #                                       os.path.join(trigger_path, trigger_id, 'maps'))
             print 'THREADING HAPPENED '*20
             e.send_nonurgent_Email()
+            eventmanager.join()
         # except IOError:
         #    print "Unexpected error:", sys.exc_info()
         #    badtriggers = open('badtriggers.txt','a')
