@@ -63,7 +63,7 @@ class eventmanager:
                 with open(os.path.join(self.datadir, jsonfile)) as data_file:
                     jsondata = json.load(data_file)
         else:
-            print '***** The time delta is too small, we dont have time for SE jobs, waiting for first images to come ' \
+            print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first images to come ' \
                   'off the mountain'
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
