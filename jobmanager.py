@@ -106,6 +106,8 @@ class eventmanager:
         exposedDECS = TELDEC[ww]
         exposedNUMS = EXPNUM[ww]
 
+        print min(exposedRAS),max(exposedRAS)
+        print min(ras),max(ras)
         print min(exposedDECS),max(exposedDECS)
         print min(decs),max(decs)
         print 'exposedRAS',exposedRAS,exposedRAS.shape
@@ -114,7 +116,7 @@ class eventmanager:
 
         for ra,dec in zip(ras,decs):
             dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
-            #print dist
+            print min(dist),max(dist)
             nearby = dist < jobmanager_config.SE_radius
             submitexpnums.extend(exposedNUMS[nearby])
 
