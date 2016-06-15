@@ -38,10 +38,12 @@ class eventmanager:
         file_firedlist.close()
         self.firedlist = map(str.strip, firedlist)
 
-        q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum"  # y1 images
+        q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where " \
+             "nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum"  # y1 images
         self.connection.query_and_save(q1, './processing/exposuresY1.tab')
 
-        q2 = "select expnum,nite,mjd_obs,radeg,decdeg,band,exptime,propid,obstype,object from prod.exposure where nite>20150901 and obstype='object' order by expnum"  # y2 and later
+        q2 = "select expnum,nite,mjd_obs,radeg,decdeg,band,exptime,propid,obstype,object from prod.exposure where " \
+             "nite>20150901 and obstype='object' order by expnum"  # y2 and later
         self.connection.query_and_save(q2, './processing/exposuresCurrent.tab')
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
@@ -49,7 +51,8 @@ class eventmanager:
         self.submit_all_images_in_LIGOxDES_footprint()
         #self.monitor_images_from_mountain()
 
-    # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
+    # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
+    #  ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
 
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
@@ -80,8 +83,8 @@ class eventmanager:
             #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
             #submit that list self.submit_SEjob().
         else:
-            print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first images to come ' \
-                  'off the mountain *****'
+            print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first ' \
+                  'images to come off the mountain *****'
 
     def getNearbyImages(self,ras,decs):
 
@@ -110,7 +113,7 @@ class eventmanager:
 
 
     def submit_SEjob(self,expnum):
-        print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'  # submit to the grid
+        print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'
 
     def submit_images_to_dagmaker(self,explist):
         submission_counter = 0
@@ -123,9 +126,11 @@ class eventmanager:
                         # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
                         subprocess.call(["sh", "DAGMaker.sh", [str(exp)+' ' for exp in explist]])  # create dag
                         print 'created dag for ' + str(explist)
-                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
+                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' \
+                              + expnum + '".dag"])'  # submit to the grid
                         #print 'submitting to grid'
-                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '"
+                        # -n "+nite]) #submit local'
                         print 'SUBMITTED JOB FOR EXPOSURES: ',explist
                         newfireds.extend(explist)
                         submission_counter += 1
@@ -141,9 +146,11 @@ class eventmanager:
                         # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
                         subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
                         print 'created dag for ' + str(expnum)
-                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
-                        print 'submitting to grid'
-                        print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'\
+                              + expnum + '".dag"])'  # submit to the grid
+                        #print 'submitting to grid'
+                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band +
+                        # '" -n "+nite]) #submit local'
                         print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
                         newfireds.append(expnum)
                         submission_counter += 1
@@ -182,7 +189,8 @@ class eventmanager:
             print "EXPNUM\tNITE\tBAND\tEXPTIME\tTELRA\t TELDEC\tPROPID\tOBJECT"
             print "--------------------------------------------------------------------------------------------------"
 
-            query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE expnum > 475900 and propid=" + propid + "and obstype='object'"  # latest
+            query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE " \
+                    "expnum > 475900 and propid=" + propid + "and obstype='object'"  # latest
 
             self.cursor.execute(query)
 
@@ -202,9 +210,11 @@ class eventmanager:
                             # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
                             subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
                             print 'created dag for ' + str(expnum)
-                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
-                            print 'submitting to grid'
-                            print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
+                                  'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
+                            #print 'submitting to grid'
+                            #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' +\
+                            #      band + '" -n "+nite]) #submit local'
                             print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
                             newfireds.append(expnum)
                             submission_counter += 1
