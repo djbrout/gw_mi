@@ -91,6 +91,8 @@ class eventmanager:
         exposedDECS = allexposures['TELDEC'][ww]
         exposedNUMS = allexposures['EXPNUM'][ww]
 
+        print 'exposedRAS',exposedRAS
+
         submitexpnums = []
 
         for ra,dec in zip(ras,decs):
