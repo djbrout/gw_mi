@@ -189,12 +189,10 @@ class eventmanager:
         #NEED TO ADD COADD LOGIC USING STRATEGY FROM CONFIG
 
         exposure_filter = np.array(self.strategy['exposure_filter'],dtype='str')
-        print 'exposure_filter',exposure_filter
         uniquefilts = np.unique(self.strategy['exposure_filter'])
 
         filterstrategy = {}
         for f in uniquefilts:
-            print f ,exposure_filter[exposure_filter == f]
             filterstrategy[f] = len(exposure_filter[exposure_filter == f])
 
         print 'filter strategy dictionary', filterstrategy
@@ -230,7 +228,7 @@ class eventmanager:
 
             self.cursor.execute(query)
 
-            for s in cursor:
+            for s in self.cursor:
                 ofile.write(
                     str(s[0]) + "\t" + str(s[1]) + "\t" + str(s[2]) + "\t" + str(s[3]) + "\t" + str(s[4]) + "\t" + str(
                         s[5]) + "\t" + str(s[6]) + "\t" + str(s[7]) + '\n')
