@@ -649,6 +649,7 @@ if __name__ == "__main__":
 
             eventman = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
                                                             os.path.join(trigger_path, trigger_id, 'maps')))
+            eventman.start()
             #eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
             #                                       os.path.join(trigger_path, trigger_id, 'maps'))
             print 'THREADING HAPPENED '*20
