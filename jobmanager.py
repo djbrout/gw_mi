@@ -231,7 +231,38 @@ class eventmanager:
             print "--------------------------------------------------------------------------------------------------"
 
             query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM exposure WHERE " \
-                    "expnum > 475900 and propid=" + propid + "and obstype='object'"  # latest
+                    "expnum > 475900 and propid=" + propid + "and obstype='object' sort by nite"  # latest
+
+            #
+            # find out how much total time used with gw prop id and pass that to annis code
+            # insure it comes along with one of these two tags
+            #
+            # 477001
+            # 20150920
+            # z
+            # 90.0
+            # 112.782517 - 70.0374
+            # 2015
+            # B - 01
+            # 87
+            # DES
+            # wide
+            # hex
+            # 1130 - -700
+            # 507412
+            # 20151231
+            # z
+            # 90.0
+            # 31.445925
+            # 5.09265
+            # 2015
+            # B - 01
+            # 87
+            # DESGW: LIGO
+            # event
+            # G211117: 8
+            # of
+            # 30
 
             self.prdcursor.execute(query)
 

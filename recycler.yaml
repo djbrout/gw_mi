@@ -22,7 +22,13 @@ force_distance : True
 skipAll : False
 
 
-####Only used for testing####
+
+
+
+
+
+
+####Only used for running recycler.py standalone!####
 
 trigger_id : "M189424"
 wrap_all_triggers : False
