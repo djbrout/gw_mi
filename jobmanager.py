@@ -125,6 +125,7 @@ class eventmanager:
         pass
 
     def getTimeOfFirstJson(self):
+        pass
 
     # LIST OF EXPOSURES
 
