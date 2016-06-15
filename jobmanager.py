@@ -48,7 +48,8 @@ class eventmanager:
 
         # 1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
-
+        currentTime = dt.utcnow()
+        print '***** The current time is UTC',currentTime,'*****'
         for jsonfile in self.jsonfilelist:
             with open(os.path.join(self.datadir, jsonfile)) as data_file:
                 jsondata = json.load(data_file)
@@ -129,8 +130,7 @@ class eventmanager:
     def getDatetimeOfFirstJson(self,jsonstring):
         js = jsonstring.split('UTC')[1]#-2015-12-27-3:2:00.json
         date_object = dt.strptime(js, '-%Y-%m-%d-%H:%M:%S.json')
-        print jsonstring
-        print '***** Datetime of first observation ',date_object,'*****'
+        print '***** Datetime of first observation UTC',date_object,'*****'
         return date_object
 
     # LIST OF EXPOSURES
