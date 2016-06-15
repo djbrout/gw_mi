@@ -26,7 +26,7 @@ class eventmanager:
         self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
         self.datadir = datadir
-        self.triggerdir
+        self.triggerdir = triggerdir
         dire = './processing/' + trigger_id + '/'
         if not os.path.exists(dire):
             os.makedirs(dire)
