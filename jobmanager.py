@@ -219,15 +219,15 @@ class eventmanager:
 
             ofile.write(
                 "--------------------------------------------------------------------------------------------------\n")
-            ofile.write("EXPNUM\tNITE\tBAND\tEXPTIME\tTELRA\t TELDEC\tPROPID\tOBJECT\n")
+            ofile.write("EXPNUM\tNITE\tBAND\tEXPTIME\tRADEG\t DECDEG\tPROPID\tOBJECT\n")
             ofile.write(
                 "--------------------------------------------------------------------------------------------------\n")
 
             print "--------------------------------------------------------------------------------------------------"
-            print "EXPNUM\tNITE\tBAND\tEXPTIME\tTELRA\t TELDEC\tPROPID\tOBJECT"
+            print "EXPNUM\tNITE\tBAND\tEXPTIME\tRADEG\t DECDEG\tPROPID\tOBJECT"
             print "--------------------------------------------------------------------------------------------------"
 
-            query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE " \
+            query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM prod.exposure@desoper WHERE " \
                     "expnum > 475900 and propid=" + propid + "and obstype='object'"  # latest
 
             self.cursor.execute(query)
