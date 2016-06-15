@@ -93,6 +93,8 @@ class eventmanager:
 
         EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
                                          allexposures['EXPTIME'])))
+        EXPNUM = np.array(map(float, map(lambda x: x if not x in ['plate', 'EXPNUM'] else '-999',
+                                          allexposures['EXPNUM'])))
         TELRA =np.array(map(float, map(lambda x: x if not x in ['plate','RADEG'] else '-999',
                                          allexposures['TELRA'])))
         TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
