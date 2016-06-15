@@ -4,6 +4,7 @@ import time
 import easyaccess as ea
 import json
 import yaml
+import jobmanager_config
 import numpy as np
 
 from datetime import datetime as dt
@@ -69,7 +70,9 @@ class eventmanager:
                         ras.append(js[u'RA'])
                         decs.append(js[u'dec'])
 
-            print ras,decs
+            exposurenums = self.getNearbyImages(ras,decs)
+            for exp in exposurenums:
+                self.submit_SEjob(exp)
 
             #unique list of hexes and filters and find the closest exposures for each hex
 
@@ -78,6 +81,13 @@ class eventmanager:
         else:
             print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first images to come ' \
                   'off the mountain *****'
+
+    def getNearbyImages(self,ras,decs):
+        allexposures = open('./processing/exposures.list','r').readlines()
+        print allexposures[0:10]
+        #for ra,dec in zip(ras,decs):
+
+
 
     def submit_SEjob(self,expnum):
         print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'  # submit to the grid

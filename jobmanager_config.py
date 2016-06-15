@@ -1,0 +1,1 @@
+SE_radius = 3.#degrees
