@@ -89,7 +89,6 @@ class eventmanager:
     def getNearbyImages(self,ras,decs):
 
         allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
-        print allexposures['EXPTIME'][0]
 
         EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
                                          allexposures['EXPTIME'])))
@@ -104,6 +103,8 @@ class eventmanager:
         exposedRAS = TELRA[ww]
         exposedDECS = TELDEC[ww]
         exposedNUMS = EXPNUM[ww]
+
+        print 'exposedRAS',exposedRAS
 
         submitexpnums = []
 
