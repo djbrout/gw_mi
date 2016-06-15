@@ -111,6 +111,7 @@ class eventmanager:
         exposedRAS = TELRA[ww]
         exposedDECS = TELDEC[ww]
         exposedNUMS = EXPNUM[ww]
+        FILT = FILT[ww]
 
         # print min(exposedRAS),max(exposedRAS)
         # print min(ras),max(ras)
