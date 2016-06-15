@@ -75,7 +75,10 @@ class eventmanager:
                         decs.append(js[u'dec'])
 
             exposurenums = self.getNearbyImages(ras,decs)
+            iii = 0
             for exp in exposurenums:
+                iii += 1
+                print iii
                 self.submit_SEjob(exp)
 
             #unique list of hexes and filters and find the closest exposures for each hex
@@ -120,7 +123,10 @@ class eventmanager:
             nearby = dist < jobmanager_config.SE_radius
             submitexpnums.extend(exposedNUMS[nearby])
 
-        return submitexpnums
+        _, idx = np.unique(submitexpnums, return_index=True)
+        uniquesubmitexpnums = submitexpnums[np.sort(idx)]
+
+        return uniquesubmitexpnums
 
     def submit_SEjob(self,expnum):
         print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'
