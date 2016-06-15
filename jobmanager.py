@@ -231,7 +231,7 @@ class eventmanager:
             print "--------------------------------------------------------------------------------------------------"
 
             query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM prod.exposure@desoper WHERE " \
-                    "expnum > 475900 and propid=" + propid + "and obstype='object' ORDER BY nite"  # latest
+                    "expnum > 475900 and propid=" + propid + "and obstype='object' ORDER BY expnum"  # latest
 
             #
             # find out how much total time used with gw prop id and pass that to annis code
