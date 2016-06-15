@@ -272,11 +272,12 @@ class eventmanager:
                 pptime = time.time()
                 print '***** Firing post processing script *****'
                 self.submit_post_processing()
-
+            sys.exit()
             time.sleep(120)
 
     def submit_post_processing(self):
         # FIRE TIM'S CODE
+        print 'FIRING TIMs CODE'
         pass
 
     def getDatetimeOfFirstJson(self,jsonstring):
