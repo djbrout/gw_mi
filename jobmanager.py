@@ -109,7 +109,8 @@ class eventmanager:
         submitexpnums = []
 
         for ra,dec in zip(ras,decs):
-            dist = np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2)
+            dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
+            print dist
             nearby = dist < jobmanager_config.SE_radius
             submitexpnums.extend(exposedNUMS[nearby])
 
