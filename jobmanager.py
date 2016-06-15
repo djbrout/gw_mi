@@ -49,7 +49,7 @@ class eventmanager:
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
         self.submit_all_images_in_LIGOxDES_footprint()
-        #self.monitor_images_from_mountain()
+        self.monitor_images_from_mountain()
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
     #  ALREADY IN FIREDLIST
