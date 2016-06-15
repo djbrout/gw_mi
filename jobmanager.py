@@ -26,6 +26,7 @@ class eventmanager:
         self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
         self.datadir = datadir
+        self.triggerdir
         dire = './processing/' + trigger_id + '/'
         if not os.path.exists(dire):
             os.makedirs(dire)
@@ -211,7 +212,7 @@ class eventmanager:
                 keepgoing = False
                 continue
 
-            ofile = open(dire + 'latestquery.txt', 'w')
+            ofile = open(os.path.join(self.triggerdir , 'latestquery.txt'), 'w')
 
             ofile.write(
                 "--------------------------------------------------------------------------------------------------\n")
