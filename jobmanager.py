@@ -3,6 +3,8 @@ import subprocess
 import time
 import easyaccess as ea
 import json
+import yaml
+
 #propid = "'2012B-0001'" # des
 propid = "'2015B-0187'" # desgw
 
@@ -20,6 +22,8 @@ class eventmanager:
         if not os.path.exists(dire):
             os.makedirs(dire)
 
+        with open(os.path.join(datadir, "strategy.yaml"), "r") as f:
+            self.strategy = yaml.safe_load(f)
 
         file_firedlist = open('./processing/firedlist.txt','r')
         firedlist = file_firedlist.readlines()
@@ -38,10 +42,13 @@ class eventmanager:
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
+
+        #1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
         for jsonfile in self.jsonfilelist:
+            print jsonfile
             with open(os.path.join(self.datadir,jsonfile)) as data_file:
                 jsondata = json.load(data_file)
-            print jsondata.keys()
+            print jsondata[0].keys()
 
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
@@ -83,16 +90,17 @@ class eventmanager:
                 if not expnum in self.firedlist:
                     try:
                         if submission_counter < maxsub:
-                            subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+                            #subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+                            subprocess.call(["sh", "DAGMaker.sh", expnum]) #create dag
                             print 'created dag for '+str(expnum)
-                            subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file:./desgw_pipeline_00"+expnum+".dag"]) #submit to the grid
+                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'+expnum+'".dag"])' #submit to the grid
                             print 'submitting to grid'
-                            subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "+nite+" -b "+band+" -n "+nite]) #submit local
-                            print 'SUBMITTED JOB FOR EXPOSURE: 00'+expnum
+                            print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "'+nite+'" -b "'+band+'" -n "+nite]) #submit local'
+                            print 'SUBMITTED JOB FOR EXPOSURE: '+expnum
                             newfireds.append(expnum)
                             submission_counter += 1
                     except:
-                        'SUBMISSION FAILED'
+                        print 'SUBMISSION FAILED'
 
             #write newfireds to file
             ofile.close()
@@ -102,8 +110,23 @@ class eventmanager:
                 file_firedlist.write(str(f)+'\n')
             file_firedlist.close()
             sys.exit()
+
+
+            #ADD A CLOCK FOR FIRING OFF TIMES CODE
             time.sleep(120)
+
     
 
     def submit_post_processing(self):
+        #FIRE TIM'S CODE
         pass
+
+
+    def getTimeOfFirstJson(self):
+
+
+#LIST OF EXPOSURES
+
+#CANDIDATE FILE
+
+#EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE

@@ -44,7 +44,8 @@ class event:
         except:
             self.event_params = {}
             self.weHaveParamFile = False
-
+        os.system('cp recycler.yaml '+os.path.join(outfolder,'strategy.yaml'))
+        print '***** Copied recycler.yaml to '+os.path.join(outfolder,'strategy.yaml')+' for future reference *****'
         '''
         krbdir = '/usr/krb5/bin'
         ticket_cache = '/var/keytab/desgw.keytab'
@@ -438,12 +439,12 @@ class event:
             if integrated_prob == 0:
                 print "zero probability, thus no jsonFile at ", jsonFile
             else:
-                try:
-                    os.chmod(self.mapspath, 0o777)
-                    os.chmod(self.mapspath + '/*.json', 0o777)
-                    os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
-                except:
-                    print "no jsonFiles at ", jsonFile
+                #try:
+                os.chmod(self.mapspath, 0o777)
+                os.chmod(self.mapspath + '/*.json', 0o777)
+                os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
+                #except:
+                #    print "no jsonFiles at ", jsonFile
         else:
             os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
             os.system('cp ' + jsonFile + ' ' + self.website_jsonpath)
