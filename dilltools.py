@@ -12,9 +12,12 @@ def read(filename, headline, startline, delim=' '):
         cols[:] = (value for value in cols if value != '')
         if linenum == headline - 1:
             for col in cols:
-                return_cols[col.strip()] = []
-                column_list.append(col.strip())
-                go += 1
+                try:
+                    return_cols[col.strip()] = []
+                    column_list.append(col.strip())
+                    go += 1
+                except:
+                    pass
         if linenum >= startline - 1:
             index = 0
             for col in cols:
