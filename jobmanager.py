@@ -242,7 +242,7 @@ class eventmanager:
                     try:
                         if submission_counter < maxsub:
                             # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-                            subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
+                            print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
                             print 'created dag for ' + str(expnum)
                             print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
                                   'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
