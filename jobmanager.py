@@ -5,7 +5,7 @@ import easyaccess as ea
 import json
 import yaml
 from datetime import datetime as dt
-from datetime import timedelta
+from datetime import timedelta as td
 
 # propid = "'2012B-0001'" # des
 propid = "'2015B-0187'"  # desgw
@@ -51,7 +51,7 @@ class eventmanager:
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
         print '***** The current time is UTC',currentTime,'*****'
-        timedelta = dt.timedelta(obsStartTime-currentTime).total_seconds()/3600.
+        timedelta = td(obsStartTime-currentTime).total_seconds()/3600.
         print '***** The time delta is ',timedelta,'hours *****'
         if timedelta > np.pi:
             print '***** Firing off all SE jobs near our planned hexes... *****'
