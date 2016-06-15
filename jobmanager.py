@@ -5,36 +5,38 @@ import easyaccess as ea
 import json
 import yaml
 
-#propid = "'2012B-0001'" # des
-propid = "'2015B-0187'" # desgw
+# propid = "'2012B-0001'" # des
+propid = "'2015B-0187'"  # desgw
 
-DATABASE = 'desoper' #read only
-#DATABASE = 'destest' #We can write here
+DATABASE = 'desoper'  # read only
+
+
+# DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self,trigger_id,jsonfilelist,datadir):
+    def __init__(self, trigger_id, jsonfilelist, datadir):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
         self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
         self.datadir = datadir
-        dire = './processing/'+trigger_id+'/'
+        dire = './processing/' + trigger_id + '/'
         if not os.path.exists(dire):
             os.makedirs(dire)
 
         with open(os.path.join(datadir, "strategy.yaml"), "r") as f:
             self.strategy = yaml.safe_load(f)
 
-        file_firedlist = open('./processing/firedlist.txt','r')
+        file_firedlist = open('./processing/firedlist.txt', 'r')
         firedlist = file_firedlist.readlines()
         file_firedlist.close()
         self.firedlist = map(str.strip, firedlist)
 
-        q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum" # y1 images
-        self.connection.query_and_save(q1,'./processing/exposuresY1.tab')
+        q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum"  # y1 images
+        self.connection.query_and_save(q1, './processing/exposuresY1.tab')
 
-        q2 = "select expnum,nite,mjd_obs,radeg,decdeg,band,exptime,propid,obstype,object from prod.exposure where nite>20150901 and obstype='object' order by expnum" # y2 and later
-        self.connection.query_and_save(q2,'./processing/exposuresCurrent.tab')
+        q2 = "select expnum,nite,mjd_obs,radeg,decdeg,band,exptime,propid,obstype,object from prod.exposure where nite>20150901 and obstype='object' order by expnum"  # y2 and later
+        self.connection.query_and_save(q2, './processing/exposuresCurrent.tab')
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
@@ -43,10 +45,10 @@ class eventmanager:
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
 
-        #1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
+        # 1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
         for jsonfile in self.jsonfilelist:
             print jsonfile
-            with open(os.path.join(self.datadir,jsonfile)) as data_file:
+            with open(os.path.join(self.datadir, jsonfile)) as data_file:
                 jsondata = json.load(data_file)
             print jsondata[0].keys()
 
@@ -65,24 +67,28 @@ class eventmanager:
                 keepgoing = False
                 continue
 
-            ofile = open(dire+'latestquery.txt','w')
+            ofile = open(dire + 'latestquery.txt', 'w')
 
-            ofile.write("--------------------------------------------------------------------------------------------------\n")
+            ofile.write(
+                "--------------------------------------------------------------------------------------------------\n")
             ofile.write("EXPNUM\tNITE\tBAND\tEXPTIME\tTELRA\t TELDEC\tPROPID\tOBJECT\n")
-            ofile.write("--------------------------------------------------------------------------------------------------\n")
+            ofile.write(
+                "--------------------------------------------------------------------------------------------------\n")
 
             print "--------------------------------------------------------------------------------------------------"
             print "EXPNUM\tNITE\tBAND\tEXPTIME\tTELRA\t TELDEC\tPROPID\tOBJECT"
             print "--------------------------------------------------------------------------------------------------"
 
-            query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE expnum > 475900 and propid="+propid+"and obstype='object'" # latest
+            query = "SELECT expnum,nite,band,exptime,telra,teldec,propid,object FROM prod.exposure@desoper WHERE expnum > 475900 and propid=" + propid + "and obstype='object'"  # latest
 
             self.cursor.execute(query)
 
-
             for s in cursor:
-                ofile.write(str(s[0])+"\t"+str(s[1])+"\t"+str(s[2])+"\t"+str(s[3])+"\t"+str(s[4])+"\t"+str(s[5])+"\t"+str(s[6])+"\t"+str(s[7])+'\n')
-                print str(s[0])+"\t"+str(s[1])+"\t"+str(s[2])+"\t"+str(s[3])+"\t"+str(s[4])+"\t"+str(s[5])+"\t"+str(s[6])+"\t"+str(s[7])
+                ofile.write(
+                    str(s[0]) + "\t" + str(s[1]) + "\t" + str(s[2]) + "\t" + str(s[3]) + "\t" + str(s[4]) + "\t" + str(
+                        s[5]) + "\t" + str(s[6]) + "\t" + str(s[7]) + '\n')
+                print str(s[0]) + "\t" + str(s[1]) + "\t" + str(s[2]) + "\t" + str(s[3]) + "\t" + str(
+                    s[4]) + "\t" + str(s[5]) + "\t" + str(s[6]) + "\t" + str(s[7])
 
                 expnum = str(s[0])
                 nite = str(s[1])
@@ -90,43 +96,38 @@ class eventmanager:
                 if not expnum in self.firedlist:
                     try:
                         if submission_counter < maxsub:
-                            #subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-                            subprocess.call(["sh", "DAGMaker.sh", expnum]) #create dag
-                            print 'created dag for '+str(expnum)
-                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'+expnum+'".dag"])' #submit to the grid
+                            # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+                            subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
+                            print 'created dag for ' + str(expnum)
+                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
                             print 'submitting to grid'
-                            print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "'+nite+'" -b "'+band+'" -n "+nite]) #submit local'
-                            print 'SUBMITTED JOB FOR EXPOSURE: '+expnum
+                            print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                            print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
                             newfireds.append(expnum)
                             submission_counter += 1
                     except:
                         print 'SUBMISSION FAILED'
 
-            #write newfireds to file
+            # write newfireds to file
             ofile.close()
-            file_firedlist = open('./processing/firedlist.txt','a')
+            file_firedlist = open('./processing/firedlist.txt', 'a')
             for f in newfireds:
-                print 'New Fired: '+str(f)
-                file_firedlist.write(str(f)+'\n')
+                print 'New Fired: ' + str(f)
+                file_firedlist.write(str(f) + '\n')
             file_firedlist.close()
             sys.exit()
 
-
-            #ADD A CLOCK FOR FIRING OFF TIMES CODE
+            # ADD A CLOCK FOR FIRING OFF TIMES CODE
             time.sleep(120)
 
-    
-
     def submit_post_processing(self):
-        #FIRE TIM'S CODE
+        # FIRE TIM'S CODE
         pass
-
 
     def getTimeOfFirstJson(self):
 
+    # LIST OF EXPOSURES
 
-#LIST OF EXPOSURES
+    # CANDIDATE FILE
 
-#CANDIDATE FILE
-
-#EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
+    # EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
