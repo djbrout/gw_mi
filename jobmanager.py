@@ -245,15 +245,13 @@ class eventmanager:
                 if not expnum in self.firedlist:
                     try:
                         if submission_counter < maxsub:
-                            # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-                            print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
-                            print 'created dag for ' + str(expnum)
-                            print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
-                                  'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
-                            #print 'submitting to grid'
+                            #print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
+                            #print 'created dag for ' + str(expnum)
+                            #print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
+                            #      'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
                             #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' +\
                             #      band + '" -n "+nite]) #submit local'
-                            print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
+                            #print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
                             newfireds.append(expnum)
                             submission_counter += 1
                     except:
