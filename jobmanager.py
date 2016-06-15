@@ -189,7 +189,7 @@ class eventmanager:
         #NEED TO ADD COADD LOGIC USING STRATEGY FROM CONFIG
 
         exposure_filter = self.strategy['exposure_filter']
-
+        print 'exposure_filter',exposure_filter
         uniquefilts = np.unique(self.strategy['exposure_filter'])
 
         filterstrategy = {}
