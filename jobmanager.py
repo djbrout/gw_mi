@@ -4,6 +4,7 @@ import time
 import easyaccess as ea
 import json
 import yaml
+from datetime import datetime as dt
 
 # propid = "'2012B-0001'" # des
 propid = "'2015B-0187'"  # desgw
@@ -46,11 +47,12 @@ class eventmanager:
     def submit_all_images_in_LIGOxDES_footprint(self):
 
         # 1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
+        obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
+
         for jsonfile in self.jsonfilelist:
-            print jsonfile
             with open(os.path.join(self.datadir, jsonfile)) as data_file:
                 jsondata = json.load(data_file)
-            print jsondata[0].keys()
+            #print jsondata[0].keys()
 
     # Loop queries for images frommountain and submits them
     def monitor_images_from_mountain(self):
@@ -124,8 +126,11 @@ class eventmanager:
         # FIRE TIM'S CODE
         pass
 
-    def getTimeOfFirstJson(self):
-        pass
+    def getDatetimeOfFirstJson(self,jsonstring):
+        js = jsonstring.split('UTC')[1]#-2015-12-27-3:2:00.json
+        date_object = dt.strptime(js, '-%Y-%m-%d-%H:%M:%S.json')
+        print '***** Datetime of first observation ',date_object,'*****'
+        return date_object
 
     # LIST OF EXPOSURES
 
