@@ -45,17 +45,16 @@ class eventmanager:
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
         self.submit_all_images_in_LIGOxDES_footprint()
+        self.monitor_images_from_mountain()
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
 
-        # 1.#FIRST FIND OUT HOW MUCH TIME YOU HAVE BETWEEN NOW AND JSON_0 AND IF ITS > ~PI HOURS YOU HAVE TIME TO RUN SINGLE EPOCH PROCESSING IN ADVANCE, ELSE DO NOTHING
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
         print '***** The current time is UTC',currentTime,'*****'
         delt = obsStartTime-currentTime
-        #print delt.days
-        #print delt.seconds
+
         timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
         print '***** The time delta is ',timedelta,'hours *****'
         if timedelta > np.pi:
@@ -63,19 +62,69 @@ class eventmanager:
             for jsonfile in self.jsonfilelist:
                 with open(os.path.join(self.datadir, jsonfile)) as data_file:
                     jsondata = json.load(data_file)
-            #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex.
-            #submit that list to dagmaker.
+                    print jsondata[0].keys()
+            #unique list of hexes and filters and find the closest exposures for each hex
+
+            #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
+            #submit that list self.submit_SEjob().
         else:
             print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first images to come ' \
                   'off the mountain *****'
+
+    def submit_SEjob(self,expnum):
+        print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'  # submit to the grid
+
+    def submit_images_to_dagmaker(self,explist):
+        submission_counter = 0
+        maxsub = 1
+        if len(explist) > 1:
+            print '***** SUBMITTING IMAGES AS CO-ADDS *****'
+            if not explist[0] in self.firedlist:
+                try:
+                    if submission_counter < maxsub:
+                        # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+                        subprocess.call(["sh", "DAGMaker.sh", [str(exp)+' ' for exp in explist]])  # create dag
+                        print 'created dag for ' + str(explist)
+                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
+                        #print 'submitting to grid'
+                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                        print 'SUBMITTED JOB FOR EXPOSURES: ',explist
+                        newfireds.extend(explist)
+                        submission_counter += 1
+                except:
+                    print 'SUBMISSION FAILED EXPNUMS', explist
+
+        else:
+            print '***** SUBMITTING IMAGE AS SE JOB (using dagmaker) *****'
+            expnum = explist[0]
+            if not expnum in self.firedlist:
+                try:
+                    if submission_counter < maxsub:
+                        # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+                        subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
+                        print 'created dag for ' + str(expnum)
+                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
+                        print 'submitting to grid'
+                        print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '" -n "+nite]) #submit local'
+                        print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
+                        newfireds.append(expnum)
+                        submission_counter += 1
+                except:
+                    print 'SUBMISSION FAILED EXPNUM',expnum
+
+
+
     # Loop queries for images frommountain and submits them
+    # Need to add complexity that monitors filter strategy and waits for entire groups of images to be co-added
     def monitor_images_from_mountain(self):
 
         starttime = time.time()
+        pptime = time.time()
         keepgoing = True
         index = -1
         submission_counter = 0
         maxsub = 1
+        postprocessingtime = 1800 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             index += 1
             newfireds = []
@@ -131,9 +180,13 @@ class eventmanager:
                 print 'New Fired: ' + str(f)
                 file_firedlist.write(str(f) + '\n')
             file_firedlist.close()
-            sys.exit()
+            #sys.exit()
 
-            # ADD A CLOCK FOR FIRING OFF TIMES CODE
+            if time.time() - pptime > postprocessingtime:
+                pptime = time.time()
+                print '***** Firing post processing script *****'
+                self.submit_post_processing()
+
             time.sleep(120)
 
     def submit_post_processing(self):
@@ -145,6 +198,10 @@ class eventmanager:
         date_object = dt.strptime(js, '-%Y-%m-%d-%H:%M:%S.json')
         print '***** Datetime of first observation UTC',date_object,'*****'
         return date_object
+
+    def sortHexes(self):
+        pass
+
 
     # LIST OF EXPOSURES
 
