@@ -52,10 +52,9 @@ class eventmanager:
         currentTime = dt.utcnow()
         print '***** The current time is UTC',currentTime,'*****'
         delt = obsStartTime-currentTime
-        print delt.days
-        print delt.hours
-        print delt.seconds
-        timedelta = td(days=delt.days,hours=delt.hours,seconds=delt.seconds).total_seconds()/3600.
+        #print delt.days
+        #print delt.seconds
+        timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
         print '***** The time delta is ',timedelta,'hours *****'
         if timedelta > np.pi:
             print '***** Firing off all SE jobs near our planned hexes... *****'
