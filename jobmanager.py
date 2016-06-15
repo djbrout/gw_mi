@@ -14,7 +14,7 @@ DATABASE = 'desoper'  # read only
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self, trigger_id, jsonfilelist, datadir):
+    def __init__(self, trigger_id, jsonfilelist,triggerdir, datadir):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
         self.jsonfilelist = jsonfilelist
@@ -24,7 +24,7 @@ class eventmanager:
         if not os.path.exists(dire):
             os.makedirs(dire)
 
-        with open(os.path.join(datadir, "strategy.yaml"), "r") as f:
+        with open(os.path.join(triggerdir, "strategy.yaml"), "r") as f:
             self.strategy = yaml.safe_load(f)
 
         file_firedlist = open('./processing/firedlist.txt', 'r')

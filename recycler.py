@@ -646,7 +646,7 @@ if __name__ == "__main__":
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
-            eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist,
+            eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
                                                    os.path.join(trigger_path, trigger_id, 'maps'))
 
             e.send_nonurgent_Email()
