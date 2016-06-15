@@ -44,8 +44,9 @@ class event:
         except:
             self.event_params = {}
             self.weHaveParamFile = False
-        os.system('cp recycler.yaml '+os.path.join(outfolder,'strategy.yaml'))
-        print '***** Copied recycler.yaml to '+os.path.join(outfolder,'strategy.yaml')+' for future reference *****'
+        os.system('cp recycler.yaml ' + os.path.join(outfolder, 'strategy.yaml'))
+        print '***** Copied recycler.yaml to ' + os.path.join(outfolder,
+                                                              'strategy.yaml') + ' for future reference *****'
         '''
         krbdir = '/usr/krb5/bin'
         ticket_cache = '/var/keytab/desgw.keytab'
@@ -204,14 +205,14 @@ class event:
         self.need_area = need_area
         self.quality = quality
 
-        np.savez(os.path.join(self.outfolder,'mapmaker_results.npz')
-                 ,best_slot = best_slot
-                 ,n_slots = n_slots
-                 ,first_slot = first_slot
-                 ,econ_prob = econ_prob
-                 ,econ_area = econ_area
-                 ,need_area = need_area
-                 ,quality = quality
+        np.savez(os.path.join(self.outfolder, 'mapmaker_results.npz')
+                 , best_slot=best_slot
+                 , n_slots=n_slots
+                 , first_slot=first_slot
+                 , econ_prob=econ_prob
+                 , econ_area=econ_area
+                 , need_area=need_area
+                 , quality=quality
                  )
 
         if self.weHaveParamFile:
@@ -270,7 +271,6 @@ class event:
                      nvisits=config['nvisits'],
                      mapname='NAN'
                      )
-
 
     def getContours(self, exposure_length, config):
         import matplotlib.pyplot as plt
@@ -406,10 +406,9 @@ class event:
         jsonfilelist = []
         for f in jsonfilelistld:
             if '-tmp' in f:
-                os.remove(os.path.join(map_dir,f))
+                os.remove(os.path.join(map_dir, f))
             elif '.json' in f:
                 jsonfilelist.append(f)
-
 
         if self.n_slots > 0:
             # get statistics
@@ -439,11 +438,11 @@ class event:
             if integrated_prob == 0:
                 print "zero probability, thus no jsonFile at ", jsonFile
             else:
-                #try:
+                # try:
                 os.chmod(self.mapspath, 0o777)
                 os.chmod(self.mapspath + '/*.json', 0o777)
                 os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
-                #except:
+                # except:
                 #    print "no jsonFiles at ", jsonFile
         else:
             os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
@@ -640,13 +639,14 @@ if __name__ == "__main__":
                                    trigger_id),
                       trigger_id, mjd, config)
 
-            #e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
+            # e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
             # e.getContours(exposure_length, config)
             jsonfilelist = e.makeJSON(config)
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
-            eventmanager = jobmanager.eventmanager(trigger_id,jsonfilelist,os.path.join(trigger_path,trigger_id,'maps'))
+            eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist,
+                                                   os.path.join(trigger_path, trigger_id, 'maps'))
 
             e.send_nonurgent_Email()
         # except IOError:
