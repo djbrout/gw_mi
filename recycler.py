@@ -648,8 +648,10 @@ if __name__ == "__main__":
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
 
-            eventmanager = thread.start_new_thread(jobmanager.eventmanager, (trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
-                                    os.path.join(trigger_path, trigger_id, 'maps')))
+            eventmanager = thread(jobmanager.eventmanager, (trigger_id, jsonfilelist,
+                                                            os.path.join(trigger_path,trigger_id),
+                                                            os.path.join(trigger_path, trigger_id, 'maps')))
+            eventmanager.start()
             #eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
             #                                       os.path.join(trigger_path, trigger_id, 'maps'))
             print 'THREADING HAPPENED '*20
