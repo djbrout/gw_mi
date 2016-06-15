@@ -6,6 +6,7 @@ import json
 import yaml
 import jobmanager_config
 import numpy as np
+import dilltools
 
 from datetime import datetime as dt
 from datetime import timedelta as td
@@ -83,8 +84,8 @@ class eventmanager:
                   'off the mountain *****'
 
     def getNearbyImages(self,ras,decs):
-        allexposures = open('./processing/exposures.list','r').readlines()
-        print allexposures[0:10]
+        allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' '):
+        print allexposures.keys()
         #for ra,dec in zip(ras,decs):
 
 
