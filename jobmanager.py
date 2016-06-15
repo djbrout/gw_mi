@@ -133,16 +133,10 @@ class eventmanager:
         return uniquesubmitexpnums
 
     def submit_SEjob(self,expnum):
-        # jobsub_submit - -group = des - -OS = SL6 - -resource - provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M - -email - to = marcelle @ fnal.ogv - -memory = 3
-        # GB - -disk = 94
-        # GB - -cpu = 4 - -expected - lifetime = long
-        # file: // SE_job.sh - r
-        # 2 - p
-        # 05 - E
-        # 142870 - b
-        # z - n
-        # 20121025
-        print 'subprocess.call(["sh", "jobsub_submit -G des --role=DESGW file://SE_job.sh -e '+str(expnum)+'"])'
+        print 'subprocess.call(["sh", "jobsub_submit - -group = des - -OS = SL6 - -resource - ' \
+              'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M - -email - to = ' \
+              'marcelle @ fnal.ogv - -memory = 3 GB - -disk = 94 GB - -cpu = 4 - -expected - lifetime = long ' \
+              'file: // SE_job.sh - r 2 - p 05 - b z - n 20121025 -e '+str(expnum)+'"])'
 
     def submit_images_to_dagmaker(self,explist):
         submission_counter = 0
@@ -188,9 +182,20 @@ class eventmanager:
 
 
 
-    # Loop queries for images frommountain and submits them
+    # Loop queries for images from mountain and submits them
     # Need to add complexity that monitors filter strategy and waits for entire groups of images to be co-added
     def monitor_images_from_mountain(self):
+        #NEED TO ADD COADD LOGIC USING STRATEGY FROM CONFIG
+
+        exposure_filter = self.strategy['exposure_filter']
+
+        uniquefilts = np.unique(self.strategy['exposure_filter'])
+
+        filterstrategy = {}
+        for f in uniquefilts:
+            filterstrategy[f] = len(exposure_filter[exposure_filter == f])
+
+        print 'filter strategy dictionary', filterstrategy
 
         starttime = time.time()
         pptime = time.time()
