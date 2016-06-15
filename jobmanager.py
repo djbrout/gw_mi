@@ -5,6 +5,7 @@ import easyaccess as ea
 import json
 import yaml
 import numpy as np
+
 from datetime import datetime as dt
 from datetime import timedelta as td
 
@@ -62,6 +63,8 @@ class eventmanager:
             for jsonfile in self.jsonfilelist:
                 with open(os.path.join(self.datadir, jsonfile)) as data_file:
                     jsondata = json.load(data_file)
+            #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex.
+            #submit that list to dagmaker.
         else:
             print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first images to come ' \
                   'off the mountain *****'
@@ -148,3 +151,18 @@ class eventmanager:
     # CANDIDATE FILE
 
     # EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
+
+
+if __name__ == "__main__":
+
+    try:
+        args = sys.argv[1:]
+        opt, arg = getopt.getopt(
+            args, "tp:tid:mjd:exp:sky",
+            longopts=["triggerpath=", "triggerid=", "mjd=", "exposure_length=", "skymapfilename="])
+
+    except getopt.GetoptError as err:
+        print str(err)
+        print "Error : incorrect option or missing argument."
+        print __doc__
+        sys.exit(1)

@@ -7,6 +7,7 @@ import subprocess
 import datetime
 import yaml
 import jobmanager
+import thread
 
 sys.path.append("/data/des41.a/data/desgw/")
 
@@ -646,9 +647,12 @@ if __name__ == "__main__":
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
-            eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
-                                                   os.path.join(trigger_path, trigger_id, 'maps'))
 
+            thread.start_new_thread(jobmanager.eventmanager, (trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
+                                    os.path.join(trigger_path, trigger_id, 'maps')))
+            #eventmanager = jobmanager.eventmanager(trigger_id, jsonfilelist, os.path.join(trigger_path,trigger_id),
+            #                                       os.path.join(trigger_path, trigger_id, 'maps'))
+            print 'THREADING HAPPENED '*20
             e.send_nonurgent_Email()
         # except IOError:
         #    print "Unexpected error:", sys.exc_info()
