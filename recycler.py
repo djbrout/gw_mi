@@ -441,7 +441,7 @@ class event:
                 # try:
                 os.chmod(self.mapspath, 0o777)
                 for js in os.listdir(self.mapspath):
-                    os.chmod(js, 0o777)
+                    os.chmod(os.path.join(self.mapspath,js), 0o777)
                 os.system('zip ' + jsonFile + ' ' + self.mapspath + '/*0.json')
                 # except:
                 #    print "no jsonFiles at ", jsonFile
