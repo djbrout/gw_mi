@@ -51,7 +51,8 @@ class eventmanager:
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
         print '***** The current time is UTC',currentTime,'*****'
-        timedelta = td(obsStartTime-currentTime).total_seconds()/3600.
+        delt = obsStartTime-currentTime
+        timedelta = td(days=delt.days,hours=delt.hours,seconds=delt.seconds).total_seconds()/3600.
         print '***** The time delta is ',timedelta,'hours *****'
         if timedelta > np.pi:
             print '***** Firing off all SE jobs near our planned hexes... *****'
