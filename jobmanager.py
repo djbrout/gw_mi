@@ -4,6 +4,7 @@ import time
 import easyaccess as ea
 import json
 import yaml
+import numpy as np
 from datetime import datetime as dt
 from datetime import timedelta as td
 
