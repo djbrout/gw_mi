@@ -188,7 +188,7 @@ class eventmanager:
     def monitor_images_from_mountain(self):
         #NEED TO ADD COADD LOGIC USING STRATEGY FROM CONFIG
 
-        exposure_filter = self.strategy['exposure_filter']
+        exposure_filter = np.array(self.strategy['exposure_filter'],dtype='str')
         print 'exposure_filter',exposure_filter
         uniquefilts = np.unique(self.strategy['exposure_filter'])
 
