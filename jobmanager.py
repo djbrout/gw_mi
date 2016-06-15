@@ -45,7 +45,7 @@ class eventmanager:
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
         self.submit_all_images_in_LIGOxDES_footprint()
-        self.monitor_images_from_mountain()
+        #self.monitor_images_from_mountain()
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT ALREADY IN FIREDLIST
     def submit_all_images_in_LIGOxDES_footprint(self):
@@ -57,7 +57,8 @@ class eventmanager:
 
         timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
         print '***** The time delta is ',timedelta,'hours *****'
-        if timedelta > np.pi:
+        #if timedelta > np.pi:
+        if timedelta > -9999999:
             print '***** Firing off all SE jobs near our planned hexes... *****'
             for jsonfile in self.jsonfilelist:
                 with open(os.path.join(self.datadir, jsonfile)) as data_file:
