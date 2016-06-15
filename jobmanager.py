@@ -104,7 +104,7 @@ class eventmanager:
         exposedDECS = TELDEC[ww]
         exposedNUMS = EXPNUM[ww]
 
-        print 'exposedRAS',exposedRAS
+        print 'exposedRAS',exposedRAS,exposedRAS.shape
 
         submitexpnums = []
 
