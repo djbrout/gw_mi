@@ -24,8 +24,8 @@ class eventmanager:
     def __init__(self, trigger_id, jsonfilelist,triggerdir, datadir):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
-        self.prdconnection = ea.connect(PRDDATABASE)
-        self.prdcursor = self.prdconnection.cursor()
+        #self.prdconnection = ea.connect(PRDDATABASE)
+        #self.prdcursor = self.prdconnection.cursor()
         self.jsonfilelist = jsonfilelist
         self.trigger_id = trigger_id
         self.datadir = datadir
@@ -264,9 +264,9 @@ class eventmanager:
             # of
             # 30
 
-            self.prdcursor.execute(query)
+            self.cursor.execute(query)
 
-            for s in self.prdcursor:
+            for s in self.cursor:
                 ofile.write(
                     str(s[0]) + "\t" + str(s[1]) + "\t" + str(s[2]) + "\t" + str(s[3]) + "\t" + str(s[4]) + "\t" + str(
                         s[5]) + "\t" + str(s[6]) + "\t" + str(s[7]) + '\n')
