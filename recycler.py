@@ -331,8 +331,8 @@ class event:
             print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
             print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
 
-            figure = plt.figure(1)
-
+            figure = plt.figure(1,figsize=(8.5*1.618,8.5))
+            plt.figure(figsize=(8.5*1.618,8.5))
             # computing limiting mag
             # plot as ra,dec map 
             plt.clf()
@@ -344,7 +344,7 @@ class event:
             plt.xlabel('maglim')
             plt.ylabel('counts')
             name = self.trigger_id + "_limitingMagHist.png"
-            plt.savefig(os.path.join(self.outfolder, name),figsize=(10,10))
+            plt.savefig(os.path.join(self.outfolder, name))
 
             # plt.hexbin( ra, dec, maglim, vmin=15)
             plt.hexbin(ra, dec, maglim)
@@ -352,7 +352,7 @@ class event:
             plt.xlabel('RA')
             plt.ylabel('DEC')
             name = self.trigger_id + "_limitingMagMap.png"
-            plt.savefig(os.path.join(self.outfolder, name),figsize=(10,10))
+            plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
             # Calculate source probability map
@@ -362,7 +362,7 @@ class event:
             plt.xlabel('RA')
             plt.ylabel('DEC')
             name = self.trigger_id + "_sourceProbMap.png"
-            plt.savefig(os.path.join(self.outfolder, name),figsize=(10,10))
+            plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
             # DES Source Prob Map x Ligo Sky Map
@@ -372,7 +372,7 @@ class event:
             plt.xlabel('RA')
             plt.ylabel('DEC')
             name = self.trigger_id + "_sourceProbxLIGO.png"
-            plt.savefig(os.path.join(self.outfolder, name),figsize=(10,10))
+            plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
             plt.clf()
@@ -381,7 +381,7 @@ class event:
             plt.xlabel('RA')
             plt.ylabel('DEC')
             name = self.trigger_id + "_LIGO.png"
-            plt.savefig(os.path.join(self.outfolder, name),figsize=(10,10))
+            plt.savefig(os.path.join(self.outfolder, name))
             os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
         return
