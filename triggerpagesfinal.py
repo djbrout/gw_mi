@@ -148,7 +148,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
                             <th></th>\
                             <td>ETA</td>\
-                            <td>Estimated ratio of reduced mass to total mass/td>\
+                            <td>Estimated ratio of reduced mass to total mass</td>\
                             <td>'+str(event_params['ETA'])+'</td>\
                         </tr>\
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
@@ -221,7 +221,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
                             <th></th>\
                             <td>Qual</td>\
-                            <tdQuality</td>\
+                            <td>Quality</td>\
                             <td>' + str(event_params['quality']) + '</td>\
                         </tr>\
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
