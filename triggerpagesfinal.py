@@ -536,33 +536,32 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
     a.close()
 
 
-def make_index_page(webpage_dir,real_or_sim=None):
-	if real_or_sim == 'real':
-		fff = 'real-trigger_list.txt'
-	if real_or_sim == 'sim':
-		fff = 'test-trigger_list.txt'
-	tt = open(os.path.join(webpage_dir,fff),'r')
-	lines = tt.readlines()
-	tt.close()
-	triggers = ''
-	isFirst = True
-	firstTrigger = ''
+def make_index_page(webpage_dir, real_or_sim=None):
+    if real_or_sim == 'real':
+        fff = 'real-trigger_list.txt'
+    if real_or_sim == 'sim':
+        fff = 'test-trigger_list.txt'
+        tt = open(os.path.join(webpage_dir, fff), 'r')
+        lines = tt.readlines()
+        tt.close()
 
-    indextable  = '<script type="text/javascript">$(function(){var data = {triggers: ['
+    indextable = '<script type="text/javascript">$(function(){var data = {triggers: ['
 
+    for line in reversed(lines):
+        trig, outfolder = line.split(' ')
+        if isFirst:
+            firstTrigger = trig
+            isFirst = False
+        outfolder = outfolder.strip('\n')
+        params = np.load(os.path.join(outfolder, trig + '_params.npz'))
 
-	for line in reversed(lines):
-		trig, outfolder = line.split(' ')
-		if isFirst:
-			firstTrigger = trig
-			isFirst = False
-		outfolder = outfolder.strip('\n')
-		params = np.load(os.path.join(outfolder,trig+'_params.npz'))
+        d = mjd_to_datetime(float(str(params['MJD'])))
 
-		d = mjd_to_datetime(float(str(params['MJD'])))
+    indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(
+        round(float(str(params['integrated_prob'])), 6)) + '", FAR: "' + str(params['FAR']) + '", ChirpMass: "' + \
+                  str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(
+        d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
 
-        indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(round(float(str(params['integrated_prob'])),6)) + '", FAR: "' + str(params['FAR']) + '", ChirpMass: "' + \
-                    str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
 
     indextable += ']\
           };\
@@ -595,17 +594,16 @@ def make_index_page(webpage_dir,real_or_sim=None):
         </thead>\
         <tbody>\
             <tr b-scope="hexes" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" ' \
-                        'onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
-                <td b-sort="ID">{{trig.trigger}}</td>\
-                <td b-sort="RA">{{trig.integrated_prob}}</td>\
-                <td b-sort="DEC">{{trig.FAR}}</td>\
-                <td b-sort="Peak_Flux">{{trig.ChirpMass}}</td>\
-                <td b-sort="Peak_Flux_MJD">{{trig.MJD}}</td>\
-                <td b-sort="ML_Score">{{trig.Date}}</td>\
-            </tr>\
-        </tbody>\
-        </table>'
-
+              'onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
+      <td b-sort="ID">{{trig.trigger}}</td>\
+      <td b-sort="RA">{{trig.integrated_prob}}</td>\
+      <td b-sort="DEC">{{trig.FAR}}</td>\
+      <td b-sort="Peak_Flux">{{trig.ChirpMass}}</td>\
+      <td b-sort="Peak_Flux_MJD">{{trig.MJD}}</td>\
+      <td b-sort="ML_Score">{{trig.Date}}</td>\
+    </tr>\
+    </tbody>\
+    </table>'
 
     html = '<!DOCTYPE html> \
                 <html lang="en" style="height:100%;">\
@@ -665,7 +663,7 @@ def make_index_page(webpage_dir,real_or_sim=None):
     html += '<script type="text/javascript" src="js/plugins.js"></script>'
     html += '<script src="https://maps.google.com/maps/api/js?sensor=true"></script>'
     html += '<script type="text/javascript" src="js/bskit-scripts.js"></script>\
-                </body></html>'
+                    </body></html>'
 
     if real_or_sim == 'real':
 
