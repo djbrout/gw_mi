@@ -603,10 +603,6 @@ def make_index_page(webpage_dir, real_or_sim=None):
 
         d = mjd_to_datetime(float(str(params['MJD'])))
 
-        indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(
-        round(float(str(params['integrated_prob'])), 6)) + '", FAR: "' + str(params['FAR']) + '", ChirpMass: "' + \
-                  str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
-
         indextable += '<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" \
                         onclick="DoNav(Triggers/'+trig+'/'+trig+'_trigger.html);">\
                           <td></td>\
