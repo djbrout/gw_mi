@@ -611,12 +611,12 @@ def make_index_page(webpage_dir, real_or_sim=None):
                         onclick="DoNav(Triggers/'+trig+'/'+trig+'_trigger.html);">\
                           <td></td>\
                           <td >'+trig+'</td>\
-                          <td >'+str(round(float(str(params['integrated_prob'])), 6)))'</td>\
+                          <td >'+str(round(float(str(params['integrated_prob'])), 6))+'</td>\
                           <td >'+str(params['FAR'])+'</td>\
                           <td >'+str(params['ChirpMass'])+'</td>\
                           <td >'+str(params['MJD'])+'</td>\
                           <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</td>\
-                        </tr>\
+                        </tr>'
     indextable += '</tbody></table>'
 
     html = '<!DOCTYPE html> \
