@@ -541,9 +541,12 @@ def make_index_page(webpage_dir, real_or_sim=None):
         fff = 'real-trigger_list.txt'
     if real_or_sim == 'sim':
         fff = 'test-trigger_list.txt'
-        tt = open(os.path.join(webpage_dir, fff), 'r')
-        lines = tt.readlines()
-        tt.close()
+    tt = open(os.path.join(webpage_dir, fff), 'r')
+    lines = tt.readlines()
+    tt.close()
+    triggers = ''
+    isFirst = True
+    firstTrigger = ''
 
     indextable = '<script type="text/javascript">$(function(){var data = {triggers: ['
 
