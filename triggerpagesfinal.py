@@ -122,7 +122,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                             <img name="Trigger" src="images/'+str(trigger_id)+'-observingPlot.png" class="img-responsive" alt="2nd gallery Thumb" width="50%">\
                             <div class="image-overlay"></div>\
                             <a href="images/'+str(trigger_id)+'-observingPlot.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
@@ -280,7 +280,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'-and-sim-cumprobs.png">\
                                             <div class="image-overlay"></div>\
                                             <a href="images/'+str(trigger_id)+'-and-sim-cumprobs.png" class="gallery-zoom"><i class="fa fa-eye" alt="This is the title"></i></a>\
-                                            <a href="#" class="gallery-link" target="_blank"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link" target="_blank"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>Cumulative Probability vs Number of Hexes Observed</h5>\
@@ -295,7 +295,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'-probabilityPlot.png" class="img-responsive" alt="2nd gallery Thumb">\
                                             <div class="image-overlay"></div>\
                                             <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>Integrated DES Probability vs Slot Number</h5>\
@@ -309,7 +309,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'_LIGO.png" class="img-responsive" alt="2nd gallery Thumb">\
                                             <div class="image-overlay"></div>\
                                             <a href="images/'+str(trigger_id)+'_LIGO.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>LIGO Probability Contour</h5>\
@@ -323,7 +323,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'_sourceProbxLIGO.png" class="img-responsive" alt="2nd gallery Thumb">\
                                             <div class="image-overlay"></div>\
                                             <a href="images/'+str(trigger_id)+'_sourceProbxLIGO.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>DES Probability X LIGO Probability</h5>\
@@ -338,7 +338,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'_limitingMagMap.png" class="img-responsive" alt="3rd gallery Thumb">\
                                             <div class="image-overlay"></div>\
                                             <a href="images/'+str(trigger_id)+'_limitingMagMap.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>DES Limiting Magnitude Map</h5>\
@@ -353,7 +353,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                             <img src="images/'+str(trigger_id)+'_sourceProbMap.png" class="img-responsive" alt="4th gallery Thumb">\
                                             <div class="image-overlay"></div>\
                                             <a href="iimages/'+str(trigger_id)+'_sourceProbMap.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                                            <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
+                                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" class="gallery-link"><i class="fa fa-link"></i></a>\
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>DES Limiting Mag Map for Source</h5>\
