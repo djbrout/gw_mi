@@ -649,9 +649,10 @@ def make_index_page(webpage_dir, real_or_sim=None):
                       tableRow.style.backgroundColor = "white";\
                     }\
                   }\
+                  </script>\
+                <script type="text/javascript">\
                   function DoNav(theUrl)\
                   {\
-                    console.log(theUrl);\
                   document.location.href = theUrl;\
                   }\
                   </script>\
