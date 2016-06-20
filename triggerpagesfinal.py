@@ -598,7 +598,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
         </thead>\
         <tbody>\
             <tr b-scope="triggers" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" \
-            onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
+            onmouseout="ChangeColor(this, false);" onclick="DoNav("Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html");" >\
       <td></td>\
       <td b-sort="ID">{{trig.trigger}}</td>\
       <td b-sort="RA">{{trig.integrated_prob}}</td>\
