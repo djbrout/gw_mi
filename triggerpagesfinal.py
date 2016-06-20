@@ -585,10 +585,10 @@ def make_index_page(webpage_dir, real_or_sim=None):
                 <th></th>\
                 <th id="trigger" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">Trigger</th>\
                 <th id="iprob" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Integrated Prob</th>\
-                <th id="far" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >FAR</th>\
-                <th id="cmass" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Chirp Mass</th>\
-                <th id="mjd" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >MJD</th>\
-                <th id="date" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Date</th>\
+                <th id="far" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >FAR</th>\
+                <th id="cmass" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Chirp Mass</th>\
+                <th id="mjd" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >MJD</th>\
+                <th id="date" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Date</th>\
             </tr>\
         </thead>\
         <tbody>'
