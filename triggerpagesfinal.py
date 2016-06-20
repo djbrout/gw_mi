@@ -638,23 +638,12 @@ def make_index_page(webpage_dir, real_or_sim=None):
                       <script src="assets/js/respond.min.js"></script>\
                     <![endif]-->\
                         <script type="text/javascript">\
-                    function ChangeColor(tableRow, highLight)\
-                    {\
-                    if (highLight)\
-                    {\
-                      tableRow.style.backgroundColor = "#7FFFD4";\
-                    }\
-                    else\
-                    {\
-                      tableRow.style.backgroundColor = "white";\
-                    }\
-                  }\
+                    function ChangeColor(tableRow, highLight){if (highLight){\
+                    tableRow.style.backgroundColor = "#7FFFD4";}\
+                    else{tableRow.style.backgroundColor = "white";}}\
                   </script>\
-                <script type="text/javascript">\
-                  function DoNav(theUrl)\
-                  {\
-                  document.location.href = theUrl;\
-                  }\
+                  <script type="text/javascript">\
+                  function DoNav(theUrl){document.location.href = theUrl;}\
                   </script>\
                     </head>\
                     <body data-spy="scroll" data-target="nav">\
