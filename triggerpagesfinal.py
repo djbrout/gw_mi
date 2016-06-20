@@ -598,14 +598,14 @@ def make_index_page(webpage_dir, real_or_sim=None):
         </thead>\
         <tbody>\
             <tr b-scope="triggers" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" \
-            onmouseout="ChangeColor(this, false);" onclick="DoNav("Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html");" >\
+            onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);">\
       <td></td>\
-      <td b-sort="ID">{{trig.trigger}}</td>\
-      <td b-sort="RA">{{trig.integrated_prob}}</td>\
-      <td b-sort="DEC">{{trig.FAR}}</td>\
-      <td b-sort="Peak_Flux">{{trig.ChirpMass}}</td>\
-      <td b-sort="Peak_Flux_MJD">{{trig.MJD}}</td>\
-      <td b-sort="ML_Score">{{trig.Date}}</td>\
+      <td b-sort="trigger" href="Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html">{{trig.trigger}}</td>\
+      <td b-sort="integrated_prob">{{trig.integrated_prob}}</td>\
+      <td b-sort="FAR">{{trig.FAR}}</td>\
+      <td b-sort="ChirpMass">{{trig.ChirpMass}}</td>\
+      <td b-sort="MJD">{{trig.MJD}}</td>\
+      <td b-sort="Date">{{trig.Date}}</td>\
     </tr>\
     </tbody>\
     </table>'
