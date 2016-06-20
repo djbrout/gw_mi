@@ -548,7 +548,50 @@ def make_index_page(webpage_dir, real_or_sim=None):
     isFirst = True
     firstTrigger = ''
 
-    indextable = '<script type="text/javascript">$(function(){var data = {triggers: ['
+    indextable = ''
+
+    index_sorting_script='<script type="text/javascript">\
+                            var table = $("table");\
+                            $("#trigger, #iprob, #far, #cmass, #mjd, #date")\
+                            .wrapInner("<span title="sort this column"/>")\
+                            .each(function(){\
+                            var th = $(this),\
+                            thIndex = th.index(),\
+                            inverse = false;\
+                            th.click(function(){\
+                            table.find("td").filter(function(){\
+                            return $(this).index() === thIndex;\
+                            }).sortElements(function(a, b){\
+                            return $.text([a]) > $.text([b]) ?\
+                            inverse ? -1 : 1\
+                            : inverse ? 1 : -1;\
+                            }, function(){\
+                            // parentNode is the element we want to move\
+                            return this.parentNode;\
+                            });\
+                            inverse = !inverse;\
+                            });\
+                            });'
+
+    indextable += index_sorting_script
+    if real_or_sim == 'real':
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Real Triggers</a></h1>'
+    else:
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Mock Triggers</a></h1>'
+
+    indextable += '<table class="table" data-pg-collapsed>\
+        <thead>\
+            <tr >\
+                <th></th>\
+                <th id="trigger" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">Trigger</th>\
+                <th id="iprob" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Integrated Prob</th>\
+                <th id="far" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >FAR</th>\
+                <th id="cmass" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Chirp Mass</th>\
+                <th id="mjd" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >MJD</th>\
+                <th id="date" oonmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Date</th>\
+            </tr>\
+        </thead>\
+        <tbody>'
 
     for line in reversed(lines):
         trig, outfolder = line.split(' ')
@@ -560,55 +603,21 @@ def make_index_page(webpage_dir, real_or_sim=None):
 
         d = mjd_to_datetime(float(str(params['MJD'])))
 
-    indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(
+        indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(
         round(float(str(params['integrated_prob'])), 6)) + '", FAR: "' + str(params['FAR']) + '", ChirpMass: "' + \
-                  str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(
-        d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
+                  str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
 
-
-    indextable += ']\
-          };\
-          breed.run({\
-            scope: "triggers",\
-            input: data\
-          });\
-          $("th").click(function(){\
-            breed.sort({\
-              scope: "triggers",\
-              selector: $(this).attr("sort")\
-            });\
-          });\
-        });  </script>'
-    if real_or_sim == 'real':
-        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Real Triggers</a></h1>'
-    else:
-        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Mock Triggers</a></h1>'
-
-    indextable += '<table class="table" data-pg-collapsed>\
-        <thead>\
-            <tr >\
-                <th></th>\
-                <th sort="trigger" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">Trigger</th>\
-                <th sort="integrated_prob" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Integrated Prob</th>\
-                <th sort="FAR" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >FAR</th>\
-                <th sort="ChirpMass" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Chirp Mass</th>\
-                <th sort="MJD" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >MJD</th>\
-                <th sort="Date" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Date</th>\
-            </tr>\
-        </thead>\
-        <tbody>\
-            <tr b-scope="triggers" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" \
-            onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);">\
-      <td></td>\
-      <td b-sort="trigger" href="Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html">{{trig.trigger}}</td>\
-      <td b-sort="integrated_prob">{{trig.integrated_prob}}</td>\
-      <td b-sort="FAR">{{trig.FAR}}</td>\
-      <td b-sort="ChirpMass">{{trig.ChirpMass}}</td>\
-      <td b-sort="MJD">{{trig.MJD}}</td>\
-      <td b-sort="Date">{{trig.Date}}</td>\
-    </tr>\
-    </tbody>\
-    </table>'
+        indextable += '<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" \
+                        onclick="DoNav(Triggers/'+trig+'/'+trig+'_trigger.html);">\
+                          <td></td>\
+                          <td >'+trig+'</td>\
+                          <td >'+str(round(float(str(params['integrated_prob'])), 6)))'</td>\
+                          <td >'+str(params['FAR'])+'</td>\
+                          <td >'+str(params['ChirpMass'])+'</td>\
+                          <td >'+str(params['MJD'])+'</td>\
+                          <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</td>\
+                        </tr>\
+    indextable += '</tbody></table>'
 
     html = '<!DOCTYPE html> \
                 <html lang="en" style="height:100%;">\
@@ -654,6 +663,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>\
                         <script type="text/javascript" src="assets/js/smoothscroll.js"></script>\
                         <script type="text/javascript" src="assets/js/breedjs.min.js"></script>\
+                        <script type="text/javascript" src="assets/js/jquery.sortElements.js"></script>\
                         <section id="promo-3" class="content-block promo-3 min-height-600px bg-deepocean">\
                             <div class="container text-center">\
                                 <h1>LIGO GW Triggers</h1>\
