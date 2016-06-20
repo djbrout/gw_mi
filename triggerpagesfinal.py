@@ -649,6 +649,9 @@ def make_index_page(webpage_dir, real_or_sim=None):
                   </script>\
                     </head>\
                     <body data-spy="scroll" data-target="nav">\
+                        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>\
+                        <script type="text/javascript" src="assets/js/smoothscroll.js"></script>\
+                        <script type="text/javascript" src="assets/js/breedjs.min.js"></script>\
                         <section id="promo-3" class="content-block promo-3 min-height-600px bg-deepocean">\
                             <div class="container text-center">\
                                 <h1>LIGO GW Triggers</h1>\
