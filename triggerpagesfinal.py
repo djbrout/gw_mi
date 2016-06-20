@@ -651,6 +651,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                   }\
                   function DoNav(theUrl)\
                   {\
+                    console.log(theUrl);\
                   document.location.href = theUrl;\
                   }\
                   </script>\
