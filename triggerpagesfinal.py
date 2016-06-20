@@ -548,10 +548,7 @@ def make_index_page(webpage_dir,real_or_sim=None):
 	isFirst = True
 	firstTrigger = ''
 
-    indextable  = '     <script type="text/javascript">\
-                        $(function(){\
-                        var data = {\
-                        triggers: ['
+    indextable  = '<script type="text/javascript">$(function(){var data = {triggers: ['
 
 
 	for line in reversed(lines):
@@ -597,14 +594,14 @@ def make_index_page(webpage_dir,real_or_sim=None):
             </tr>\
         </thead>\
         <tbody>\
-            <tr b-scope="hexes" b-loop="cand in candidates" onmouseover="ChangeColor(this, true);" ' \
-                        'onmouseout="ChangeColor(this, false);" onclick="DoNav(' + trigger_id + '_{{cand.ID}}.html);" >\
-                <td b-sort="ID">{{cand.trigger}}</td>\
-                <td b-sort="RA">{{cand.integrated_prob}}</td>\
-                <td b-sort="DEC">{{cand.FAR}}</td>\
-                <td b-sort="Peak_Flux">{{cand.ChirpMass}}</td>\
-                <td b-sort="Peak_Flux_MJD">{{cand.MJD}}</td>\
-                <td b-sort="ML_Score">{{cand.Date}}</td>\
+            <tr b-scope="hexes" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" ' \
+                        'onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
+                <td b-sort="ID">{{trig.trigger}}</td>\
+                <td b-sort="RA">{{trig.integrated_prob}}</td>\
+                <td b-sort="DEC">{{trig.FAR}}</td>\
+                <td b-sort="Peak_Flux">{{trig.ChirpMass}}</td>\
+                <td b-sort="Peak_Flux_MJD">{{trig.MJD}}</td>\
+                <td b-sort="ML_Score">{{trig.Date}}</td>\
             </tr>\
         </tbody>\
         </table>'
