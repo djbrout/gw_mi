@@ -81,7 +81,7 @@ plt.xlabel('# of hexes')
 plt.title('Cumulative Probability Distribution')
 plt.grid(True)
 plt.legend()
-plt.savefig(ppath+'/'+this_event+'-and-sim-cumprobs.png', bbox_inches='tight',figsize=(10,10))
+plt.savefig(ppath+'/'+this_event+'-and-sim-cumprobs.png', bbox_inches='tight',figsize=(5,5))
 plt.close()
 
 
