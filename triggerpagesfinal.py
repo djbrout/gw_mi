@@ -205,7 +205,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                             <th></th>\
                             <td>Dist</td>\
                             <td>Model Distance Used</td>\
-                            <td>' + str(event_params['codeDistance']) + '</td>\
+                            <td>' + str(event_params['codeDistance']) + 'Mpc</td>\
                         </tr>\
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
                             <th></th>\
@@ -535,6 +535,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
     a.write(html)
     a.close()
 
+
 def make_index_page(webpage_dir,real_or_sim=None):
 	if real_or_sim == 'real':
 		fff = 'real-trigger_list.txt'
@@ -546,6 +547,13 @@ def make_index_page(webpage_dir,real_or_sim=None):
 	triggers = ''
 	isFirst = True
 	firstTrigger = ''
+
+    indextable  = '     <script type="text/javascript">\
+                        $(function(){\
+                        var data = {\
+                        triggers: ['
+
+
 	for line in reversed(lines):
 		trig, outfolder = line.split(' ')
 		if isFirst:
@@ -556,116 +564,124 @@ def make_index_page(webpage_dir,real_or_sim=None):
 
 		d = mjd_to_datetime(float(str(params['MJD'])))
 
+        indextable += '{trigger: "' + str(trig) + '",integrated_prob: "' + str(round(float(str(params['integrated_prob'])),6)) + '", FAR: "' + str(params['FAR']) + '", ChirpMass: "' + \
+                    str(params['ChirpMass']) + '", MJD: "' + str(params['MJD']) + '", Date: "' + str(d.strftime('%H:%M:%S \t %b %d, %Y')) + '" },'
 
-		if float(str(params['integrated_prob'])) > .1:
-			triggers += '<tr>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+trig+'</span></a></td>\
-						<td bgcolor="66FF33"><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(round(float(str(params['integrated_prob'])),6))+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['FAR'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['ChirpMass'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['MaxDistance'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['MJD'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</span></a></td>\
-					</tr>'
-		else:
-			triggers += '<tr>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+trig+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(round(float(str(params['integrated_prob'])),6))+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['FAR'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['ChirpMass'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['MaxDistance'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(params['MJD'])+'</span></a></td>\
-						<td><a href="Triggers/'+trig+'/'+trig+'_trigger.html" ><span class="label">'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</span></a></td>\
-					</tr>'
+    indextable += ']\
+          };\
+          breed.run({\
+            scope: "triggers",\
+            input: data\
+          });\
+          $("th").click(function(){\
+            breed.sort({\
+              scope: "triggers",\
+              selector: $(this).attr("sort")\
+            });\
+          });\
+        });  </script>'
+    if real_or_sim == 'real':
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Real Triggers</a></h1>\'
+    else:
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Mock Triggers</a></h1>\'
 
-	html = '<!DOCTYPE HTML>\
-	<html lang="en">\
-	<head>\
-		<title>DES GW Trigger Index</title>\
-		<meta charset="utf-8" />\
-		<meta name="viewport" content="width=device-width, initial-scale=1" />\
-		<link rel="stylesheet" href="assets/css/main.css" />\
-	</head>\
-	<body id="top">\
-		<!-- Header -->\
-			<header id="header">\
-				<div class="content">\
-					<h1>DES GW Trigger Index</h1>\
-					<ul class="actions">\
-						<li><a href="Triggers/'+firstTrigger+'/'+firstTrigger+'_trigger.html" class="button icon fa-chevron-down scrolly">Most Recent</a></li>\
-					</ul>\
-					<ul class="actions">\
-						<li><a href="real-triggers.html" class="button icon fa-chevron-down scrolly">Real Triggers</a></li>\
-					</ul>\
-					<ul class="actions">\
-						<li><a href="test-triggers.html" class="button icon fa-chevron-down scrolly">Simulated Triggers</a></li>\
-					</ul>\
-				</div>\
-			</header>\
-		<!-- Two -->\
-		<section>\
-		<div class="table-wrapper">\
-							<table>\
-							</table>\
-			</div>\
-		</section>\
-		<section>\
-			<div class="table-wrapper">\
-							<table>\
-								<thead>\
-									<tr>\
-										<th>ID</th>\
-										<th>Prob</th>\
-										<th>FAR</th>\
-										<th>ChirpMass</th>\
-										<th>MaxDist</th>\
-										<th>MJD</th>\
-										<th>Date</th>\
-									</tr>\
-								</thead>\
-								<tbody>\
-								'+triggers+'\
-								</tbody>\
-							</table>\
-			</div>\
-		</section>\
-		<!-- Three -->\
-			<section id="three" class="wrapper style2 special">\
-				<ul class="actions">\
-					<li><a href="#" class="button special icon fa-download">View All Triggers</a></li>\
-					<li><a href="mailto:dbrout@physics.upenn.edu?subject=DESGW Index Page Issue Report&body=Please address issue related to DESGW Index Page." class="button">Report Issue</a></li>\
-				</ul>\
-			</section>\
-		<!-- Scripts -->\
-			<script src="assets/js/jquery.min.js"></script>\
-			<script src="assets/js/jquery.scrolly.min.js"></script>\
-			<script src="assets/js/skel.min.js"></script>\
-			<script src="assets/js/util.js"></script>\
-			<script src="assets/js/main.js"></script>\
-			<script type="text/javascript" src="assets/js/smoothscroll.js"></script>\
-	</body>\
-	</html>'
+    indextable += '<table class="table" data-pg-collapsed>\
+        <thead>\
+            <tr >\
+                <th sort="trigger" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">Trigger</th>\
+                <th sort="integrated_prob" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Integrated Prob</th>\
+                <th sort="FAR" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >FAR</th>\
+                <th sort="ChirpMass" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Chirp Mass</th>\
+                <th sort="MJD" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >MJD</th>\
+                <th sort="Date" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Date</th>\
+            </tr>\
+        </thead>\
+        <tbody>\
+            <tr b-scope="hexes" b-loop="cand in candidates" onmouseover="ChangeColor(this, true);" ' \
+                        'onmouseout="ChangeColor(this, false);" onclick="DoNav(' + trigger_id + '_{{cand.ID}}.html);" >\
+                <td b-sort="ID">{{cand.trigger}}</td>\
+                <td b-sort="RA">{{cand.integrated_prob}}</td>\
+                <td b-sort="DEC">{{cand.FAR}}</td>\
+                <td b-sort="Peak_Flux">{{cand.ChirpMass}}</td>\
+                <td b-sort="Peak_Flux_MJD">{{cand.MJD}}</td>\
+                <td b-sort="ML_Score">{{cand.Date}}</td>\
+            </tr>\
+        </tbody>\
+        </table>'
 
 
+    html = '<!DOCTYPE html> \
+                <html lang="en" style="height:100%;">\
+                    <head> \
+                        <meta charset="utf-8"> \
+                        <title>Pinegrow Bootstrap Blocks</title>\
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0"> \
+                        <meta name="keywords" content="pinegrow, blocks, bootstrap" />\
+                        <meta name="description" content="My new website" />\
+                        <link rel="shortcut icon" href="ico/favicon.png"> \
+                        <!-- Core CSS -->\
+                        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> \
+                        <link href="css/font-awesome.min.css" rel="stylesheet">\
+                        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet">\
+                        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet">\
+                        <!-- Style Library -->\
+                        <link href="css/style-library-1.css" rel="stylesheet">\
+                        <link href="css/plugins.css" rel="stylesheet">\
+                        <link href="css/blocks.css" rel="stylesheet">\
+                        <link href="css/custom.css" rel="stylesheet">\
+                        <!--[if lt IE 9]>\
+                      <script src="js/html5shiv.js"></script>\
+                      <script src="js/respond.min.js"></script>\
+                    <![endif]-->\
+                        <script type="text/javascript">\
+                    function ChangeColor(tableRow, highLight)\
+                    {\
+                    if (highLight)\
+                    {\
+                      tableRow.style.backgroundColor = "#7FFFD4";\
+                    }\
+                    else\
+                    {\
+                      tableRow.style.backgroundColor = "white";\
+                    }\
+                  }\
+                  function DoNav(theUrl)\
+                  {\
+                  document.location.href = theUrl;\
+                  }\
+                  </script>\
+                    </head>\
+                    <body data-spy="scroll" data-target="nav">\
+                        <section id="promo-3" class="content-block promo-3 min-height-600px bg-deepocean">\
+                            <div class="container text-center">\
+                                <h1>LIGO GW Triggers</h1>\
+                                <h2>DESGW EM Followup</h2>\
+                                <a href="real-triggers.html" class="btn btn-outline btn-outline-xl outline-light">REAL Triggers</a>\
+                                <a href="mock-triggers.html" class="btn btn-outline btn-outline-xl outline-light">Mock Triggers</a>\
+                            </div>\
+                            <!-- /.container -->\
+                        </section>'
 
+    html += indextable
+    html += '<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>'
+    html += '<script type="text/javascript" src="js/bootstrap.min.js"></script>'
+    html += '<script type="text/javascript" src="js/plugins.js"></script>'
+    html += '<script src="https://maps.google.com/maps/api/js?sensor=true"></script>'
+    html += '<script type="text/javascript" src="js/bskit-scripts.js"></script>\
+                </body></html>'
 
+    if real_or_sim == 'real':
 
-	if real_or_sim == 'real':
-
-		a = open(os.path.join(webpage_dir,'index.html'),'w')
-		a.write(html)
-		a.close()
-		a = open(os.path.join(webpage_dir,'real-triggers.html'),'w')
-		a.write(html)
-		a.close()
-	elif real_or_sim == 'sim':
-		a = open(os.path.join(webpage_dir,'test-triggers.html'),'w')
-		a.write(html)
-		a.close()
-
-
-
-
+        a = open(os.path.join(webpage_dir, 'index.html'), 'w')
+        a.write(html)
+        a.close()
+        a = open(os.path.join(webpage_dir, 'real-triggers.html'), 'w')
+        a.write(html)
+        a.close()
+    elif real_or_sim == 'sim':
+        a = open(os.path.join(webpage_dir, 'mock-triggers.html'), 'w')
+        a.write(html)
+        a.close()
 
 
 if __name__ == '__main__':
