@@ -117,15 +117,15 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                 </header>\
                 <section id="promo-3" class="content-block promo-3 min-height-600px bg-deepocean">\
                     <div class="container text-center">\
-                        <div class="gallery-item">\
-                         <div class="gallery-thumb" style="width: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, 0%)">\
+                        <div class="gallery-item" style="width: 50%; left: 50%; margin-right: -50%; transform: translate(50%, 0%)">\
+                         <div class="gallery-thumb" >\
                             <img name="Trigger" src="images/'+str(trigger_id)+'-observingPlot.png" class="img-responsive" alt="2nd gallery Thumb" width="50%">\
                             <div class="image-overlay"></div>\
                             <a href="images/'+str(trigger_id)+'-observingPlot.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
                             <a href="#" class="gallery-link"><i class="fa fa-link"></i></a>\
                           </div>\
                         </div>\
-                        <h1>Trigger GW'+str(trigger_id)+'</h1>\
+                        <h1>Trigger '+str(trigger_id)+'</h1>\
                         <h2></h2>\
                         <h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
                         <h2>Last Processed: '+str(event_params['time_processed'])+'</h2>\
