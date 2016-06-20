@@ -64,7 +64,7 @@ j = {'ra':0,'dec':1,'prob':2,'mjd':3,'slot':4}
 
 
 sims_labeled = False
-plt.figure(figsize=(8.5*1.618,8.5))
+figure = plt.figure(figsize=(7.5*1.618,7.5))
 for event in events:
     cumprobs = np.sort(100*cols[i[event]][j['prob']])
     cumprobs = np.cumsum(cumprobs[::-1])
