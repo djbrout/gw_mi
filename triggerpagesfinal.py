@@ -596,8 +596,8 @@ def make_index_page(webpage_dir, real_or_sim=None):
             </tr>\
         </thead>\
         <tbody>\
-            <tr b-scope="triggers" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" ' \
-              'onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
+            <tr b-scope="triggers" b-loop="trig in triggers" onmouseover="ChangeColor(this, true);" \
+            onmouseout="ChangeColor(this, false);" onclick="DoNav(Triggers/{{trig.trigger}}/{{trig.trigger}}_trigger.html);" >\
       <td b-sort="ID">{{trig.trigger}}</td>\
       <td b-sort="RA">{{trig.integrated_prob}}</td>\
       <td b-sort="DEC">{{trig.FAR}}</td>\
@@ -612,11 +612,10 @@ def make_index_page(webpage_dir, real_or_sim=None):
                 <html lang="en" style="height:100%;">\
                     <head> \
                         <meta charset="utf-8"> \
-                        <title>Pinegrow Bootstrap Blocks</title>\
+                        <title>DES GW</title>\
                         <meta name="viewport" content="width=device-width, initial-scale=1.0"> \
                         <meta name="keywords" content="pinegrow, blocks, bootstrap" />\
                         <meta name="description" content="My new website" />\
-                        <link rel="shortcut icon" href="assets/ico/favicon.png"> \
                         <!-- Core CSS -->\
                         <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> \
                         <link href="assets/css/font-awesome.min.css" rel="stylesheet">\
