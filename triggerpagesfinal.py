@@ -571,7 +571,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                             });\
                             inverse = !inverse;\
                             });\
-                            });'
+                            });  </script>'
 
     indextable += index_sorting_script
     if real_or_sim == 'real':
