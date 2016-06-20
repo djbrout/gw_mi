@@ -577,9 +577,9 @@ def make_index_page(webpage_dir, real_or_sim=None):
           });\
         });  </script>'
     if real_or_sim == 'real':
-        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Real Triggers</a></h1>\'
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Real Triggers</a></h1>'
     else:
-        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Mock Triggers</a></h1>\'
+        indextable += '<h1><a name="Triggers" style="padding-top: 105px;">Mock Triggers</a></h1>'
 
     indextable += '<table class="table" data-pg-collapsed>\
         <thead>\
