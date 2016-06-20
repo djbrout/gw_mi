@@ -681,6 +681,9 @@ def make_index_page(webpage_dir, real_or_sim=None):
         a.write(html)
         a.close()
     elif real_or_sim == 'sim':
+        a = open(os.path.join(webpage_dir, 'index.html'), 'w')
+        a.write(html)
+        a.close()
         a = open(os.path.join(webpage_dir, 'mock-triggers.html'), 'w')
         a.write(html)
         a.close()
