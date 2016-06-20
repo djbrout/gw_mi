@@ -1,7 +1,8 @@
 import os
 import sys, getopt, traceback
 import numpy as np
-import triggerpages2 as tp
+#import triggerpages2 as tp
+import triggerpagesfinal as tp
 import getHexObservations
 import subprocess
 import datetime
