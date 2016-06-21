@@ -521,6 +521,8 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
 
 
     html += '<!-- /.container -->\
+            <div class="copyright-bar bg-black">\
+            < / div >\
         </section>\
         <script type="text/javascript" src="../../assets/js/jquery-1.11.1.min.js"></script>\
         <script type="text/javascript" src="../../assets/js/bootstrap.min.js"></script>\
@@ -613,7 +615,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                           <td >'+str(params['MJD'])+'</td>\
                           <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</td>\
                         </tr>'
-    indextable += '</tbody></table>'
+    indextable += '</tbody></table> <div class="copyright-bar bg-black"></div>'
 
     html = '<!DOCTYPE html> \
                 <html lang="en" style="height:100%;">\
