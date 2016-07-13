@@ -20,6 +20,7 @@ setup --nolocks matplotlib
 setup --nolocks healpy
 setup --nolocks scipy 0.14.0+5
 setup --nolocks gw
+setup --nolocks gwpost
 setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
