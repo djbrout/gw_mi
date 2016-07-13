@@ -66,6 +66,7 @@ def makeNewPage(candidate_paramfile):
 
 
     mlscore = cand_params['photprob']#this is a numpy array
+    obsid = cand_params['thisobs_ID']
     diffmjd = cand_params['diffmjd']#this is a numpy array
     diffband = cand_params['diffband']#this is a numpy array
 
@@ -350,7 +351,7 @@ def makeNewPage(candidate_paramfile):
                     <div class="isotope-gallery-container">'
 
     stampgallery = ''
-    for s,t,d,ml,mjd,b in zip(search,template,diff,mlscore,diffmjd,diffband):
+    for s,t,d,ml,mjd,b,o in zip(search,template,diff,mlscore,diffmjd,diffband,obsid):
         stampgallery += '<div class="col-md-4 col-sm-4 col-xs-4 gallery-item-wrapper artwork creative">\
                             <div class="gallery-item">\
                                 <div class="gallery-thumb">\
@@ -359,8 +360,8 @@ def makeNewPage(candidate_paramfile):
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+s+'" class="gallery-zoom"><i class="fa fa-eye" alt="This is the title"></i></a>\
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+s+'" download class="gallery-link" target="_blank"><i class="fa fa-link"></i></a>\
                                 </div>\
-                                <h4>MJD '+str(mjd)+'</h4>\
-                                <h6>'+b+' - SEARCH</h6>\
+                                <h4>MJD '+str(mjd)+', OBSID '+str(o)+'</h4>\
+                                <h5>'+b+' - SEARCH</h5>\
                             </div>\
                         </div>\
                         <div class="col-md-4 col-sm-4 col-xs-4 gallery-item-wrapper artwork creative">\
@@ -371,8 +372,8 @@ def makeNewPage(candidate_paramfile):
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+t+'" class="gallery-zoom"><i class="fa fa-eye" alt="This is the title"></i></a>\
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+t+'" download class="gallery-link" target="_blank"><i class="fa fa-link"></i></a>\
                                 </div>\
-                                <h4>MJD '+str(mjd)+'</h4>\
-                                <h6>'+b+' - TEMPLATE</h6>\
+                                <h4>MJD '+str(mjd)+', OBSID '+str(o)+'</h4>\
+                                <h5>'+b+' - TEMPLATE</h5>\
                             </div>\
                         </div>\
                         <div class="col-md-4 col-sm-4 col-xs-4 gallery-item-wrapper artwork creative">\
@@ -383,8 +384,8 @@ def makeNewPage(candidate_paramfile):
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+d+'" class="gallery-zoom"><i class="fa fa-eye" alt="This is the title"></i></a>\
                                     <a href="http://des-ops.fnal.gov:8080/desgw/Candidates/'+str(candidate_id)+'/images/'+d+'" download class="gallery-link" target="_blank"><i class="fa fa-link"></i></a>\
                                 </div>\
-                                <h4>MJD '+str(mjd)+'</h4>\
-                                <h6>'+b+' - DIFF Score '+str(round(ml,2))+'</h6>\
+                                <h4>MJD '+str(mjd)+', OBSID '+str(o)+'</h4>\
+                                <h5>'+b+' - DIFF MLScore '+str(round(ml,2))+'</h5>\
                             </div>\
                         </div>'
     html += stampgallery
