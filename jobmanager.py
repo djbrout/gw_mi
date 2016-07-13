@@ -350,9 +350,9 @@ class eventmanager:
                 ]
         print args
 
-        #p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #print p.communicate()
-        p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
+        #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
         return
 
 
