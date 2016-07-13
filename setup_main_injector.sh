@@ -26,11 +26,6 @@ setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
 
-
-
-export EUPS_PATH=/cvmfs/des.opensciencegrid.org/eeups/fnaleups:$EUPS_PATH
-setup --nolocks diffim gwdevel11
-
 source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
 setup jobsub_client
 
