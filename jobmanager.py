@@ -313,7 +313,8 @@ class eventmanager:
 
             cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
             for f in cfiles:
-                cp.makeNewPage(f)
+                if f.split('.')[-1] == 'npz':
+                    cp.makeNewPage(f)
 
     def submit_post_processing(self):
         firedlist = open('./processing/firedlist.txt', 'r')
