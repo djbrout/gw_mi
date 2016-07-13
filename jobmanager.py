@@ -326,11 +326,21 @@ class eventmanager:
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outdir ' + os.path.join(trigger_path,trigger_id,'candidates')
+                         + ' --triggerid '+trigger_id
         # subprocess.Popen('source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
         #                 python '+os.path.join(gwpostdir,'postproc.py')
         #                  +' --expnums ' + expnumlist
         #                  + ' --outdir ' )
         return
+
+        np.savez('file.npz',
+                 myarray = array_that_i_want_to_save,
+
+
+                 )
+        data = np.load('file.npz')
+        data['myarray']
+
 
     def getDatetimeOfFirstJson(self,jsonstring):
         js = jsonstring.split('UTC')[1]#-2015-12-27-3:2:00.json
