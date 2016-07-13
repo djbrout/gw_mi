@@ -8,6 +8,7 @@ import jobmanager_config
 import numpy as np
 import dilltools
 import sys, getopt, traceback
+import candidatepages as cp
 
 
 from datetime import datetime as dt
@@ -310,11 +311,16 @@ class eventmanager:
             sys.exit()
             time.sleep(120)
 
+            cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
+            for f in cfiles:
+                cp.makeNewPage(f)
 
     def submit_post_processing(self):
         firedlist = open('./processing/firedlist.txt', 'r')
         fl = firedlist.readlines()
         firedlist.close()
+        print fl
+        fl = ['475914','475915','475916','482859','482860','482861']
         expnumlist = ''
         for f in fl:
             expnumlist += f.strip()+' '
@@ -331,6 +337,8 @@ class eventmanager:
         #                 python '+os.path.join(gwpostdir,'postproc.py')
         #                  +' --expnums ' + expnumlist
         #                  + ' --outdir ' )
+
+
         return
 
 
