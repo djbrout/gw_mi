@@ -477,7 +477,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
         for i, ra, dec, pf, pfmjd, ml in zip(candidates['id'], candidates['ra'], candidates['dec'],
                                              candidates['peakflux'], candidates['peakfluxmjd'], candidates['mlscore']):
             candidates_table += '{ID: "' + str(h) + '",RA: "' + str(ra) + '", DEC: "' + str(dec) + '", Peak_Flux: "' +\
-                                str(pf) + '", Peak_Flux_MJD: "' + str(pfm) + '", ML_Score: "' + str(ml) + '" },'
+                                str(pf) + '", Peak_Flux_MJD: "' + str(pfmjd) + '", ML_Score: "' + str(ml) + '" },'
 
         candidates_table += ']\
                   };\
@@ -686,6 +686,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
         a = open(os.path.join(webpage_dir, 'mock-triggers.html'), 'w')
         a.write(html)
         a.close()
+
 
 
 if __name__ == '__main__':
