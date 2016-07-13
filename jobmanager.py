@@ -345,7 +345,7 @@ class eventmanager:
         args = ["source "+ os.path.join(gwpostdir, 'diffimg_setup.sh')]
         print args
 
-        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=False)
 
         stdout, stderr = p.communicate()
         print stdout
