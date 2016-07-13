@@ -342,7 +342,7 @@ class eventmanager:
         #                  + ' --triggerid '+trigger_id+' --season 46 --ups True' )
 
         #pid = os.spawnlp(os.P_WAIT, "source", os.path.join(gwpostdir, 'diffimg_setup.sh'))
-        args = ["source", os.path.join(gwpostdir, 'diffimg_setup.sh')]
+        args = ["source "+ os.path.join(gwpostdir, 'diffimg_setup.sh')]
         print args
 
         p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
