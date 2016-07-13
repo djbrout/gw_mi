@@ -329,16 +329,16 @@ class eventmanager:
         print 'FIRING TIMs CODE'
 
         gwpostdir = os.environ['GWPOST_DIR']
-        print 'source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
+        print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
                          + ' --triggerid '+trigger_id+' --season 46'
-        os.system('source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
+        subprocess.Popen('source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                          python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
-                         + ' --triggerid '+trigger_id+' --season 46')
+                         + ' --triggerid '+trigger_id+' --season 46' )
 
 
         return
