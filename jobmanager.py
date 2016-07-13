@@ -367,7 +367,7 @@ def sendEmail(trigger_id):
     msg = MIMEText(text)
 
     me = 'automated-desGW@fnal.gov'
-    if config.sendEveryoneEmails:
+    if jobmanager_config.sendEveryoneEmails:
         you = ['djbrout@gmail.com', 'marcelle@fnal.gov', 'annis@fnal.gov']
     else:
         you = ['djbrout@gmail.com']
