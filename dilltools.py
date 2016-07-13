@@ -28,3 +28,8 @@ def read(filename, headline, startline, delim=' '):
         linenum += 1
     inf.close()
     return return_cols
+
+def mjd_to_datetime(mjd):
+    mjd_epoch = datetime.datetime(1858, 11, 17, tzinfo=pytz.utc)
+    d = mjd_epoch + datetime.timedelta(mjd)
+    return d

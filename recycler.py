@@ -443,10 +443,12 @@ class event:
                 os.chmod(self.mapspath, 0o777)
                 for js in os.listdir(self.mapspath):
                     os.chmod(os.path.join(self.mapspath,js), 0o777)
+                os.remove(jsonFile)
                 os.system('zip -j ' + jsonFile + ' ' + self.mapspath + '/*0.json')
                 # except:
                 #    print "no jsonFiles at ", jsonFile
         else:
+            os.remove(jsonFile)
             os.system('zip -j ' + jsonFile + ' ' + self.mapspath + '/*0.json')
             os.system('cp ' + jsonFile + ' ' + self.website_jsonpath)
         return jsonfilelist
@@ -540,8 +542,7 @@ class event:
 
     def updateWebpage(self):
         os.system('scp -r DES_GW_Website/* codemanager@desweb.fnal.gov:/des_web/www/html/desgw/')
-        tp.makeNewPage(os.path.join(self.outfolder, self.trigger_id + '_trigger.html'), self.trigger_id,
-                       self.event_paramfile)
+        tp.makeNewPage(os.path.join(self.outfolder, self.trigger_id + '_trigger.html'), self.trigger_id,self.event_paramfile)
         os.system('scp -r ' + os.path.join(self.outfolder,
                                            self.trigger_id + '_trigger.html') + ' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/' + self.trigger_id + '/')
         return
