@@ -63,6 +63,8 @@ def makeNewPage(candidate_paramfile):
     search = cand_params['search']#this is a numpy array
     template = cand_params['template']#this is a numpy array
     diff = cand_params['diff']#this is a numpy array
+
+
     mlscore = cand_params['mlscore']#this is a numpy array
     diffmjd = cand_params['diffmjd']#this is a numpy array
     diffband = cand_params['diffband']#this is a numpy array
@@ -105,15 +107,24 @@ def makeNewPage(candidate_paramfile):
     searchs = copy(search)
     templates = copy(template)
     diffs = copy(diff)
+
+
     for i,s,t,d in zip(range(len(search)),search,template,diff):
+
         sout = s.split('/')[-1]
         searchs[i] = sout
+        if s is None:
+            s = 'DES_GW_Website/image_placeholder.png'
         os.system('cp '+s+' '+outimages+sout)
         tout = t.split('/')[-1]
         templates[i] = tout
+        if t is None:
+            t = 'DES_GW_Website/image_placeholder.png'
         os.system('cp '+t+' '+outimages+tout)
         dout = d.split('/')[-1]
         diffs[i] = dout
+        if d is None:
+            d = 'DES_GW_Website/image_placeholder.png'
         os.system('cp '+d+' '+outimages+dout)
 
     search = searchs
