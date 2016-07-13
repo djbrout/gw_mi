@@ -8,20 +8,36 @@ from copy import copy
 '''
 Usage:
 
-import candidatepages as cp
-cp.makeNewPage(
-    outdir = '.' #PATH TO DIRECTORY OF HTML FILE (ALL STAMPS WILL BE COPIED TO THIS FOLDER AS WELL)
-    ,trigger_id = '156476' #TRIGGER ID FROM LIGO
-    ,snid = '101538'
-    ,ra = '35.6'
-    ,dec = '2.1'
-    ,candidate_paramfile = 'cpf.npz' #this is a numpy.savez('cpf.npz',data) file
-)
+import candidatepages
+candidatepages.makeNewPage( candidate_paramfile = 'cpf.npz' )
 
-candidate_paramfile = { 'mjd'   : np.array(numstamps,dtype='float') #mjds of all stamps
-                        'filter': np.array(numstamps,dtype='str') #filters of all stamps
-                        'spath' : np.array(numstamps,dtype='str') #paths to all stamps
-                        'flux'  : np.array(numstamps,dtype='float') #diffim flux of each stamp
+candidate_paramfile must have the following
+    #TABLE 1
+    band = cand_params['band'] #this is a numpy array
+    x = cand_params['x']#this is a numpy array
+    y = cand_params['y']#this is a numpy array
+    mag = cand_params['mag']#this is a numpy array
+    nite = cand_params['nite']#this is a numpy array
+    mjd = cand_params['mjd']#this is a numpy array
+    season = cand_params['season']#this is a numpy array
+    expnum = cand_params['expnum']#this is a numpy array
+    ccdnum = cand_params['ccdnum']#this is a numpy array
+
+    #TABLE 2
+    search = cand_params['search']#this is a numpy array
+    template = cand_params['template']#this is a numpy array
+    diff = cand_params['diff']#this is a numpy array
+    mlscore = cand_params['mlscore']#this is a numpy array
+    diffmjd = cand_params['diffmjd']#this is a numpy array
+    diffband = cand_params['diffband']#this is a numpy array
+
+    candidate_id = cand_params['candid']
+    trigger_id = cand_params['trigger_id']
+    field = cand_params['field']
+    ra = cand_params['ra']
+    dec = cand_params['dec']
+    lcplot = cand_params['lcplot']
+    peakmlscore = cand_params['peakmlscore']#i may be calculating this
 
 
 '''
