@@ -346,7 +346,7 @@ class eventmanager:
         print args
 
         p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
-
+        p.communicate()
 
         return
 
