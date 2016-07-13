@@ -48,8 +48,8 @@ def makeNewPage(candidate_paramfile):
     template = cand_params['template']#this is a numpy array
     diff = cand_params['diff']#this is a numpy array
     mlscore = cand_params['mlscore']#this is a numpy array
-    diffmjd = cand_params['diffmjd']
-    diffband = cand_params['diffband']
+    diffmjd = cand_params['diffmjd']#this is a numpy array
+    diffband = cand_params['diffband']#this is a numpy array
 
     candidate_id = cand_params['candid']
     trigger_id = cand_params['trigger_id']
@@ -57,11 +57,27 @@ def makeNewPage(candidate_paramfile):
     ra = cand_params['ra']
     dec = cand_params['dec']
     lcplot = cand_params['lcplot']
+    peakmlscore = cand_params['peakmlscore']#i may be calculating this
 
     #MAKE A DIRECTORY FOR THE CANDIDATE PAGE AND FILES
-    outdir = 'DES_GW_Website/Candidates/'+str(candidate_id)+'/'
+    outdir = 'DES_GW_Website/Candidates/'
     outfile = outdir+'DES'+str(candidate_id)+'.html'
     outimages = 'DES_GW_Website/Candidates/'+str(candidate_id)+'/images/'
+
+    trigger_cand_dir = 'DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'
+    trigger_cand_file = 'DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'+str(candidate_id)+'.npz'
+    if not os.path.exists(trigger_cand_dir):
+        os.mkdir(trigger_cand_dir)
+
+    np.savez(trigger_cand_file,
+             id=str(candidate_id),
+             ra=str(round(float(ra),3)),
+             dec=str(round(float(dec),3)),
+             mlscore=str(round(float(peakmlscore),2)),
+             peakmag=str(round(np.max(np.float(mag)),2)),
+             peakmjd=str(round(float(mjd[np.argmax(np.float(mag))]),2))
+             )
+
 
     if not os.path.exists(outdir):
         os.mkdir(outdir)

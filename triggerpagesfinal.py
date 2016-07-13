@@ -10,7 +10,7 @@ def mjd_to_datetime(mjd):
     return d
 
 
-def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None,candidates_param_file=None):
+def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
     event_params = np.load(event_paramfile)
     d = mjd_to_datetime(float(str(event_params['MJD'])))
 
@@ -18,10 +18,19 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
         processing = np.load(processing_param_file)
     except:
         processing = None
-    try:
-        candidates = np.load(candidates_param_file)
-    except:
-        candidates = None
+
+    candidates = {'id':[],'ra':[],'dec':[],'peakmag':[],'peakmjd':[],'mlscore':[]}
+
+    candidate_param_files = os.listdir('DES_GW_Website/Triggers/'+trigger_id+'/candidate_param_files/')
+    if len(candidate_param_files) > 0:
+        for cpf in candidate_param_files:
+            cp = np.load(cpf)
+            candidates['id'].append(cp['id'])
+            candidates['ra'].append(cp['ra'])
+            candidates['dec'].append(cp['dec'])
+            candidates['peakmag'].append(cp['peakmag'])
+            candidates['peakmjd'].append(cp['peakmjd'])
+            candidates['mlscore'].append(cp['mlscore'])
 
     html = \
         '<!DOCTYPE html> \
@@ -467,17 +476,15 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
 
         html += processing_table
 
-
-    if not candidates is None:
-
+    if len(candidates['id']) > 0:
         candidates_table = '     <script type="text/javascript">\
                                     $(function(){\
                                     var data = {\
                                     candidates: ['
         for i, ra, dec, pf, pfmjd, ml in zip(candidates['id'], candidates['ra'], candidates['dec'],
-                                             candidates['peakflux'], candidates['peakfluxmjd'], candidates['mlscore']):
-            candidates_table += '{ID: "' + str(h) + '",RA: "' + str(ra) + '", DEC: "' + str(dec) + '", Peak_Flux: "' +\
-                                str(pf) + '", Peak_Flux_MJD: "' + str(pfmjd) + '", ML_Score: "' + str(ml) + '" },'
+                                             candidates['peakmag'], candidates['peakmjd'], candidates['mlscore']):
+            candidates_table += '{ID: "' + str(h) + '",RA: "' + str(ra) + '", DEC: "' + str(dec) + '", Peak_Mag: "' +\
+                                str(pf) + '", Peak_MJD: "' + str(pfmjd) + '", ML_Score: "' + str(ml) + '" },'
 
         candidates_table += ']\
                   };\
@@ -499,19 +506,19 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <th sort="ID" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">ID</th>\
                         <th sort="RA" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >RA</th>\
                         <th sort="DEC" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >DEC</th>\
-                        <th sort="Peak_Flux" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Peak Flux</th>\
-                        <th sort="Peak_Flux_MJD" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Peak Flux MJD</th>\
+                        <th sort="Peak_Mag" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Peak Mag</th>\
+                        <th sort="Peak_MJD" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >Peak MJD</th>\
                         <th sort="ML_Score" onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" >ML Score</th>\
                     </tr>\
                 </thead>\
                 <tbody>\
                     <tr b-scope="hexes" b-loop="cand in candidates" onmouseover="ChangeColor(this, true);" ' \
-                            'onmouseout="ChangeColor(this, false);" onclick="DoNav('+trigger_id+'_{{cand.ID}}.html);" >\
+                            'onmouseout="ChangeColor(this, false);" onclick="DoNav(http://des-ops.fnal.gov:8080/desgw/Candidates/DES{{cand.ID}}.html);" >\
                         <td b-sort="ID">{{cand.ID}}</td>\
                         <td b-sort="RA">{{cand.RA}}</td>\
                         <td b-sort="DEC">{{cand.DEC}}</td>\
-                        <td b-sort="Peak_Flux">{{cand.Peak_Flux}}</td>\
-                        <td b-sort="Peak_Flux_MJD">{{cand.Peak_Flux_MJD}}</td>\
+                        <td b-sort="Peak_Mag">{{cand.Peak_Mag}}</td>\
+                        <td b-sort="Peak_MJD">{{cand.Peak_MJD}}</td>\
                         <td b-sort="ML_Score">{{cand.ML_Score}}</td>\
                     </tr>\
                 </tbody>\
