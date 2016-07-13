@@ -334,7 +334,7 @@ class eventmanager:
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
                          + ' --triggerid '+trigger_id+' --season 46 --ups True'
-        os.system('source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
+        subprocess.Popen('source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                          python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
