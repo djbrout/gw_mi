@@ -7,6 +7,8 @@ import yaml
 import jobmanager_config
 import numpy as np
 import dilltools
+import sys, getopt, traceback
+
 
 from datetime import datetime as dt
 from datetime import timedelta as td
@@ -21,7 +23,7 @@ PRDDATABASE = 'decam_prd'
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self, trigger_id, jsonfilelist,triggerdir, datadir):
+    def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir):
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
         #self.prdconnection = ea.connect(PRDDATABASE)
@@ -55,8 +57,9 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
-        self.submit_all_images_in_LIGOxDES_footprint()
-        self.monitor_images_from_mountain()
+        #self.submit_all_images_in_LIGOxDES_footprint()
+        #self.monitor_images_from_mountain()
+        self.submit_post_processing()
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
     #  ALREADY IN FIREDLIST
@@ -307,10 +310,27 @@ class eventmanager:
             sys.exit()
             time.sleep(120)
 
+
     def submit_post_processing(self):
-        # FIRE TIM'S CODE
+        firedlist = open('./processing/firedlist.txt', 'r')
+        fl = firedlist.readlines()
+        firedlist.close()
+        expnumlist = ''
+        for f in fl:
+            expnumlist += f.strip()+' '
+
         print 'FIRING TIMs CODE'
-        pass
+
+        gwpostdir = os.environ['GWPOST_DIR']
+        print 'source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
+                        python '+os.path.join(gwpostdir,'postproc.py')\
+                         +' --expnums ' + expnumlist\
+                         + ' --outdir ' + os.path.join(trigger_path,trigger_id,'candidates')
+        # subprocess.Popen('source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
+        #                 python '+os.path.join(gwpostdir,'postproc.py')
+        #                  +' --expnums ' + expnumlist
+        #                  + ' --outdir ' )
+        return
 
     def getDatetimeOfFirstJson(self,jsonstring):
         js = jsonstring.split('UTC')[1]#-2015-12-27-3:2:00.json
@@ -329,6 +349,29 @@ class eventmanager:
     # EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
 
 
+def sendEmail(trigger_id):
+    import smtplib
+    from email.mime.text import MIMEText
+
+    text = 'Job Manager for Trigger ' + trigger_id + ' Has Ended!'
+    msg = MIMEText(text)
+
+    me = 'automated-desGW@fnal.gov'
+    if config.sendEveryoneEmails:
+        you = ['djbrout@gmail.com', 'marcelle@fnal.gov', 'annis@fnal.gov']
+    else:
+        you = ['djbrout@gmail.com']
+
+    for y in you:
+        msg['Subject'] = text
+        msg['From'] = me
+        msg['To'] = y
+
+        s = smtplib.SMTP('localhost')
+        s.sendmail(me, y, msg.as_string())
+        s.quit()
+    print 'Trigger email sent...'
+
 if __name__ == "__main__":
 
     try:
@@ -342,3 +385,26 @@ if __name__ == "__main__":
         print "Error : incorrect option or missing argument."
         print __doc__
         sys.exit(1)
+
+        # Read in config
+    with open("jobmanager.yaml", "r") as f:
+        config = yaml.safe_load(f);
+    # Set defaults to config
+    trigger_path = config["trigger_path"]
+    trigger_id = config["trigger_id"]
+
+
+    for o, a in opt:
+        print 'Option'
+        print o
+        print a
+        print '-----'
+        if o in ["-tp", "--triggerpath"]:
+            trigger_path = str(a)
+        elif o in ["-tid", "--triggerid"]:
+            trigger_id = str(a)
+
+    trigger_dir = os.path.join(trigger_path,trigger_id)
+    thisevent = eventmanager(trigger_id=trigger_id,triggerdir=trigger_dir,datadir='',jsonfilelist='')
+
+    sendEmail(trigger_id)
