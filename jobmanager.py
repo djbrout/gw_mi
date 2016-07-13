@@ -342,7 +342,7 @@ class eventmanager:
         #                  + ' --triggerid '+trigger_id+' --season 46 --ups True' )
 
         #pid = os.spawnlp(os.P_WAIT, "source", os.path.join(gwpostdir, 'diffimg_setup.sh'))
-        args = ['ssh -t desgw@des41.fnal.gov "source '+ os.path.join(gwpostdir, 'diffimg_setup.sh')+'; '+
+        args = ['ssh -t desgw@des41.fnal.gov "source '+ os.path.join(gwpostdir, 'mi_setup.sh')+'; '+
                 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
