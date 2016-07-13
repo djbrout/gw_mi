@@ -332,7 +332,7 @@ class eventmanager:
         print 'source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
-                         + ' --outdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
+                         + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
                          + ' --triggerid '+trigger_id+' --season 46'
         # subprocess.Popen('source ' + os.path.join(gwpostdir, 'setup.sh') + '; \
         #                 python '+os.path.join(gwpostdir,'postproc.py')
