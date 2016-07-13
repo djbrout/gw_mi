@@ -24,6 +24,7 @@ setup --nolocks gwpost
 setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
+setup --nolocks diffim gwdevel11
 
 source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
 setup jobsub_client
