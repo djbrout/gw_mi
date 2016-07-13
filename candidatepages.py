@@ -65,7 +65,7 @@ def makeNewPage(candidate_paramfile):
     diff = cand_params['diff']#this is a numpy array
 
 
-    mlscore = cand_params['mlscore']#this is a numpy array
+    mlscore = cand_params['photprob']#this is a numpy array
     diffmjd = cand_params['diffmjd']#this is a numpy array
     diffband = cand_params['diffband']#this is a numpy array
 
@@ -75,7 +75,7 @@ def makeNewPage(candidate_paramfile):
     ra = cand_params['ra']
     dec = cand_params['dec']
     lcplot = cand_params['lcplot']
-    peakmlscore = cand_params['peakmlscore']#i may be calculating this
+    peakmlscore = np.max(mlscore)
 
     #MAKE A DIRECTORY FOR THE CANDIDATE PAGE AND FILES
     outdir = 'DES_GW_Website/Candidates/'

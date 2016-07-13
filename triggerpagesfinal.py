@@ -30,7 +30,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
             candidates['dec'].append(cp['dec'])
             candidates['peakmag'].append(cp['peakmag'])
             candidates['peakmjd'].append(cp['peakmjd'])
-            candidates['mlscore'].append(cp['mlscore'])
+            candidates['mlscore'].append(cp['peakmlscore'])
 
     html = \
         '<!DOCTYPE html> \
