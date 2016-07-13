@@ -344,10 +344,9 @@ class eventmanager:
         #pid = os.spawnlp(os.P_WAIT, "source", os.path.join(gwpostdir, 'diffimg_setup.sh'))
         args = ["source", os.path.join(gwpostdir, 'diffimg_setup.sh')]
         print args
-        try:
-            p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE)
-        except:
-            pass
+
+        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+
         stdout, stderr = p.communicate()
         print stdout
         print stderr
