@@ -58,8 +58,9 @@ def makeNewPage(candidate_paramfile):
     mag = cand_params['x']*0-9
     nite = cand_params['nite']#this is a numpy array
     mjd = cand_params['mjd']#this is a numpy array
-    season = cand_params['season']#this is a numpy array
+    #season = cand_params['season']#this is a numpy array
     expnum = cand_params['expnum']#this is a numpy array
+    season = np.array(['46' for i in band],dtype='str')
     ccdnum = cand_params['ccdnum']#this is a numpy array
 
     #TABLE 2
