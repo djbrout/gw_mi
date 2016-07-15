@@ -49,7 +49,7 @@ def makeNewPage(candidate_paramfile):
         print 'could not find candidate param file'
         return
 
-    print cand_params.values()
+    #print cand_params.values()
     print cand_params.keys()
 
     band = cand_params['band'] #this is a numpy array
