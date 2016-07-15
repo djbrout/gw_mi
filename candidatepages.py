@@ -434,4 +434,5 @@ def mjd_to_datetime(mjd):
 
 
 if __name__ == '__main__':
+    makeNewPage('/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/candidates/101902.0.npz'):
     pass
