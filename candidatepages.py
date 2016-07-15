@@ -49,8 +49,9 @@ def makeNewPage(candidate_paramfile):
         print 'could not find candidate param file'
         return
 
-    print cand_params
+    print cand_params.values()
     print cand_params.keys()
+
     band = cand_params['band'] #this is a numpy array
     xs = cand_params['x']#this is a numpy array
     ys = cand_params['y']#this is a numpy array
@@ -83,12 +84,12 @@ def makeNewPage(candidate_paramfile):
     peakmlscore = np.max(mlscore)
 
     #MAKE A DIRECTORY FOR THE CANDIDATE PAGE AND FILES
-    outdir = 'DES_GW_Website/Candidates/'
+    outdir = './DES_GW_Website/Candidates/'
     outfile = outdir+'DES'+str(candidate_id)+'.html'
-    outimages = 'DES_GW_Website/Candidates/'+str(candidate_id)+'/images/'
+    outimages = './DES_GW_Website/Candidates/'+str(candidate_id)+'/images/'
 
-    trigger_cand_dir = 'DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'
-    trigger_cand_file = 'DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'+str(candidate_id)+'.npz'
+    trigger_cand_dir = './DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'
+    trigger_cand_file = './DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'+str(candidate_id)+'.npz'
     if not os.path.exists(trigger_cand_dir):
         os.mkdir(trigger_cand_dir)
 
