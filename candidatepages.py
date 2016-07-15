@@ -102,8 +102,8 @@ def makeNewPage(candidate_paramfile):
              ra=str(round(float(ra),3)),
              dec=str(round(float(dec),3)),
              mlscore=str(round(float(peakmlscore),2)),
-             peakmag=str(round(np.max(np.float(mag)),2)),
-             peakmjd=str(round(float(mjd[np.argmax(np.float(mag))]),2))
+             peakmag=str(round(max(mag),2)),
+             peakmjd=str(round(float(mjd[np.argmax(mag)]),2))
              )
 
 
