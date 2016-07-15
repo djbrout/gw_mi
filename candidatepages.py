@@ -129,17 +129,17 @@ def makeNewPage(candidate_paramfile):
         searchs[i] = sout
         if s is None:
             s = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+s+' '+outimages+sout)
+        os.system('cp '+os.path.join(trigger_cand_dir,s)+' '+outimages+sout)
         tout = t.split('/')[-1]
         templates[i] = tout
         if t is None:
             t = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+t+' '+outimages+tout)
+        os.system('cp '+os.path.join(trigger_cand_dir,t)+' '+outimages+tout)
         dout = d.split('/')[-1]
         diffs[i] = dout
         if d is None:
             d = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+d+' '+outimages+dout)
+        os.system('cp '+os.path.join(trigger_cand_dir,d)+' '+outimages+dout)
 
     search = searchs
     template = template
