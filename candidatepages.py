@@ -65,7 +65,7 @@ def makeNewPage(candidate_paramfile):
 
     #TABLE 2
     search = cand_params['search']#this is a numpy array
-    template = cand_params['template']#this is a numpy array
+    template = cand_params['temp']#this is a numpy array
     diff = cand_params['diff']#this is a numpy array
 
 
