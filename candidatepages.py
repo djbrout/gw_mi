@@ -54,7 +54,8 @@ def makeNewPage(candidate_paramfile):
     band = cand_params['band'] #this is a numpy array
     xs = cand_params['x']#this is a numpy array
     ys = cand_params['y']#this is a numpy array
-    mag = cand_params['mag']#this is a numpy array
+    #mag = cand_params['mag']#this is a numpy array
+    mag = cand_params['x']*0-9
     nite = cand_params['nite']#this is a numpy array
     mjd = cand_params['mjd']#this is a numpy array
     season = cand_params['season']#this is a numpy array
