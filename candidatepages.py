@@ -49,6 +49,8 @@ def makeNewPage(candidate_paramfile):
         print 'could not find candidate param file'
         return
 
+    print cand_params
+    print cand_params.keys()
     band = cand_params['band'] #this is a numpy array
     xs = cand_params['x']#this is a numpy array
     ys = cand_params['y']#this is a numpy array
@@ -87,6 +89,10 @@ def makeNewPage(candidate_paramfile):
     trigger_cand_file = 'DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'+str(candidate_id)+'.npz'
     if not os.path.exists(trigger_cand_dir):
         os.mkdir(trigger_cand_dir)
+
+    print outfile
+    print outimages
+    print trigger_cand_file
 
     np.savez(trigger_cand_file,
              id=str(candidate_id),
@@ -132,6 +138,8 @@ def makeNewPage(candidate_paramfile):
     template = template
     diff = diffs
 
+    print search
+    raw_input()
     html = '\<!DOCTYPE html> \
         <html lang="en" style="height:100%;">\
         <head> \
@@ -434,5 +442,5 @@ def mjd_to_datetime(mjd):
 
 
 if __name__ == '__main__':
-    makeNewPage('/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/candidates/101902.0.npz'):
+    makeNewPage('/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/candidates/101902.0.npz')
     pass
