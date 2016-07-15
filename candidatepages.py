@@ -49,6 +49,8 @@ def makeNewPage(candidate_paramfile):
         print 'could not find candidate param file'
         return
 
+    candidate_paramfile_dir = '/'.join(candidate_paramfile.split('/')[:-1])
+
     #print cand_params.values()
     print cand_params.keys()
 
@@ -117,7 +119,7 @@ def makeNewPage(candidate_paramfile):
         os.mkdir(outimages)
 
     print lcplot,outimages
-    os.system('cp '+str(lcplot)+' '+str(outimages)+'lightcurve.png')
+    os.system('cp '+os.path.join(candidate_paramfile_dir,str(lcplot))+' '+str(outimages)+'lightcurve.png')
     searchs = copy(search)
     templates = copy(template)
     diffs = copy(diff)
@@ -129,17 +131,17 @@ def makeNewPage(candidate_paramfile):
         searchs[i] = sout
         if s is None:
             s = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+os.path.join(trigger_cand_dir,s)+' '+outimages+sout)
+        os.system('cp '+os.path.join(candidate_paramfile_dir,s)+' '+outimages+sout)
         tout = t.split('/')[-1]
         templates[i] = tout
         if t is None:
             t = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+os.path.join(trigger_cand_dir,t)+' '+outimages+tout)
+        os.system('cp '+os.path.join(candidate_paramfile_dir,t)+' '+outimages+tout)
         dout = d.split('/')[-1]
         diffs[i] = dout
         if d is None:
             d = 'DES_GW_Website/image_placeholder.png'
-        os.system('cp '+os.path.join(trigger_cand_dir,d)+' '+outimages+dout)
+        os.system('cp '+os.path.join(candidate_paramfile_dir,d)+' '+outimages+dout)
 
     search = searchs
     template = template
