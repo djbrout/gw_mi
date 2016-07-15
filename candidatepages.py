@@ -117,7 +117,7 @@ def makeNewPage(candidate_paramfile):
         os.mkdir(outimages)
 
     print lcplot,outimages
-    os.system('cp '+lcplot+' '+outimages+'lightcurve.png')
+    os.system('cp '+str(lcplot)+' '+str(outimages)+'lightcurve.png')
     searchs = copy(search)
     templates = copy(template)
     diffs = copy(diff)
