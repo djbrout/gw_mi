@@ -86,7 +86,7 @@ def makeNewPage(candidate_paramfile):
     #MAKE A DIRECTORY FOR THE CANDIDATE PAGE AND FILES
     outdir = './DES_GW_Website/Candidates/'
     outfile = outdir+'DES'+str(candidate_id)+'.html'
-    outcand = './DES_GW_Website/Candidates/'+str(candidate_id)+'/
+    outcand = './DES_GW_Website/Candidates/'+str(candidate_id)+'/'
     outimages = './DES_GW_Website/Candidates/'+str(candidate_id)+'/images/'
 
     trigger_cand_dir = './DES_GW_Website/Triggers/'+str(trigger_id)+'/candidate_param_files/'
