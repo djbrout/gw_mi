@@ -71,8 +71,8 @@ def makeNewPage(candidate_paramfile):
 
     mlscore = cand_params['photprob']#this is a numpy array
     obsid = cand_params['thisobs_ID']
-    diffmjd = cand_params['diffmjd']#this is a numpy array
-    diffband = cand_params['diffband']#this is a numpy array
+    #diffmjd = cand_params['diffmjd']#this is a numpy array
+    #diffband = cand_params['diffband']#this is a numpy array
 
     candidate_id = cand_params['candid']
     trigger_id = cand_params['trigger_id']
