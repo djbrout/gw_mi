@@ -116,6 +116,7 @@ def makeNewPage(candidate_paramfile):
     if not os.path.exists(outimages):
         os.mkdir(outimages)
 
+    print lcplot,outimages
     os.system('cp '+lcplot+' '+outimages+'lightcurve.png')
     searchs = copy(search)
     templates = copy(template)
