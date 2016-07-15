@@ -74,8 +74,8 @@ def makeNewPage(candidate_paramfile):
     #diffmjd = cand_params['diffmjd']#this is a numpy array
     #diffband = cand_params['diffband']#this is a numpy array
 
-    candidate_id = cand_params['candid']
-    trigger_id = cand_params['trigger_id']
+    candidate_id = candidate_paramfile.split('/')[-1].split('.')[0]#cand_params['candid']
+    trigger_id = 'TEST'#cand_params['trigger_id']
     field = cand_params['field']
     ra = cand_params['ra']
     dec = cand_params['dec']
