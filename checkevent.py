@@ -79,6 +79,7 @@ def process_gcn(payload, root):
     # Respond only to 'test' events.
     # VERY IMPORTANT! Replce with the following line of code
     # to respond to only real 'observation' events. DO SO IN CONFIG FILE
+    print payload
     print 'GOT GCN LIGO EVENT'
     if config.mode.lower() == 'test':
         pass
@@ -205,7 +206,7 @@ def process_gcn(payload, root):
              nHexes = event_params['nHexes'],
              CentralFreq = event_params['CentralFreq'],
              time_processed = event_params['time_processed'],
-             boc = event_params['boc']
+             boc = event_params['boc'],
              mapname= mapname
              )
 
