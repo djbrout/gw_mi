@@ -191,7 +191,7 @@ def process_gcn(payload, root):
     open(os.path.join(outfolder,trigger_id+'_eventMJD.txt'), 'w').write(str(trigger_mjd))
     
     # Read sky map
-    skymap, header, mapname = get_skymap(root,outfolder,trigger_id,skymap_url,outfolder) 
+    skymap, header, mapname = get_skymap(skymap_url,outfolder)
 
 
     np.savez(event_paramfile,

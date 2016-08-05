@@ -1,5 +1,5 @@
-# Alex & Yuanyan's Anaconda                                                                                                                                                      \
-                                                                                                                                                                                  
+# Alex & Yuanyan's Anaconda                                                                                                                                          
+                                                                                                                                                                 
 export CONDA_DIR=/cvmfs/des.opensciencegrid.org/fnal/anaconda2/
 export PATH=/cvmfs/des.opensciencegrid.org/fnal/anaconda2/bin:$PATH
 alias alexpy="source activate default"
@@ -12,10 +12,10 @@ setup matplotlib
 setup astropy
 setup fitsio
 
-setup healpy #MUST BE LAST                                                                                                                                                        
+setup healpy #MUST BE LAST                                                                                                                                             
 
 
-# tHis is for kcorrect c scripts                                                                                                                                                  
+
 KCORRECT_DIR=$HOME/kcorrect
 PATH=$KCORRECT_DIR/bin:$PATH
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$KCORRECT_DIR/lib
@@ -28,7 +28,7 @@ echo ''
 echo ''
 echo "Setting up DESGW environment..."
 
-cd /data/des41.a/data/desgw/gw_mi
+#cd /data/des41.a/data/desgw/gw_mi
 
 source /cvmfs/des.opensciencegrid.org/eeups/startup.sh
 
