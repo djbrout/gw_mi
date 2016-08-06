@@ -31,7 +31,7 @@ skipAll : False
 ####Only used for running recycler.py standalone!####
 
 trigger_id : "M189424"
-wrap_all_triggers : False
+wrap_all_triggers : True
 
 mjd : 57382.152
 force_mjd : True
