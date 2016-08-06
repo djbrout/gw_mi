@@ -130,10 +130,10 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                     <div class="container text-center">\
                         <div class="gallery-item" style="width: 50%; left: 50%; margin-right: -50%; transform: translate(50%, 0%)">\
                          <div class="gallery-thumb" >\
-                            <img name="Trigger" src="images/'+str(trigger_id)+'-observingPlot.png" class="img-responsive" alt="2nd gallery Thumb" width="50%">\
+                            <img name="Trigger" src="images/'+str(trigger_id)+'-observingPlot.gif" class="img-responsive" alt="2nd gallery Thumb" width="50%">\
                             <div class="image-overlay"></div>\
-                            <a href="images/'+str(trigger_id)+'-observingPlot.png" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
-                            <a href="images/'+str(trigger_id)+'-probabilityPlot.png" download class="gallery-link"><i class="fa fa-link"></i></a>\
+                            <a href="images/'+str(trigger_id)+'-observingPlot.gif" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
+                            <a href="images/'+str(trigger_id)+'-observingPlot.gif" download class="gallery-link"><i class="fa fa-link"></i></a>\
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\

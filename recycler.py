@@ -282,6 +282,10 @@ class event:
         map_dir = self.mapspath
 
         if self.n_slots > 0:
+            print 'Converting Observing Plots to .gif'
+            os.system('convert -delay 70 -loop 0 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-*.png '+
+                      os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
+            os.system('cp '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif '+ image_dir)
             iname = self.trigger_id + "-" + str(self.best_slot) + "-maglim-eq.png"
             oname = self.trigger_id + "_limitingMagMap.png"
             os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
