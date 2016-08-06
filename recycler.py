@@ -191,6 +191,7 @@ class event:
             print '888' * 20
             n_plots = getHexObservations.makeObservingPlots(
                 n_slots, trigger_id, best_slot, outputDir, mapDir)
+            self.integrated_prob = getHexObservations.
         except:
             e = sys.exc_info()
             trace = traceback.format_exc(sys.exc_info())
@@ -215,7 +216,9 @@ class event:
                  , need_area=need_area
                  , quality=quality
                  )
-
+        ra, dec, self.prob, mjd, slotNum = \
+            getHexObservations.readObservingRecord(self.trigger_id, map_dir)
+        integrated_prob = np.sum(self.prob)
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
                      MJD=self.event_params['MJD'],
@@ -223,7 +226,7 @@ class event:
                      FAR=self.event_params['FAR'],
                      ChirpMass=self.event_params['ChirpMass'],
                      MaxDistance=self.event_params['MaxDistance'],
-                     integrated_prob=econ_prob,
+                     integrated_prob=integrated_prob,
                      M1=self.event_params['M1'],
                      M2=self.event_params['M2'],
                      nHexes=maxHexesPerSlot*n_slots,
@@ -251,7 +254,7 @@ class event:
                      FAR='NAN',
                      ChirpMass='NAN',
                      MaxDistance='NAN',
-                     integrated_prob=econ_prob,
+                     integrated_prob=integrated_prob,
                      M1='NAN',
                      M2='NAN',
                      nHexes=maxHexesPerSlot*n_slots,
@@ -417,12 +420,12 @@ class event:
 
         if self.n_slots > 0:
             # get statistics
-            ra, dec, prob, mjd, slotNum = \
+            ra, dec, self.prob, mjd, slotNum = \
                 getHexObservations.readObservingRecord(self.trigger_id, map_dir)
 
             # adding integrated probability to paramfile
-            integrated_prob = np.sum(prob)
-            nHexes = str(prob.size)
+            integrated_prob = np.sum(self.prob)
+            nHexes = str(self.prob.size)
         else:
             integrated_prob = 0
             nHexes = str(0)
