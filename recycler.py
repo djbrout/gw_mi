@@ -23,7 +23,7 @@ class event:
 
         season_start_date = datetime.datetime.strptime(config["start_of_season_date"], "%m/%d/%Y")
         now = datetime.datetime.now()
-
+        self.now = now
         if config["force_recycler_mjd"]:
             self.recycler_mjd = config["recycler_mjd"]
         else:
@@ -99,8 +99,8 @@ class event:
 
         # make the maps
         try:
-            # where = 'getHexObservations.prepare()'
-            # line = '94'
+            where = 'getHexObservations'
+            line = '103'
             probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                 skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
                 exposure_list=exposure_length, filter_list=filter_list,
@@ -223,12 +223,12 @@ class event:
                      FAR=self.event_params['FAR'],
                      ChirpMass=self.event_params['ChirpMass'],
                      MaxDistance=self.event_params['MaxDistance'],
-                     integrated_prob=integrated_prob,
+                     integrated_prob=econ_prob,
                      M1=self.event_params['M1'],
                      M2=self.event_params['M2'],
-                     nHexes=nHexes,
-                     time_processed=timeprocessed,
-                     boc=boc,
+                     nHexes=self.event_params['nHexes'],
+                     time_processed=self.now.strftime("%H %M %B %d, %Y "),
+                     boc=self.event_params['boc'],
                      CentralFreq=self.event_params['CentralFreq'],
                      best_slot=self.best_slot,
                      n_slots=self.n_slots,
@@ -238,8 +238,8 @@ class event:
                      need_area=self.need_area,
                      quality=self.quality,
                      codeDistance=self.distance,
-                     exposure_times=exptimes,
-                     exposure_filter=expf,
+                     exposure_times=exposure_length,
+                     exposure_filter=filter_list,
                      hours=config['time_budget'],
                      nvisits=config['nvisits'],
                      mapname='NAN'
@@ -251,12 +251,12 @@ class event:
                      FAR='NAN',
                      ChirpMass='NAN',
                      MaxDistance='NAN',
-                     integrated_prob=integrated_prob,
+                     integrated_prob=econ_prob,
                      M1='NAN',
                      M2='NAN',
-                     nHexes=nHexes,
-                     time_processed=timeprocessed,
-                     boc=boc,
+                     nHexes=self.event_params['nHexes'],
+                     time_processed=self.now.strftime("%H %M %B %d, %Y "),
+                     boc=self.event_params['nHexes'],
                      CentralFreq='NAN',
                      best_slot=self.best_slot,
                      n_slots=self.n_slots,
@@ -266,8 +266,8 @@ class event:
                      need_area=self.need_area,
                      quality=self.quality,
                      codeDistance=self.distance,
-                     exposure_times=exptimes,
-                     exposure_filter=expf,
+                     exposure_times=exposure_length,
+                     exposure_filter=filter_list,
                      hours=config['time_budget'],
                      nvisits=config['nvisits'],
                      mapname='NAN'
