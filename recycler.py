@@ -649,12 +649,12 @@ if __name__ == "__main__":
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
 
-            eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
-                                                            os.path.join(trigger_path, trigger_id, 'maps')))
-            eventmngr.start()
+            #eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
+            #                                                os.path.join(trigger_path, trigger_id, 'maps')))
+            #eventmngr.start()
 
             e.send_nonurgent_Email()
-            eventmngr.join()
+            #eventmngr.join()
 
         except KeyError:
             print "Unexpected error:", sys.exc_info()

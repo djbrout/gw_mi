@@ -6,7 +6,7 @@ hours_available = 3.  # how many hours are we going to observe on night 1
 ####Only used for testing####
 test_mjd = 55458.4629
 trigger_id = "G211117"
-wrap_all_triggers = False
+wrap_all_triggers = True
 force_mjd = False
 #############################
 
