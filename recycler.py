@@ -191,7 +191,7 @@ class event:
             print '888' * 20
             n_plots = getHexObservations.makeObservingPlots(
                 n_slots, trigger_id, best_slot, outputDir, mapDir)
-            self.integrated_prob = getHexObservations.
+
         except:
             e = sys.exc_info()
             trace = traceback.format_exc(sys.exc_info())
@@ -216,8 +216,10 @@ class event:
                  , need_area=need_area
                  , quality=quality
                  )
+
         ra, dec, self.prob, mjd, slotNum = \
-            getHexObservations.readObservingRecord(self.trigger_id, map_dir)
+            getHexObservations.readObservingRecord(self.trigger_id, mapDir)
+
         integrated_prob = np.sum(self.prob)
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
