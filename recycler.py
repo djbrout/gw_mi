@@ -223,7 +223,7 @@ class event:
                      FAR=self.event_params['FAR'],
                      ChirpMass=self.event_params['ChirpMass'],
                      MaxDistance=self.event_params['MaxDistance'],
-                     integrated_prob=econ_prob,
+                     integrated_prob=np.sum(probs),
                      M1=self.event_params['M1'],
                      M2=self.event_params['M2'],
                      nHexes=maxHexesPerSlot*n_slots,
@@ -251,7 +251,7 @@ class event:
                      FAR='NAN',
                      ChirpMass='NAN',
                      MaxDistance='NAN',
-                     integrated_prob=econ_prob,
+                     integrated_prob=np.sum(probs),
                      M1='NAN',
                      M2='NAN',
                      nHexes=maxHexesPerSlot*n_slots,
@@ -443,7 +443,7 @@ class event:
                 os.chmod(self.mapspath, 0o777)
                 for js in os.listdir(self.mapspath):
                     os.chmod(os.path.join(self.mapspath,js), 0o777)
-                os.remove(jsonFile)
+
                 os.system('zip -j ' + jsonFile + ' ' + self.mapspath + '/*0.json')
                 # except:
                 #    print "no jsonFiles at ", jsonFile
