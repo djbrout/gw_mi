@@ -20,20 +20,20 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
         processing = None
 
     candidates = {'id':[],'ra':[],'dec':[],'peakmag':[],'peakmjd':[],'mlscore':[]}
-    try:
-        candidate_param_files = os.listdir('DES_GW_Website/Triggers/'+trigger_id+'/candidate_param_files/')
-    except OSError:
-        candidate_param_files = []
-    if len(candidate_param_files) > 0:
-        for cpf in candidate_param_files:
-            cp = np.load(cpf)
-            candidates['id'].append(cp['id'])
-            candidates['ra'].append(cp['ra'])
-            candidates['dec'].append(cp['dec'])
-            candidates['peakmag'].append(cp['peakmag'])
-            candidates['peakmjd'].append(cp['peakmjd'])
-            candidates['mlscore'].append(cp['peakmlscore'])
-
+    # try:
+    #     candidate_param_files = os.listdir('DES_GW_Website/Triggers/'+trigger_id+'/candidate_param_files/')
+    #
+    #     if len(candidate_param_files) > 0:
+    #         for cpf in candidate_param_files:
+    #             cp = np.load(cpf)
+    #             candidates['id'].append(cp['id'])
+    #             candidates['ra'].append(cp['ra'])
+    #             candidates['dec'].append(cp['dec'])
+    #             candidates['peakmag'].append(cp['peakmag'])
+    #             candidates['peakmjd'].append(cp['peakmjd'])
+    #             candidates['mlscore'].append(cp['peakmlscore'])
+    # except OSError:
+    #     candidate_param_files = []
     html = \
         '<!DOCTYPE html> \
         <html lang="en" style="height:100%;">\
