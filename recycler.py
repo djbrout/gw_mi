@@ -618,7 +618,7 @@ if __name__ == "__main__":
             try:
                 mjd = open(os.path.join(trigger_path, trigger_id, trigger_id + '_eventMJD.txt'), 'r').read()
             except:
-                mjd = 'asdf'
+                mjd = '99999'
         if skymap_filename is None:
             try:
                 mapname = open(os.path.join(trigger_path,
