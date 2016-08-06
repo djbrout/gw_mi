@@ -20,8 +20,10 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
         processing = None
 
     candidates = {'id':[],'ra':[],'dec':[],'peakmag':[],'peakmjd':[],'mlscore':[]}
-
-    candidate_param_files = os.listdir('DES_GW_Website/Triggers/'+trigger_id+'/candidate_param_files/')
+    try:
+        candidate_param_files = os.listdir('DES_GW_Website/Triggers/'+trigger_id+'/candidate_param_files/')
+    except OSError:
+        candidate_param_files = []
     if len(candidate_param_files) > 0:
         for cpf in candidate_param_files:
             cp = np.load(cpf)
