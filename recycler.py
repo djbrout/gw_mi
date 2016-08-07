@@ -101,11 +101,17 @@ class event:
         try:
             where = 'getHexObservations'
             line = '103'
-            probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
-                skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
-                exposure_list=exposure_length, filter_list=filter_list,
-                overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
-
+            try:
+                probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
+                    skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
+                    exposure_list=exposure_length, filter_list=filter_list,
+                    overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
+            except ValueError:
+                skymap = os.path.join(outputDir,config['default_map_name'])
+                probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
+                    skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
+                    exposure_list=exposure_length, filter_list=filter_list,
+                    overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
             # line = '102'
