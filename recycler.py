@@ -15,8 +15,11 @@ sys.path.append("/data/des41.a/data/desgw/")
 class event:
     def __init__(self, skymap_filename, outfolder, trigger_id, mjd, config):
 
-        #self.skymap = skymap_filename
-        self.skymap = os.path.join(outfolder, config['default_map_name'])
+        self.skymap = os.path.join(outfolder, 'lalinference.fits.gz')
+        if not os.path.exists(self.skymap):
+            self.skymap = os.path.join(outfolder, 'bayestar.fits.gz')
+
+        #self.skymap = os.path.join(outfolder, config['default_map_name'])
         self.outfolder = outfolder
         self.trigger_id = trigger_id
         self.mjd = mjd
