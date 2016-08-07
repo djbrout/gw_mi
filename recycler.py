@@ -599,7 +599,8 @@ if __name__ == "__main__":
 
     # Override defaults with command line arguments
     # THESE NOT GUARANTEED TO WORK EVER SINCE WE SWITCHED TO YAML
-    '''
+
+    dontwrap = False
     for o,a in opt:
         print 'Option'
         print o
@@ -609,6 +610,7 @@ if __name__ == "__main__":
             trigger_path = str(a)
         elif o in ["-tid","--triggerid"]:
             trigger_ids = [str(a)]
+            dontwrap = True
         elif o in ["-mjd","--mjd"]:
             mjd = float(a)
         elif o in ["-exp","--exposure_length"]:
@@ -619,15 +621,16 @@ if __name__ == "__main__":
             skymap_filename = str(a)
         else:
             print "Warning: option", o, "with argument", a, "is not recognized"
-    '''
+
     # Clear bad triggers, only used for wrapping all triggers...
     badtriggers = open('badtriggers.txt', 'w')
     badtriggers.close()
 
     ####### BIG MONEY NO WHAMMIES ###############################################
     if config["wrap_all_triggers"]:
-        trigger_ids = os.listdir(trigger_path)
-        trigger_ids = trigger_ids[2:]
+        if not dontwrap:
+            trigger_ids = os.listdir(trigger_path)
+            trigger_ids = trigger_ids[2:]
     for trigger_id in trigger_ids:
         if force_mjd:
             mjd = config["mjd"]
