@@ -112,9 +112,9 @@ class event:
             #        overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             #except ValueError:
 
-            print 'skymap',skymap
+            print 'skymap',self.skymap
             probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
-                    skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
+                    self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
                     exposure_list=exposure_length, filter_list=filter_list,
                     overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
