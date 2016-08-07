@@ -621,6 +621,7 @@ if __name__ == "__main__":
     ####### BIG MONEY NO WHAMMIES ###############################################
     if config["wrap_all_triggers"]:
         trigger_ids = os.listdir(trigger_path)
+        trigger_ids = trigger_ids[2:]
     for trigger_id in trigger_ids:
         if force_mjd:
             mjd = config["mjd"]
