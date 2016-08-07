@@ -15,7 +15,8 @@ sys.path.append("/data/des41.a/data/desgw/")
 class event:
     def __init__(self, skymap_filename, outfolder, trigger_id, mjd, config):
 
-        self.skymap = skymap_filename
+        #self.skymap = skymap_filename
+        self.skymap = os.path.join(outfolder, config['default_map_name'])
         self.outfolder = outfolder
         self.trigger_id = trigger_id
         self.mjd = mjd
@@ -107,7 +108,7 @@ class event:
             #        exposure_list=exposure_length, filter_list=filter_list,
             #        overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             #except ValueError:
-            skymap = os.path.join(outputDir,config['default_map_name'])
+
             print 'skymap',skymap
             probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
