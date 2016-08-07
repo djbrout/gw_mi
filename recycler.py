@@ -261,7 +261,7 @@ class event:
                      M2='NAN',
                      nHexes=self.prob.size,
                      time_processed=self.now.strftime("%H:%M %B %d, %Y "),
-                     boc=self.event_params['nHexes'],
+                     boc=self.event_params['boc'],
                      CentralFreq='NAN',
                      best_slot=self.best_slot,
                      n_slots=self.n_slots,
