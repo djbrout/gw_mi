@@ -15,10 +15,12 @@ sys.path.append("/data/des41.a/data/desgw/")
 class event:
     def __init__(self, skymap_filename, outfolder, trigger_id, mjd, config):
 
-        self.skymap = os.path.join(outfolder, 'lalinference.fits.gz')
-        if not os.path.exists(self.skymap):
-            self.skymap = os.path.join(outfolder, 'bayestar.fits.gz')
-
+        #self.skymap = os.path.join(outfolder, 'lalinference.fits.gz')
+        #if not os.path.exists(self.skymap):
+        #    self.skymap = os.path.join(outfolder, 'bayestar.fits.gz')
+        self.skymap = skymap_filename
+        print 'skymappp'*10
+        print self.skymap
         #self.skymap = os.path.join(outfolder, config['default_map_name'])
         self.outfolder = outfolder
         self.trigger_id = trigger_id
@@ -28,6 +30,7 @@ class event:
         season_start_date = datetime.datetime.strptime(config["start_of_season_date"], "%m/%d/%Y")
         now = datetime.datetime.now()
         self.now = now
+        if config["force_recycler_mjd"]:
         if config["force_recycler_mjd"]:
             self.recycler_mjd = config["recycler_mjd"]
         else:
@@ -646,11 +649,11 @@ if __name__ == "__main__":
                 mjd = '99999'
         if skymap_filename is None:
             try:
-                mapname = open(os.path.join(trigger_path,
-                                            trigger_id,
-                                            'default_skymap.txt'), 'r').read()
+                #mapname = open(os.path.join(trigger_path,
+                #                            trigger_id,
+                #                            config['default_map_name']), 'r').read()
                 skymap_filename = os.path.join(trigger_path,
-                                               trigger_id, mapname)
+                                               trigger_id, config['default_map_name'])
             except:
                 badtriggers = open('badtriggers.txt', 'a')
                 badtriggers.write(trigger_id + '\n')
