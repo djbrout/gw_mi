@@ -31,7 +31,6 @@ class event:
         now = datetime.datetime.now()
         self.now = now
         if config["force_recycler_mjd"]:
-        if config["force_recycler_mjd"]:
             self.recycler_mjd = config["recycler_mjd"]
         else:
             self.recycler_mjd = config["start_of_season"] + (now - season_start_date).days
