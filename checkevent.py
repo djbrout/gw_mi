@@ -126,7 +126,7 @@ def process_gcn(payload, root):
     print('Trigger outpath')
     outfolder = os.path.join(config.trigger_outpath,trigger_id)
     print(outfolder)
-    skymap_filename = os.path.join(outfolder,trigger_id+'_'+skymap_url.split('/')[-1])
+    skymap_filename = os.path.join(outfolder,skymap_url.split('/')[-1])
     #skymap_filename = os.path.join(config.trigger_outpath,trigger_id,skymap_name)
     if not os.path.exists(outfolder):
         os.makedirs(outfolder)
