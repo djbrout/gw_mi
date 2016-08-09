@@ -137,8 +137,44 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
-                        <h2></h2>\
-                        <h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
+                        <h2></h2>'
+
+        if 'bayestar' in event_params['filename']:
+            html+='<h2><div class="btn-group">\
+                        < button\
+                        type = "button"\
+                        style = "width:260px; background-color:white; color:black"\
+                        class ="btn btn-outline btn-outline-xl outline-light" > Bayestar < / button >\
+                        < button\
+                        type = "button"\
+                        style = "width:260px; background-color:transparent; color:white"\
+                        class ="btn btn-outline btn-outline-xl outline-light" > Lalinference < / button >\
+                        < / div > < / h2 >'
+        elif 'lalinference' in event_params['filename']:
+            html += '<h2><div class="btn-group">\
+                < button\
+                type = "button"\
+                style = "width:260px; background-color:transparent; color:white"\
+                class ="btn btn-outline btn-outline-xl outline-light" > Bayestar < / button >\
+                < button\
+                type = "button"\
+                style = "width:260px; background-color:white; color:black"\
+                class ="btn btn-outline btn-outline-xl outline-light" > Lalinference < / button >\
+                < / div > < / h2 >'
+        else:
+            html += '<h2><div class="btn-group">\
+                < button\
+                type = "button"\
+                style = "width:260px; background-color:transparent; color:white"\
+                class ="btn btn-outline btn-outline-xl outline-light" > Bayestar < / button >\
+                < button\
+                type = "button"\
+                style = "width:260px; background-color:transparent; color:white"\
+                class ="btn btn-outline btn-outline-xl outline-light" > Lalinference < / button >\
+                < / div > < / h2 >'
+
+
+        html +='<h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
                         <h2>Last Processed: '+str(event_params['time_processed'])+'</h2>\
                         <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</h2>\
                         <h2>Type: '+str(event_params['boc'])+'</h2>\
