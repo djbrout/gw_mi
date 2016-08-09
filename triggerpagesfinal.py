@@ -138,6 +138,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
                         <h2></h2>'
+    print event_params['filename']*500
     if 'bayestar' in event_params['filename']:
             html+='<h2><div class="btn-group">\
                         <button\
