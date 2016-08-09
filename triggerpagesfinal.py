@@ -139,38 +139,39 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <h1>Trigger '+str(trigger_id)+'</h1>\
                         <h2></h2>'
     print 'eventparamsfilename',event_params['filename']
+    print 'bayestar' in event_params['filename']
     if 'bayestar' in event_params['filename']:
             html+='<h2><div class="btn-group">\
                         <button\
                         type = "button"\
-                        style = "width:260px; background-color:white; color:black"\
-                        class ="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
+                        style="width:260px; background-color:white; color:black"\
+                        class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
                         <button\
-                        type = "button"\
-                        style = "width:260px; background-color:transparent; color:white"\
-                        class ="btn btn-outline btn-outline-xl outline-light" > Lalinference </button>\
+                        type="button"\
+                        style="width:260px; background-color:transparent; color:white"\
+                        class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
                         </div> </h2>'
     elif 'lalinference' in event_params['filename']:
             html += '<h2><div class="btn-group">\
                 <button\
-                type = "button"\
-                style = "width:260px; background-color:transparent; color:white"\
-                class ="btn btn-outline btn-outline-xl outline-light" > Bayestar </button>\
+                type="button"\
+                style="width:260px; background-color:transparent; color:white"\
+                class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
                 <button\
-                type = "button"\
-                style = "width:260px; background-color:white; color:black"\
-                class ="btn btn-outline btn-outline-xl outline-light" > Lalinference </button>\
-                </div> </h2>'
+                type="button"\
+                style="width:260px; background-color:white; color:black"\
+                class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
+                </div></h2>'
     else:
             html += '<h2><div class="btn-group">\
                 <button\
-                type = "button"\
-                style = "width:260px; background-color:transparent; color:white"\
-                class ="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
+                type="button"\
+                style="width:260px; background-color:transparent; color:white"\
+                class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
                 <button\
-                type = "button"\
-                style = "width:260px; background-color:transparent; color:white"\
-                class ="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
+                type="button"\
+                style="width:260px; background-color:transparent; color:white"\
+                class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
                 </div> </h2>'
 
 
