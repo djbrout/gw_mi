@@ -138,9 +138,8 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
                         <h2></h2>'
-    print 'eventparamsfilename',event_params['filename']
-    print 'bayestar' in event_params['filename']
-    if 'bayestar' in event_params['filename']:
+
+    if 'bayestar' in str(event_params['filename']):
             html+='<h2><div class="btn-group">\
                         <button\
                         type = "button"\
@@ -151,7 +150,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         style="width:260px; background-color:transparent; color:white"\
                         class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
                         </div> </h2>'
-    elif 'lalinference' in event_params['filename']:
+    elif 'lalinference' in str(event_params['filename']):
             html += '<h2><div class="btn-group">\
                 <button\
                 type="button"\
