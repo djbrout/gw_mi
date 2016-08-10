@@ -37,8 +37,8 @@ export EUPS_PATH=${EUPS_PATH}:/data/des41.a/data/desgw/osgsetup/eeups/fnaleups
 export DES_SERVICES=/data/des41.a/data/desgw/maininjector_devel_dillon/diffim_db_files/desservices.ini
 export PYTHON_PATH=${PYTHON_PATH}:/data/des41.a/data/desgw/
 
-export DESGW_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.3
-export DESGW_DATA_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.3/data/
+export DESGW_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.4
+export DESGW_DATA_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.4/data/
 
 setup --nolocks pyslalib
 setup --nolocks pygcn
