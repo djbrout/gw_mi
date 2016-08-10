@@ -13,6 +13,7 @@ import requests
 import healpy as hp
 import subprocess
 #from astropy.time import Time
+import time
 import checkevent_config as config
 
 def sendFirstTriggerEmail(trigger_id,far):
@@ -83,12 +84,7 @@ def process_gcn(payload, root):
     # to respond to only real 'observation' events. DO SO IN CONFIG FILE
     print payload
     print 'GOT GCN LIGO EVENT'
-    if config.mode.lower() == 'test':
-        pass
-    elif config.mode.lower() == 'observation':
-        pass
-    else:
-        KeyError('checkevent_config.py Mode must be set to either test or observation.\nExiting...')
+
     if root.attrib['role'] != config.mode.lower(): return #This can be changed in the config file
     
 
@@ -103,10 +99,10 @@ def process_gcn(payload, root):
     print 'event_type'*50
     print event_type
     return
-    if event_type != 'CBC':
-        if event_type != 'Burst':
-            print 'not cbc or burst'
-            return
+    #if event_type.lower() != 'CBC':
+    #    if event_type.lower() != 'Burst':
+    #        print 'not cbc or burst'
+    #        return
     print('Got LIGO VOEvent!!!!!!!')
     print(payload)
     #print(root.attrib.items())
@@ -121,6 +117,8 @@ def process_gcn(payload, root):
     #if event_type == 'CBC':
     skymap_url = root.find(
         "./What/Param[@name='SKYMAP_URL_FITS_BASIC']").attrib['value']
+
+
     #    #skymap_name = trigger_id+'_bayestar.fits'
     #if event_type == 'Burst':
     #    skymap_url = 'https://gracedb.ligo.org/events/'+str(trigger_id)+'/files/skyprobcc_cWB_complete.fits'
@@ -129,6 +127,21 @@ def process_gcn(payload, root):
     print('Trigger outpath')
     outfolder = os.path.join(config.trigger_outpath,trigger_id)
     print(outfolder)
+
+    if 'bayestar' in skymap_url:
+        print 'bayestar' * 500
+        print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
+        time.sleep(120)
+        if os.path.exists(outfolder+'/wehavelal'):
+            print 'bayestar skipped because we have lalinference map'
+            return
+        else:
+            print 'running bayestar, never recieved lalinference map'
+            pass
+
+    if 'lalinference' in skymap_url:
+        os.system('touch '+outfolder+'/wehavelal')
+
     skymap_filename = os.path.join(outfolder,skymap_url.split('/')[-1])
     #skymap_filename = os.path.join(config.trigger_outpath,trigger_id,skymap_name)
     if not os.path.exists(outfolder):
@@ -253,6 +266,14 @@ def imAliveEmail():
     Timer(43200,imAliveEmail).start()
 
     return
+
+
+if config.mode.lower() == 'test':
+    pass
+elif config.mode.lower() == 'observation':
+    pass
+else:
+    KeyError('checkevent_config.py Mode must be set to either test or observation.\nExiting...')
 
 import logging
 # Set up logger
