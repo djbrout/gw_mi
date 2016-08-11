@@ -145,7 +145,7 @@ class eventmanager:
         return uniquesubmitexpnums
 
     def submit_SEjob(self,expnum):
-        print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group = des --OS = SL6 --resource - ' \
+        print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
               'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
               'marcelle @ fnal.ogv - -memory = 3 GB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
               'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
