@@ -87,6 +87,7 @@ class event:
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
+        self.skymap = skymap
 
         # If distance is not set in config use xml distance
         if config["force_distance"]:
