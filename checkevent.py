@@ -129,6 +129,8 @@ def process_gcn(payload, root):
     print(outfolder)
 
     if 'lalinference' in skymap_url:
+        if not os.path.exists(outfolder):
+            os.makedirs(outfolder)
         os.system('touch '+outfolder+'/wehavelal')
 
     skymap_filename = os.path.join(outfolder,skymap_url.split('/')[-1])
