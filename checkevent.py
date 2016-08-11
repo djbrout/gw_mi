@@ -96,9 +96,9 @@ def process_gcn(payload, root):
     # Respond only to 'CBC' events. Change 'CBC' to "Burst' to respond to only
     # unmodeled burst events.
     event_type = root.find("./What/Param[@name='Group']").attrib['value']
-    print 'event_type'*50
-    print event_type
-    return
+    #print 'event_type'*50
+    #print event_type
+    #return
     #if event_type.lower() != 'CBC':
     #    if event_type.lower() != 'Burst':
     #        print 'not cbc or burst'
