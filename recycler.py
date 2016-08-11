@@ -404,8 +404,8 @@ class event:
                 print trace
                 self.send_processing_error(e, where, line, trace)
                 #sys.exit()
-                ra = -999
-                dec = -999
+                ra = [-999]
+                dec = [-999]
                 ligo = [-999]
                 maglim = [-999]
                 probMap = [-999]
