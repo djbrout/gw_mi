@@ -104,9 +104,9 @@ class event:
             os.makedirs(outputDir)
 
         # make the maps
-        try:
-            where = 'getHexObservations'
-            line = '103'
+        #try:
+        #where = 'getHexObservations'
+        3line = '103'
             #try:
             #    probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
             #        skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
@@ -114,81 +114,81 @@ class event:
             #        overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             #except ValueError:
 
-            print 'skymap',self.skymap
+        print 'skymap',self.skymap
 
-            probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
+        probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
                     exposure_list=exposure_length, filter_list=filter_list,resolution=64,
                     overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
             # line = '102'
-            n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
+        n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
                 probs, times, hoursPerNight=hoursPerNight,
                 hoursAvailable=hoursAvailable)
 
             # compute the best observations
             # where = 'getHexObservations.now()'
             # line = '109'
-            best_slot = getHexObservations.now(
+        best_slot = getHexObservations.now(
                 n_slots, mapDirectory=mapDir, simNumber=trigger_id,
                 maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
                 exposure_list=exposure_length, filter_list=filter_list,
                 skipJson=True)
-        except:
-            try:
-                print 'skymap', self.skymap
-                self.skymap = os.path.join(outputDir,'bayestar.fits.gz')
-
-                probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
-                    self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
-                    exposure_list=exposure_length, filter_list=filter_list,
-                    overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
-                # figure out how to divide the night
-                # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
-                # line = '102'
-                n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
-                    probs, times, hoursPerNight=hoursPerNight,
-                    hoursAvailable=hoursAvailable)
-
-                # compute the best observations
-                # where = 'getHexObservations.now()'
-                # line = '109'
-                best_slot = getHexObservations.now(
-                    n_slots, mapDirectory=mapDir, simNumber=trigger_id,
-                    maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
-                    exposure_list=exposure_length, filter_list=filter_list,
-                    skipJson=True)
-            except:
-                try:
-                    print 'skymap', self.skymap
-                    self.skymap = os.path.join(outputDir, 'lalinference.fits.gz')
-
-                    probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
-                        self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
-                        exposure_list=exposure_length, filter_list=filter_list,
-                        overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
-                    # figure out how to divide the night
-                    # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
-                    # line = '102'
-                    n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
-                        probs, times, hoursPerNight=hoursPerNight,
-                        hoursAvailable=hoursAvailable)
-
-                    # compute the best observations
-                    # where = 'getHexObservations.now()'
-                    # line = '109'
-                    best_slot = getHexObservations.now(
-                        n_slots, mapDirectory=mapDir, simNumber=trigger_id,
-                        maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
-                        exposure_list=exposure_length, filter_list=filter_list,
-                        skipJson=True)
-                except:
-                    e = sys.exc_info()
-                    trace = traceback.format_exc(sys.exc_info())
-                    print trace
-                    self.send_processing_error(e, where, line, trace)
-                    sys.exit()
+        # except:
+        #     try:
+        #         print 'skymap', self.skymap
+        #         self.skymap = os.path.join(outputDir,'bayestar.fits.gz')
+        #
+        #         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
+        #             self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
+        #             exposure_list=exposure_length, filter_list=filter_list,
+        #             overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
+        #         # figure out how to divide the night
+        #         # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
+        #         # line = '102'
+        #         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
+        #             probs, times, hoursPerNight=hoursPerNight,
+        #             hoursAvailable=hoursAvailable)
+        #
+        #         # compute the best observations
+        #         # where = 'getHexObservations.now()'
+        #         # line = '109'
+        #         best_slot = getHexObservations.now(
+        #             n_slots, mapDirectory=mapDir, simNumber=trigger_id,
+        #             maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
+        #             exposure_list=exposure_length, filter_list=filter_list,
+        #             skipJson=True)
+        #     except:
+        #         try:
+        #             print 'skymap', self.skymap
+        #             self.skymap = os.path.join(outputDir, 'lalinference.fits.gz')
+        #
+        #             probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
+        #                 self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
+        #                 exposure_list=exposure_length, filter_list=filter_list,
+        #                 overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
+        #             # figure out how to divide the night
+        #             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
+        #             # line = '102'
+        #             n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
+        #                 probs, times, hoursPerNight=hoursPerNight,
+        #                 hoursAvailable=hoursAvailable)
+        #
+        #             # compute the best observations
+        #             # where = 'getHexObservations.now()'
+        #             # line = '109'
+        #             best_slot = getHexObservations.now(
+        #                 n_slots, mapDirectory=mapDir, simNumber=trigger_id,
+        #                 maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
+        #                 exposure_list=exposure_length, filter_list=filter_list,
+        #                 skipJson=True)
+        #         except:
+        #             e = sys.exc_info()
+        #             trace = traceback.format_exc(sys.exc_info())
+        #             print trace
+        #             self.send_processing_error(e, where, line, trace)
+        #             sys.exit()
 
         if n_slots > 0:
             print "================ N_SLOTS > 0 =================== "
