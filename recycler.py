@@ -396,8 +396,8 @@ class event:
                 where = 'getHexObservations.nothingToObserveShowSomething()'
                 line = '240'
                 ra, dec, ligo, maglim, probMap = \
-                    getHexObservations.nothingToObserveShowSomething( \
-                        self.skymap, self.mjd, exposure_length[0])
+                    getHexObservations.nothingToObserveShowSomething( self.trigger_id,
+                        self.outfolder,self.mapspath)
             except:
                 e = sys.exc_info()
                 trace = traceback.format_exc(sys.exc_info())
@@ -717,6 +717,7 @@ if __name__ == "__main__":
                 badtriggers = open('badtriggers.txt', 'a')
                 badtriggers.write(trigger_id + '\n')
                 print 'Could not find skymap url file'
+
         if 'bayestar' in skymap_filename:
             print 'bayestar' * 500
             print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
