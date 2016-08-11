@@ -357,7 +357,10 @@ class event:
         image_dir = self.website_imagespath
         map_dir = self.mapspath
 
-        if self.n_slots > 0:
+        if self.n_slots<1:
+            counter = getHexObservations.nothingToObserveShowSomething(self.trigger_id, self.outfolder, self.mapspath)
+        #if self.n_slots > 0:
+        if True:
             print 'Converting Observing Plots to .gif'
             os.system('convert $(for ((a=0; a<50; a++)); do printf -- "-delay 50 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-%s.png " $a; done;) '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
             #os.system('convert -delay 70 -loop 0 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-*.png '+
@@ -390,86 +393,89 @@ class event:
         # pngs = os.path.join(self.outfolder,iname)+' '+ os.path.join(image_dir,oname)
         # os.system('convert -delay 10 -loop 0 '+pngs+' '+giffile)
 
-        else:
-            # there is nothing to observe, make default plots
-            try:
-                where = 'getHexObservations.nothingToObserveShowSomething()'
-                line = '240'
-                ra, dec, ligo, maglim, probMap = \
-                    getHexObservations.nothingToObserveShowSomething( self.trigger_id,
-                        self.outfolder,self.mapspath)
-            except:
-                e = sys.exc_info()
-                trace = traceback.format_exc(sys.exc_info())
-                print trace
-                self.send_processing_error(e, where, line, trace)
-                #sys.exit()
-                ra = [-999]
-                dec = [-999]
-                ligo = -999
-                maglim = [-999]
-                probMap = [-999]
-
-
-            print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
-            print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
-            print "faking it with getHexObservations.nothingToObserveShowSomething("
-            print self.skymap, self.mjd, exposure_length
-            print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
-            print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
-
-            figure = plt.figure(1,figsize=(8.5*1.618,8.5))
-            plt.figure(figsize=(8.5*1.618,8.5))
-            # computing limiting mag
-            # plot as ra,dec map 
-            plt.clf()
-            print 'ra', ra
-            print 'dec', dec
-            print 'maglim', maglim
-
-            plt.hist(maglim, bins=np.arange(-11, -7, .2))
-            plt.xlabel('maglim')
-            plt.ylabel('counts')
-            name = self.trigger_id + "_limitingMagHist.png"
-            plt.savefig(os.path.join(self.outfolder, name))
-
-            # plt.hexbin( ra, dec, maglim, vmin=15)
-            plt.hexbin(ra, dec, maglim)
-            plt.colorbar()
-            plt.xlabel('RA')
-            plt.ylabel('DEC')
-            name = self.trigger_id + "_limitingMagMap.png"
-            plt.savefig(os.path.join(self.outfolder, name))
-            os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
-
-            # Calculate source probability map
-            plt.clf()
-            plt.hexbin(ra, dec, probMap, )
-            plt.colorbar()
-            plt.xlabel('RA')
-            plt.ylabel('DEC')
-            name = self.trigger_id + "_sourceProbMap.png"
-            plt.savefig(os.path.join(self.outfolder, name))
-            os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
-
-            # DES Source Prob Map x Ligo Sky Map
-            plt.clf()
-            plt.hexbin(ra, dec, probMap * ligo)
-            plt.colorbar()
-            plt.xlabel('RA')
-            plt.ylabel('DEC')
-            name = self.trigger_id + "_sourceProbxLIGO.png"
-            plt.savefig(os.path.join(self.outfolder, name))
-            os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
-
-            plt.clf()
-            plt.hexbin(ra, dec, ligo)
-            plt.colorbar()
-            plt.xlabel('RA')
-            plt.ylabel('DEC')
-            name = self.trigger_id + "_LIGO.png"
-            plt.savefig(os.path.join(self.outfolder, name))
-            os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
+        # else:
+        #     # there is nothing to observe, make default plots
+        #     try:
+        #         where = 'getHexObservations.nothingToObserveShowSomething()'
+        #         line = '240'
+        #
+        #         ra = [-999]
+        #         dec = [-999]
+        #         ligo = -999
+        #         maglim = [-999]
+        #         probMap = [-999]
+        #     except:
+        #         e = sys.exc_info()
+        #         trace = traceback.format_exc(sys.exc_info())
+        #         print trace
+        #         self.send_processing_error(e, where, line, trace)
+        #         #sys.exit()
+        #         ra = [-999]
+        #         dec = [-999]
+        #         ligo = -999
+        #         maglim = [-999]
+        #         probMap = [-999]
+        #
+        #
+        #     print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
+        #     print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
+        #     print "faking it with getHexObservations.nothingToObserveShowSomething("
+        #     print self.skymap, self.mjd, exposure_length
+        #     print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
+        #     print "================ >>>>>>>>>>>>>>>>>>>>> =================== "
+        #
+        #     figure = plt.figure(1,figsize=(8.5*1.618,8.5))
+        #     plt.figure(figsize=(8.5*1.618,8.5))
+        #     # computing limiting mag
+        #     # plot as ra,dec map
+        #     plt.clf()
+        #     print 'ra', ra
+        #     print 'dec', dec
+        #     print 'maglim', maglim
+        #
+        #     plt.hist(maglim, bins=np.arange(-11, -7, .2))
+        #     plt.xlabel('maglim')
+        #     plt.ylabel('counts')
+        #     name = self.trigger_id + "_limitingMagHist.png"
+        #     plt.savefig(os.path.join(self.outfolder, name))
+        #
+        #     # plt.hexbin( ra, dec, maglim, vmin=15)
+        #     plt.hexbin(ra, dec, maglim)
+        #     plt.colorbar()
+        #     plt.xlabel('RA')
+        #     plt.ylabel('DEC')
+        #     name = self.trigger_id + "_limitingMagMap.png"
+        #     plt.savefig(os.path.join(self.outfolder, name))
+        #     os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
+        #
+        #     # Calculate source probability map
+        #     plt.clf()
+        #     plt.hexbin(ra, dec, probMap, )
+        #     plt.colorbar()
+        #     plt.xlabel('RA')
+        #     plt.ylabel('DEC')
+        #     name = self.trigger_id + "_sourceProbMap.png"
+        #     plt.savefig(os.path.join(self.outfolder, name))
+        #     os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
+        #
+        #     # DES Source Prob Map x Ligo Sky Map
+        #     plt.clf()
+        #     plt.hexbin(ra, dec, probMap * ligo)
+        #     plt.colorbar()
+        #     plt.xlabel('RA')
+        #     plt.ylabel('DEC')
+        #     name = self.trigger_id + "_sourceProbxLIGO.png"
+        #     plt.savefig(os.path.join(self.outfolder, name))
+        #     os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
+        #
+        #     plt.clf()
+        #     plt.hexbin(ra, dec, ligo)
+        #     plt.colorbar()
+        #     plt.xlabel('RA')
+        #     plt.ylabel('DEC')
+        #     name = self.trigger_id + "_LIGO.png"
+        #     plt.savefig(os.path.join(self.outfolder, name))
+        #     os.system('cp ' + os.path.join(self.outfolder, name) + ' ' + image_dir)
 
         return
 
