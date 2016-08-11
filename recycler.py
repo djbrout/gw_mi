@@ -106,7 +106,7 @@ class event:
         # make the maps
         #try:
         #where = 'getHexObservations'
-        3line = '103'
+        #line = '103'
             #try:
             #    probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
             #        skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
