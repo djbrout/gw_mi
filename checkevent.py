@@ -128,17 +128,6 @@ def process_gcn(payload, root):
     outfolder = os.path.join(config.trigger_outpath,trigger_id)
     print(outfolder)
 
-    if 'bayestar' in skymap_url:
-        print 'bayestar' * 500
-        print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
-        time.sleep(120)
-        if os.path.exists(outfolder+'/wehavelal'):
-            print 'bayestar skipped because we have lalinference map'
-            return
-        else:
-            print 'running bayestar, never recieved lalinference map'
-            pass
-
     if 'lalinference' in skymap_url:
         os.system('touch '+outfolder+'/wehavelal')
 
