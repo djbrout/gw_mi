@@ -407,7 +407,7 @@ class event:
                 ra = -999
                 dec = -999
                 ligo = [-999]
-                maglim = -999
+                maglim = [-999]
                 probMap = [-999]
 
 
