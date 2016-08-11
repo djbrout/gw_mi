@@ -64,7 +64,7 @@ j = {'ra':0,'dec':1,'prob':2,'mjd':3,'slot':4}
 
 
 sims_labeled = False
-figure = plt.figure(figsize=(8.5*1.618,8.5))
+
 for event in events:
     cumprobs = np.sort(100*cols[i[event]][j['prob']])
     cumprobs = np.cumsum(cumprobs[::-1])
@@ -81,7 +81,7 @@ plt.xlabel('# of hexes')
 plt.title('Cumulative Probability Distribution')
 plt.grid(True)
 plt.legend()
-plt.savefig(ppath+'/'+this_event+'-and-sim-cumprobs.png')
+plt.savefig(ppath+'/'+this_event+'-and-sim-cumprobs.png', bbox_inches='tight')
 plt.close()
 
 
