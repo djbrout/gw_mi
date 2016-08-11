@@ -717,6 +717,7 @@ if __name__ == "__main__":
                 badtriggers = open('badtriggers.txt', 'a')
                 badtriggers.write(trigger_id + '\n')
                 print 'Could not find skymap url file'
+
         if 'bayestar' in skymap_filename:
             print 'bayestar' * 500
             print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
