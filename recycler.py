@@ -7,6 +7,7 @@ import getHexObservations
 import subprocess
 import datetime
 import yaml
+import obsSlots
 import jobmanager
 from threading import Thread
 sys.path.append("/data/des41.a/data/desgw/")
@@ -282,8 +283,8 @@ class event:
                  , quality=quality
                  )
 
-        ra, dec, self.prob, mjd, slotNum = \
-            getHexObservations.readObservingRecord(self.trigger_id, mapDir)
+        ra, dec, id, self.prob, mjd, slotNum = \
+            obsSlots.readObservingRecord(self.trigger_id, mapDir)
 
         integrated_prob = np.sum(self.prob)
         if self.weHaveParamFile:
@@ -490,8 +491,8 @@ class event:
 
         if self.n_slots > 0:
             # get statistics
-            ra, dec, self.prob, mjd, slotNum = \
-                getHexObservations.readObservingRecord(self.trigger_id, map_dir)
+            ra, dec, id, self.prob, mjd, slotNum = \
+                obsSlots.readObservingRecord(self.trigger_id, map_dir)
 
             # adding integrated probability to paramfile
             integrated_prob = np.sum(self.prob)
