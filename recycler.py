@@ -89,8 +89,8 @@ class event:
         recycler_mjd = self.recycler_mjd
 
         if self.skymap is None:
-            self.skymap = 'lalinference.fits.gz'
-        
+            self.skymap = os.path.join(outputDir,'lalinference.fits.gz')
+
         # If distance is not set in config use xml distance
         if config["force_distance"]:
             distance = config["distance"]
