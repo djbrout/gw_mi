@@ -8,6 +8,7 @@ import subprocess
 import datetime
 import yaml
 import obsSlots
+import time
 import jobmanager
 from threading import Thread
 sys.path.append("/data/des41.a/data/desgw/")
@@ -15,6 +16,8 @@ sys.path.append("/data/des41.a/data/desgw/")
 
 class event:
     def __init__(self, skymap_filename, outfolder, trigger_id, mjd, config):
+
+
 
         #self.skymap = os.path.join(outfolder, 'lalinference.fits.gz')
         #if not os.path.exists(self.skymap):
@@ -688,6 +691,8 @@ if __name__ == "__main__":
     badtriggers = open('badtriggers.txt', 'w')
     badtriggers.close()
 
+
+
     ####### BIG MONEY NO WHAMMIES ###############################################
     if config["wrap_all_triggers"]:
         if not dontwrap:
@@ -712,6 +717,17 @@ if __name__ == "__main__":
                 badtriggers = open('badtriggers.txt', 'a')
                 badtriggers.write(trigger_id + '\n')
                 print 'Could not find skymap url file'
+        if 'bayestar' in skymap_filename:
+            print 'bayestar' * 500
+            print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
+            time.sleep(120)
+            if os.path.exists(os.path.join(trigger_path,trigger_id) + '/wehavelal'):
+                print 'bayestar skipped because we have lalinference map'
+                sys.exit()
+            else:
+                print 'running bayestar, never recieved lalinference map'
+                pass
+
         try:
             try:
                 mjd = float(mjd)
