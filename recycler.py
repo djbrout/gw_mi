@@ -396,8 +396,8 @@ class event:
                 where = 'getHexObservations.nothingToObserveShowSomething()'
                 line = '240'
                 ra, dec, ligo, maglim, probMap = \
-                    getHexObservations.nothingToObserveShowSomething( \
-                        self.skymap, self.mjd, exposure_length[0])
+                    getHexObservations.nothingToObserveShowSomething( self.trigger_id,
+                        self.outfolder,self.mapspath)
             except:
                 e = sys.exc_info()
                 trace = traceback.format_exc(sys.exc_info())
