@@ -359,10 +359,10 @@ class event:
 
         if self.n_slots<1:
             counter = getHexObservations.nothingToObserveShowSomething(self.trigger_id, self.outfolder, self.mapspath)
-            iname = self.trigger_id + "-" + str(self.best_slot) + "-observingPlot.png"
+            iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
             oname = self.trigger_id + "-observingPlot.gif"
             os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
-            iname = self.trigger_id + "-" + str(self.best_slot) + "-observingPlot.png"
+            iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
             oname = self.trigger_id + "-probabilityPlot.png"
             os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
         #if self.n_slots > 0:
