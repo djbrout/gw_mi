@@ -9,11 +9,14 @@ def mjd_to_datetime(mjd):
     d = mjd_epoch + datetime.timedelta(mjd)
     return d
 
+def nowUTC():
+    now = datetime.now(pytz.utc)
+    return now
 
 def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
     event_params = np.load(event_paramfile)
     d = mjd_to_datetime(float(str(event_params['MJD'])))
-
+    n = nowUTC()
     try:
         processing = np.load(processing_param_file)
     except:
@@ -175,8 +178,8 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
 
 
     html +='<h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
-                        <h2>Last Processed: '+str(event_params['time_processed'])+'</h2>\
-                        <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</h2>\
+                        <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y GMT'))+'</h2>\
+                        <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y GMT'))+'</h2>\
                         <h2>Type: '+str(event_params['boc'])+'</h2>\
                         <a href="'+str(trigger_id)+'_JSON.zip" download class="btn btn-outline btn-outline-xl outline-light">Download .json <span class="fa fa-download"></span></a>\
                     </div>\
@@ -658,7 +661,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                           <td >'+str(params['FAR'])+'</td>\
                           <td >'+str(params['ChirpMass'])+'</td>\
                           <td >'+str(params['MJD'])+'</td>\
-                          <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y'))+'</td>\
+                          <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</td>\
                         </tr>'
     indextable += '</tbody></table> <div class="copyright-bar bg-white"></div>'
 
