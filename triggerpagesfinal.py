@@ -2,6 +2,7 @@ import os
 import numpy as np
 
 import datetime
+from datetime import datetime as dt
 import pytz
 
 def mjd_to_datetime(mjd):
@@ -10,7 +11,7 @@ def mjd_to_datetime(mjd):
     return d
 
 def nowUTC():
-    now = datetime.now(pytz.utc)
+    now = dt.utcnow()
     return now
 
 def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
