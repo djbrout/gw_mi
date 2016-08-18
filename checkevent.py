@@ -38,7 +38,8 @@ def sendFirstTriggerEmail(trigger_id,far):
         s.sendmail(me, y, msg.as_string())
         s.quit()
 
-    os.system('curl http://textbelt.com/text -d number=2153008763 -d "message=New Trigger FAR:'+str(far)+'"')
+    if config.sendtexts:
+        os.system('curl http://textbelt.com/text -d number=2153008763 -d "message=New Trigger FAR:'+str(far)+'"')
     print 'Trigger email sent...'
 
 def get_skymap(skymap_url,skymap_path):
