@@ -179,8 +179,8 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
 
 
     html +='<h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
-                        <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y GMT'))+'</h2>\
-                        <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y GMT'))+'</h2>\
+                        <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
+                        <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
                         <h2>Type: '+str(event_params['boc'])+'</h2>\
                         <a href="'+str(trigger_id)+'_JSON.zip" download class="btn btn-outline btn-outline-xl outline-light">Download .json <span class="fa fa-download"></span></a>\
                     </div>\
