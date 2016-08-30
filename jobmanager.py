@@ -94,7 +94,10 @@ class eventmanager:
 
         if timedelta > -sejob_timecushion:
             for jsonfile in self.jsonfilelist:
-                
+                print 'SEMaker_RADEC.sh '+jsonfile
+                out = os.popen('SEMaker_RADEC.sh '+jsonfile).read()
+                print out
+        sys.exit()
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
     #  ALREADY IN FIREDLIST
