@@ -119,7 +119,6 @@ def process_gcn(payload, root):
     skymap_url = root.find(
         "./What/Param[@name='SKYMAP_URL_FITS_BASIC']").attrib['value']
 
-    skymap_url = 'https://dcc.ligo.org/P1500071/public/18951_bayestar.fits.gz'
     #    #skymap_name = trigger_id+'_bayestar.fits'
     #if event_type == 'Burst':
     #    skymap_url = 'https://gracedb.ligo.org/events/'+str(trigger_id)+'/files/skyprobcc_cWB_complete.fits'

@@ -22,6 +22,9 @@ DATABASE = 'desoper'  # read only
 
 PRDDATABASE = 'decam_prd'
 
+hardjson = True
+hj = ['M249148-6-UTC-2016-8-17-5_23_00.json']
+
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
@@ -31,6 +34,8 @@ class eventmanager:
         #self.prdconnection = ea.connect(PRDDATABASE)
         #self.prdcursor = self.prdconnection.cursor()
         self.jsonfilelist = jsonfilelist
+        print self.jsonfilelist
+        sys.exit()
         self.trigger_id = trigger_id
         self.datadir = datadir
         self.triggerdir = triggerdir
