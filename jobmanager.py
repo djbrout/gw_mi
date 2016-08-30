@@ -23,8 +23,10 @@ DATABASE = 'desoper'  # read only
 PRDDATABASE = 'decam_prd'
 
 hardjson = True
-hj = ['M249148-6-UTC-2016-8-17-5_23_00.json']
+hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
+
+clearfiredlist = True
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
@@ -34,8 +36,11 @@ class eventmanager:
         #self.prdconnection = ea.connect(PRDDATABASE)
         #self.prdcursor = self.prdconnection.cursor()
         self.jsonfilelist = jsonfilelist
+
         print self.jsonfilelist
-        sys.exit()
+        if hardjson:
+            self.jsonfilelist = hj
+
         self.trigger_id = trigger_id
         self.datadir = datadir
         self.triggerdir = triggerdir
@@ -46,8 +51,12 @@ class eventmanager:
         with open(os.path.join(triggerdir, "strategy.yaml"), "r") as f:
             self.strategy = yaml.safe_load(f)
 
-        file_firedlist = open('./processing/firedlist.txt', 'w')
-        file_firedlist.close()
+        with open("jobmanager.yaml", "r") as g:
+            self.jmconfig = yaml.safe_load(g);
+
+        if clearfiredlist:
+            file_firedlist = open('./processing/firedlist.txt', 'w')
+            file_firedlist.close()
 
         file_firedlist = open('./processing/firedlist.txt', 'r')
         firedlist = file_firedlist.readlines()
@@ -64,9 +73,28 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
-        #self.submit_all_images_in_LIGOxDES_footprint()
+        #self.submit_all_images_in_LIGOxDES_footprint()#THIS IS OLD
+        self.submit_all_jsons_for_sejobs()
         #self.monitor_images_from_mountain()
         self.submit_post_processing()
+
+
+
+    def submit_all_jsons_for_sejobs(self):
+        obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
+        currentTime = dt.utcnow()
+        print '***** The current time is UTC', currentTime, '*****'
+        delt = obsStartTime - currentTime
+
+        timedelta = td(days=delt.days, seconds=delt.seconds).total_seconds() / 3600.
+        print '***** The time delta is ', timedelta, 'hours *****'
+        # if timedelta > np.pi:
+
+        sejob_timecushion = self.jmconfig["sejob_timecushion"]
+
+        if timedelta > -sejob_timecushion:
+            for jsonfile in self.jsonfilelist:
+                
 
     # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
     #  ALREADY IN FIREDLIST
