@@ -95,7 +95,7 @@ class eventmanager:
         if timedelta > sejob_timecushion:
             for jsonfile in self.jsonfilelist:
                 print 'SEMaker_RADEC.sh '+jsonfile
-                out = os.popen('SEMaker_RADEC.sh '+jsonfile).read()
+                out = os.popen('SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
                 print out
         sys.exit()
 
