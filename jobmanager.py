@@ -92,7 +92,7 @@ class eventmanager:
 
         sejob_timecushion = self.jmconfig["sejob_timecushion"]
 
-        if timedelta > -sejob_timecushion:
+        if timedelta > sejob_timecushion:
             for jsonfile in self.jsonfilelist:
                 print 'SEMaker_RADEC.sh '+jsonfile
                 out = os.popen('SEMaker_RADEC.sh '+jsonfile).read()
