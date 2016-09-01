@@ -11,6 +11,13 @@ import dilltools
 import sys, getopt, traceback
 import candidatepages as cp
 
+from blitzdb import Document
+from blitzdb import FileBackend
+
+class Trigger(Document):
+    pass
+class imageProcessing(Document):
+    pass
 
 from datetime import datetime as dt
 from datetime import timedelta as td
@@ -30,7 +37,33 @@ clearfiredlist = True
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir):
+    def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir, real):
+
+        if real:
+            self.backend = FileBackend("./realdb")
+        else:
+            self.backend = FileBackend("./testdb")
+
+        try:
+            thisevent = self.backend.get(Trigger, {'id': trigger_id})
+            print 'Found this event in desgw database...'
+        except Trigger.DoesNotExist:
+            thisevent = Trigger({
+                'id':trigger_id,
+                'jsonfilelist':jsonfilelist,
+                'triggerpath':triggerdir,
+                'mapspath':datadir,
+                'jobids':[
+                    (0,'jsonfile_corresponding_to_jobid.json'),
+                ],
+            })
+            print 'Database entry created!'
+
+
+
+        self.backend.save(thisevent)
+        self.backend.commit()
+
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
         #self.prdconnection = ea.connect(PRDDATABASE)
@@ -75,10 +108,18 @@ class eventmanager:
 
         #self.submit_all_images_in_LIGOxDES_footprint()#THIS IS OLD
         self.submit_all_jsons_for_sejobs()
-        #self.monitor_images_from_mountain()
-        self.submit_post_processing()
+        self.monitor_images_from_mountain()
+        #self.submit_post_processing()
 
 
+    def runProcessingIfNotAlready(self, image):
+        raw_input()
+        try:
+            images = self.backend.filter(imageProcessing,{'expnum' : image.expnum})
+            print 'Expnum',image.expnum,'has already been submitted for processing'
+        except imageProcessing.DoesNotExist:
+            self.submit_SEjob(self,image)
+            print 'Expnum',image.expnum,'was just submitted for processing'
 
     def submit_all_jsons_for_sejobs(self):
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
@@ -94,140 +135,162 @@ class eventmanager:
 
         if timedelta > sejob_timecushion:
             for jsonfile in self.jsonfilelist:
-                print 'SEMaker_RADEC.sh '+jsonfile
-                out = os.popen('SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
+                print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
+                out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
+                #out = os.popen('ssh desgw@des41.fnal.gov;source move; SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
                 print out
+        print 'just submitted minidagmaker with json files'
+        #sys.exit()
+        raw_input()
+
+
+    # # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
+    # #  ALREADY IN FIREDLIST
+    # def submit_all_images_in_LIGOxDES_footprint(self):
+    #
+    #     obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
+    #     currentTime = dt.utcnow()
+    #     ras = []
+    #     decs = []
+    #     filts = []
+    #     print '***** The current time is UTC',currentTime,'*****'
+    #     delt = obsStartTime-currentTime
+    #
+    #     timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
+    #     print '***** The time delta is ',timedelta,'hours *****'
+    #     #if timedelta > np.pi:
+    #     if timedelta > -9999999:
+    #         print '***** Firing off all SE jobs near our planned hexes... *****'
+    #         for jsonfile in self.jsonfilelist:
+    #             with open(os.path.join(self.datadir, jsonfile)) as data_file:
+    #                 jsondata = json.load(data_file)
+    #                 for js in jsondata:
+    #                     ras.append(js[u'RA'])
+    #                     decs.append(js[u'dec'])
+    #                     filts.append(js[u'filter'])
+    #
+    #         exposurenums = self.getNearbyImages(ras,decs,filts)
+    #         iii = 0
+    #         for exp in exposurenums:
+    #             iii += 1
+    #             print iii
+    #             self.submit_SEjob(exp)
+    #
+    #         #unique list of hexes and filters and find the closest exposures for each hex
+    #
+    #         #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
+    #         #submit that list self.submit_SEjob().
+    #     else:
+    #         print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first ' \
+    #               'images to come off the mountain *****'
+
+    # def getNearbyImages(self,ras,decs,filts):
+    #
+    #     allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
+    #
+    #     EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
+    #                                      allexposures['EXPTIME'])))
+    #     EXPNUM = np.array(map(float, map(lambda x: x if not x in ['plate', 'EXPNUM'] else '-999',
+    #                                       allexposures['EXPNUM'])))
+    #     TELRA =np.array(map(float, map(lambda x: x if not x in ['plate','RADEG'] else '-999',
+    #                                      allexposures['TELRA'])))
+    #     TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
+    #                                      allexposures['TELDEC'])))
+    #     FILT = np.array(allexposures['BAND'],dtype='str')
+    #
+    #     TELRA[TELRA>180] = TELRA[TELRA>180] - 360.
+    #
+    #     ww = EXPTIME >= jobmanager_config.min_template_exptime
+    #     exposedRAS = TELRA[ww]
+    #     exposedDECS = TELDEC[ww]
+    #     exposedNUMS = EXPNUM[ww]
+    #     FILT = FILT[ww]
+    #
+    #     # print min(exposedRAS),max(exposedRAS)
+    #     # print min(ras),max(ras)
+    #     # print min(exposedDECS),max(exposedDECS)
+    #     # print min(decs),max(decs)
+    #     # print 'exposedRAS',exposedRAS,exposedRAS.shape
+    #
+    #     submitexpnums = []
+    #
+    #     for ra,dec,filt in zip(ras,decs,filts):
+    #         dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
+    #         #print min(dist),max(dist)
+    #         nearby = (dist < jobmanager_config.SE_radius) & (FILT == filt)
+    #         submitexpnums.extend(exposedNUMS[nearby])
+    #     submitexpnums = np.array(submitexpnums)
+    #     _, idx = np.unique(submitexpnums, return_index=True)
+    #     uniquesubmitexpnums = submitexpnums[np.sort(idx)]
+    #
+    #     return uniquesubmitexpnums
+
+    def submit_SEjob(self,image):
+        expnum = image.expnum
+
+        # print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
+        #       'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
+        #       'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
+        #       'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
+
+        print 'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
+             'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
+             'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
+             'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)
         sys.exit()
+        # out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
+        #      'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
+        #      'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
+        #      'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)).read()#STILL NEED TO PARSE FOR JOBID
 
-    # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
-    #  ALREADY IN FIREDLIST
-    def submit_all_images_in_LIGOxDES_footprint(self):
+        # jobid = out.split(NEED TO FIGURE OUT HOW TO PARSE JOBID)
+        # image.jobid = jobid
+        self.backend.save(image)
 
-        obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
-        currentTime = dt.utcnow()
-        ras = []
-        decs = []
-        filts = []
-        print '***** The current time is UTC',currentTime,'*****'
-        delt = obsStartTime-currentTime
 
-        timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
-        print '***** The time delta is ',timedelta,'hours *****'
-        #if timedelta > np.pi:
-        if timedelta > -9999999:
-            print '***** Firing off all SE jobs near our planned hexes... *****'
-            for jsonfile in self.jsonfilelist:
-                with open(os.path.join(self.datadir, jsonfile)) as data_file:
-                    jsondata = json.load(data_file)
-                    for js in jsondata:
-                        ras.append(js[u'RA'])
-                        decs.append(js[u'dec'])
-                        filts.append(js[u'filter'])
-
-            exposurenums = self.getNearbyImages(ras,decs,filts)
-            iii = 0
-            for exp in exposurenums:
-                iii += 1
-                print iii
-                self.submit_SEjob(exp)
-
-            #unique list of hexes and filters and find the closest exposures for each hex
-
-            #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
-            #submit that list self.submit_SEjob().
-        else:
-            print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first ' \
-                  'images to come off the mountain *****'
-
-    def getNearbyImages(self,ras,decs,filts):
-
-        allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
-
-        EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
-                                         allexposures['EXPTIME'])))
-        EXPNUM = np.array(map(float, map(lambda x: x if not x in ['plate', 'EXPNUM'] else '-999',
-                                          allexposures['EXPNUM'])))
-        TELRA =np.array(map(float, map(lambda x: x if not x in ['plate','RADEG'] else '-999',
-                                         allexposures['TELRA'])))
-        TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
-                                         allexposures['TELDEC'])))
-        FILT = np.array(allexposures['BAND'],dtype='str')
-
-        TELRA[TELRA>180] = TELRA[TELRA>180] - 360.
-
-        ww = EXPTIME >= jobmanager_config.min_template_exptime
-        exposedRAS = TELRA[ww]
-        exposedDECS = TELDEC[ww]
-        exposedNUMS = EXPNUM[ww]
-        FILT = FILT[ww]
-
-        # print min(exposedRAS),max(exposedRAS)
-        # print min(ras),max(ras)
-        # print min(exposedDECS),max(exposedDECS)
-        # print min(decs),max(decs)
-        # print 'exposedRAS',exposedRAS,exposedRAS.shape
-
-        submitexpnums = []
-
-        for ra,dec,filt in zip(ras,decs,filts):
-            dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
-            #print min(dist),max(dist)
-            nearby = (dist < jobmanager_config.SE_radius) & (FILT == filt)
-            submitexpnums.extend(exposedNUMS[nearby])
-        submitexpnums = np.array(submitexpnums)
-        _, idx = np.unique(submitexpnums, return_index=True)
-        uniquesubmitexpnums = submitexpnums[np.sort(idx)]
-
-        return uniquesubmitexpnums
-
-    def submit_SEjob(self,expnum):
-        print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
-              'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
-              'marcelle @ fnal.ogv - -memory = 3 GB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
-              'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
         #THIS WILL BE REPLACED BY MINIDAGMAKER
 
-    def submit_images_to_dagmaker(self,explist):
-        submission_counter = 0
-        maxsub = 1
-        if len(explist) > 1:
-            print '***** SUBMITTING IMAGES AS CO-ADDS *****'
-            if not explist[0] in self.firedlist:
-                try:
-                    if submission_counter < maxsub:
-                        # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-                        subprocess.call(["sh", "DAGMaker.sh", [str(exp)+' ' for exp in explist]])  # create dag
-                        print 'created dag for ' + str(explist)
-                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' \
-                              + expnum + '".dag"])'  # submit to the grid
-                        #print 'submitting to grid'
-                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '"
-                        # -n "+nite]) #submit local'
-                        print 'SUBMITTED JOB FOR EXPOSURES: ',explist
-                        newfireds.extend(explist)
-                        submission_counter += 1
-                except:
-                    print 'SUBMISSION FAILED EXPNUMS', explist
-
-        else:
-            print '***** SUBMITTING IMAGE AS SE JOB (using dagmaker) *****'
-            expnum = explist[0]
-            if not expnum in self.firedlist:
-                try:
-                    if submission_counter < maxsub:
-                        # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-                        subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
-                        print 'created dag for ' + str(expnum)
-                        print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'\
-                              + expnum + '".dag"])'  # submit to the grid
-                        #print 'submitting to grid'
-                        #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band +
-                        # '" -n "+nite]) #submit local'
-                        print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
-                        newfireds.append(expnum)
-                        submission_counter += 1
-                except:
-                    print 'SUBMISSION FAILED EXPNUM',expnum
+    # def submit_images_to_dagmaker(self,explist):
+    #     submission_counter = 0
+    #     maxsub = 1
+    #     if len(explist) > 1:
+    #         print '***** SUBMITTING IMAGES AS CO-ADDS *****'
+    #         if not explist[0] in self.firedlist:
+    #             try:
+    #                 if submission_counter < maxsub:
+    #                     # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+    #                     subprocess.call(["sh", "DAGMaker.sh", [str(exp)+' ' for exp in explist]])  # create dag
+    #                     print 'created dag for ' + str(explist)
+    #                     print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' \
+    #                           + expnum + '".dag"])'  # submit to the grid
+    #                     #print 'submitting to grid'
+    #                     #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '"
+    #                     # -n "+nite]) #submit local'
+    #                     print 'SUBMITTED JOB FOR EXPOSURES: ',explist
+    #                     newfireds.extend(explist)
+    #                     submission_counter += 1
+    #             except:
+    #                 print 'SUBMISSION FAILED EXPNUMS', explist
+    #
+    #     else:
+    #         print '***** SUBMITTING IMAGE AS SE JOB (using dagmaker) *****'
+    #         expnum = explist[0]
+    #         if not expnum in self.firedlist:
+    #             try:
+    #                 if submission_counter < maxsub:
+    #                     # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
+    #                     subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
+    #                     print 'created dag for ' + str(expnum)
+    #                     print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'\
+    #                           + expnum + '".dag"])'  # submit to the grid
+    #                     #print 'submitting to grid'
+    #                     #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band +
+    #                     # '" -n "+nite]) #submit local'
+    #                     print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
+    #                     newfireds.append(expnum)
+    #                     submission_counter += 1
+    #             except:
+    #                 print 'SUBMISSION FAILED EXPNUM',expnum
 
 
 
@@ -317,20 +380,29 @@ class eventmanager:
                 expnum = str(s[0])
                 nite = str(s[1])
                 band = str(s[2])
-                if not expnum in self.firedlist:
-                    try:
-                        if submission_counter < maxsub:
-                            #print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
-                            #print 'created dag for ' + str(expnum)
-                            #print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
-                            #      'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
-                            #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' +\
-                            #      band + '" -n "+nite]) #submit local'
-                            #print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
-                            newfireds.append(expnum)
-                            submission_counter += 1
-                    except:
-                        print 'SUBMISSION FAILED'
+                image = imageProcessing({
+                    'expnum':expnum,
+                    'nite':nite,
+                    'band':band,
+                    'jobid':np.nan,
+                })
+                print 'self.runProcessingIfNotAlready(image)'
+                self.runProcessingIfNotAlready(image)
+
+                # if not expnum in self.firedlist:
+                #     try:
+                #         if submission_counter < maxsub:
+                #             #print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
+                #             #print 'created dag for ' + str(expnum)
+                #             #print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
+                #             #      'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
+                #             #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' +\
+                #             #      band + '" -n "+nite]) #submit local'
+                #             #print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
+                #             newfireds.append(expnum)
+                #             submission_counter += 1
+                #     except:
+                #         print 'SUBMISSION FAILED'
 
             # write newfireds to file
             ofile.close()
