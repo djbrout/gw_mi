@@ -239,20 +239,27 @@ class eventmanager:
         #       'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
         #       'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
 
-        print 'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
-             'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
-             'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
-             'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)
+        print 'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
+              'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
+              ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
+              ' -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)
+        #sys.exit()
+        out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
+              'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
+              ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
+              ' -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)).read()#STILL NEED TO PARSE FOR JOBID
+        print out
+        print '-'*20
+        for o in out:
+            print o
+            print 'hah'
         sys.exit()
-        # out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
-        #      'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
-        #      'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
-        #      'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)).read()#STILL NEED TO PARSE FOR JOBID
-
+        out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW')
+        image.jobid = jobid
         # jobid = out.split(NEED TO FIGURE OUT HOW TO PARSE JOBID)
         # image.jobid = jobid
         self.backend.save(image)
-
+        self.backend.commit()
 
         #THIS WILL BE REPLACED BY MINIDAGMAKER
 
