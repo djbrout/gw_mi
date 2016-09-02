@@ -118,13 +118,13 @@ class eventmanager:
             print 'this image.expnum', image.expnum
             images = self.backend.filter(imageProcessing,{'expnum' : image.expnum})
             if len(images) == 0:
-                self.submit_SEjob(self, image)
+                self.submit_SEjob(image)
                 print 'Expnum', image.expnum, 'was just submitted for processing'
             else:
                 print 'Expnum',image.expnum,'has already been submitted for processing'
             raw_input()
         except imageProcessing.DoesNotExist:
-            self.submit_SEjob(self,image)
+            self.submit_SEjob(image)
             print 'Expnum',image.expnum,'was just submitted for processing'
 
     def submit_all_jsons_for_sejobs(self):
