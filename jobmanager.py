@@ -431,7 +431,7 @@ def submit_SEjob(image,backend):
           ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)
     # sys.exit()
     out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
-                   'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
+                   'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=djbrout@gmail.com' \
                    ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
                    ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)).read()  # STILL NEED TO PARSE FOR JOBID
     print out
