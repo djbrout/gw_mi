@@ -323,7 +323,7 @@ class eventmanager:
                     'band':band,
                     'jobid':np.nan,
                     'status':'Not Submitted',
-                    'triggerid': self.trigger_id
+                    'triggerid': self.trigger_id,
                     'object':str(s[7])
                 })
 
