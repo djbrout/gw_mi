@@ -1,0 +1,18 @@
+echo "# sex: find objects on the combined diff-image. " 
+echo "# MAG ZEROPOINT = 25 + 2.5*log10(exposure time) " 
+echo "#   " 
+
+sex \
+                WS0047_475960_1230--700_combined_z_21+fakeSN_diff.fits \
+  -WEIGHT_IMAGE WS0047_475960_1230--700_combined_z_21+fakeSN_diff.weight.fits \
+  -PSF_NAME     WS0047_475960_1230--700_combined_z_21+fakeSN.psf \
+  -c SN_diffim.sex  \
+  -CATALOG_NAME WS0047_475960_1230--700_combined_z_21+fakeSN_diff.cat \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " sex FAILED --> STOP PIPELINE " 
+   touch RUN20_combined_sexDiffim.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_21 
+echo "DONE processing RUN20_combined_sexDiffim on $HOST" > RUN20_combined_sexDiffim.DONE 

@@ -1,0 +1,15 @@
+echo "# sex : make star cat after scamp for PSFex & doFake  " 
+echo "#   " 
+sex  WS0047_475960_1230--700_tile1_z_32.fits \
+  -WEIGHT_IMAGE WS0047_475960_1230--700_tile1_z_32.weight.fits \
+  -CATALOG_NAME WS0047_475960_1230--700_tile1_z_32.cat \
+  -c SN_redim_ASSOC.sex \
+  -ASSOC_NAME   STARCAT_20150917_1230--700_z_32.LIST \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " sex FAILED --> STOP PIPELINE " 
+   touch RUN09_expose_sex2.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_32 
+echo "DONE processing RUN09_expose_sex2 on $HOST" > RUN09_expose_sex2.DONE 

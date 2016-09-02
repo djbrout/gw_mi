@@ -1,0 +1,20 @@
+echo "# filterObj : select objects found on difference images " 
+echo "#   " 
+
+filterObj  \
+  -inFile_sexCat     WS0047_475960_1230--700_combined_z_03+fakeSN_diff.cat \
+  -inFile_psf        WS0047_475960_1230--700_combined_z_03+fakeSN.psf \
+  -inFile_diffCoadd  WS0047_475960_1230--700_combined_z_03+fakeSN_diff_mh.fits \
+  -inFile_param      SN_cuts.filterObj \
+  -inFile_fakeList   WS0047_475960_1230--700_combined_z_03+fakeSN_doFake.out \
+  -outFile_objList   WS0047_475960_1230--700_combined_z_03+fakeSN_filterObj.out \
+  -outFile_fakeGalflux   WS0047_475960_1230--700_combined_z_03_fakeGalflux.out \
+  -outFile_stdout    WS0047_475960_1230--700_combined_z_03+fakeSN_filterObj.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " filterObj FAILED --> STOP PIPELINE " 
+   touch RUN22_combined+expose_filterObj.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_03 
+echo "DONE processing RUN22_combined+expose_filterObj on $HOST" > RUN22_combined+expose_filterObj.DONE 

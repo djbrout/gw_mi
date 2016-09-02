@@ -1,0 +1,18 @@
+echo "# makeCand : link objects on different nites to make candidates " 
+
+makeCand  \
+  -inFile_objList     WS0047_475960_1230--700_combined_z_27+fakeSN_filterObj.out \
+  -inFile_autoScan    WS0047_475960_1230--700_combined_z_27+fakeSN_autoScan.out \
+  -inFile_param       SN_cuts.filterObj \
+  -optSeason   1 \
+  -outFile_candList   WS0047_475960_1230--700_results_z_27+fakeSN_makeCand.out \
+  -outFile_stdout     WS0047_475960_1230--700_results_z_27+fakeSN_makeCand.stdout \
+
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeCand FAILED --> STOP PIPELINE " 
+   touch RUN25_combined_makeCand.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_27 
+echo "DONE processing RUN25_combined_makeCand on $HOST" > RUN25_combined_makeCand.DONE 

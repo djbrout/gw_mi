@@ -1,0 +1,3 @@
+cd JOBDIR/data/20150917-1230--700 
+
+ln -sf /pnfs/des/scratch/gw/exp/20150917/475960/D00475960_z_30_r2p08_immask.fits  JOBDIR/dp47/z_30/WS0047_475960_1230--700_tile1_z_30_mh.fits 

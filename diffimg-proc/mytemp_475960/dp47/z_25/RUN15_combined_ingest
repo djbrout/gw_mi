@@ -1,0 +1,25 @@
+echo "# immerge : ingest nitely-combined (multi-header) image " 
+echo "# At FNAL, just make symbolic link in /ingest " 
+echo "#  " 
+echo "# Start by making multi-header file to archive. " 
+echo "# 1st immerge argument is merged output filename;  " 
+echo "# other args are input images to be merged. " 
+immerge  \
+  -outFile_img  \
+    WS0047_475960_1230--700_combined_z_25+fakeSN_mh.fits  \
+  -inList_merge  \
+    WS0047_475960_1230--700_combined_z_25+fakeSN.fits  \
+    WS0047_475960_1230--700_combined_z_25+fakeSN.weight.fits  \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " immerge FAILED --> STOP PIPELINE " 
+   touch RUN15_combined_ingest.FAIL ; exit ; fi 
+
+echo "# Now make symbolic link to /ingest " 
+ln -sf \
+      ../WS0047_475960_1230--700_combined_z_25+fakeSN_mh.fits \
+  ingest/WS0047_475960_1230--700_combined_z_25+fakeSN_mh.fits \
+
+cd JOBDIR/dp47/z_25 
+echo "DONE processing RUN15_combined_ingest on $HOST" > RUN15_combined_ingest.DONE 

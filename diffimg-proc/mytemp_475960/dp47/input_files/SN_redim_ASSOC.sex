@@ -1,0 +1,60 @@
+# Simple configuration file for SExtractor on REDUCED image,
+# prior to PSFEx use. Only non-default parameters are present.
+# John Marriner 13 May 2010
+#
+# Jun 16 2014 JM - 2 minor changes that could affect the pipeline results 
+#                  (but probably not): DEBLEND-MINCOT  and INTERP-TYPE
+#
+#
+# Jan 22 2015 RK - add ASSOC params to read star list from makeStarCat
+#
+
+#------------------------ ASSOCiation ----------------------------
+ASSOC_NAME       REPLACE.LIST   # name of the ASCII file to ASSOCiate
+ASSOC_DATA       2,3,4          # columns of the data to replicate (0=all)
+ASSOC_PARAMS     2,3,4          # columns of xpos,ypos[,mag]
+ASSOCCOORD_TYPE  WORLD          # ASSOC coordinates: PIXEL or WORLD
+ASSOC_RADIUS     2.0            # cross-matching radius (pixels)
+ASSOC_TYPE       NEAREST        # ASSOCiation method: FIRST, NEAREST, MEAN,
+                                # MAG_MEAN, SUM, MAG_SUM, MIN or MAX
+ASSOCSELEC_TYPE  MATCHED        # ASSOC select type: ALL, MATCHED or -MATCHED
+
+ 
+#-------------------------------- Catalog ------------------------------------
+ 
+CATALOG_NAME     prepsfex.cat   # Catalog filename
+CATALOG_TYPE     FITS_LDAC      # FITS_LDAC format
+PARAMETERS_NAME  SN_redim_ASSOC.sex.param  # file name with catalog contents
+ 
+#------------------------------- Extraction ----------------------------------
+ 
+DETECT_MINAREA   3              # minimum number of pixels above threshold
+DETECT_THRESH    5              # a fairly conservative threshold
+ANALYSIS_THRESH  5              # idem
+ 
+FILTER           Y              # apply filter for detection ("Y" or "N")?
+FILTER_NAME      SN_redim_ASSOC.sex.conv   # file name containing the filter
+DEBLEND_MINCONT  0.05           # Minimum contrast parameter for deblending 
+#-------------------------------- WEIGHTing ----------------------------------
+WEIGHT_TYPE      MAP_WEIGHT     #type of WEIGHTing
+WEIGHT_IMAGE     weight.fits    #weight-map filenam
+WEIGHT_GAIN      Y              #modulate gain (E/ADU) with weights
+WEIGHT_THRESH    1.e-10         #weight threshold for bad pixels
+
+#-------------------------------- FLAGging -----------------------------------
+#------------------------------ Photometry -----------------------------------
+ 
+PHOT_APERTURES   10             # <- put the referrence aperture diameter here
+PHOT_AUTOPARAMS  3.5,3.5        # Increase flux to >99%
+SATUR_LEVEL      15000.0        # <- put the right saturation threshold here
+GAIN             1.0            # <- put the detector gain in e-/ADU here
+
+#------------------------- Star/Galaxy Separation ---------------------------- 
+#------------------------------ Background -----------------------------------
+#------------------------------ Check Image ----------------------------------
+#--------------------- Memory (change with caution!) -------------------------
+MEMORY_BUFSIZE   1024           # number of lines in buffer
+#------------------------------- ASSOCiation ---------------------------------
+#----------------------------- Miscellaneous ---------------------------------
+VERBOSE_TYPE    NORMAL          #FULL or NORMAL
+INTERP_TYPE     NONE            # Interpolation type: NONE, VAR_ONLY or ALL

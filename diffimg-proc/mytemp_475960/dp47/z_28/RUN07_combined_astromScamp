@@ -1,0 +1,16 @@
+echo "# scamp : do astrometry with scamp: produce .head files " 
+scamp   \
+   WS0047_475960_1230--700_tile1_z_28.cat  \
+   @WSTemplate_475960_1230--700_GWV1_z_28.catList  \
+   -c   GW_astrom_v3.scamp \
+   -MAGZERO_OUT   6.1928 \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " scamp FAILED --> STOP PIPELINE " 
+   touch RUN07_combined_astromScamp.FAIL ; exit ; fi 
+
+mv WST*.head JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1 
+
+cd JOBDIR/dp47/z_28 
+echo "DONE processing RUN07_combined_astromScamp on $HOST" > RUN07_combined_astromScamp.DONE 

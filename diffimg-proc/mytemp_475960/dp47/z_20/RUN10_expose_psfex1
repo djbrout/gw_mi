@@ -1,0 +1,13 @@
+echo "# psfex : get PSF for each exposure " 
+echo "#   " 
+psfex WS0047_475960_1230--700_tile1_z_20.cat \
+  -c SN_image.psfex  -PSF_DIR ./ \
+  -XML_NAME WS0047_475960_1230--700_tile1_z_20.xml \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " psfex FAILED --> STOP PIPELINE " 
+   touch RUN10_expose_psfex1.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_20 
+echo "DONE processing RUN10_expose_psfex1 on $HOST" > RUN10_expose_psfex1.DONE 

@@ -1,0 +1,27 @@
+echo "# forcePhoto : Run forcePhoto on fakes, regardless of S/N.  " 
+
+makeForceList_fakesOnly  \
+  -inFile_diffCoadd    WS0047_475960_1230--700_combined_z_24+fakeSN_diff_mh.fits \
+  -inFile_psf          WS0047_475960_1230--700_combined_z_24+fakeSN.psf \
+  -inFile_sciCoadd     WS0047_475960_1230--700_combined_z_24+fakeSN_mh.fits \
+  -inFile_fakeList     WS0047_475960_1230--700_combined_z_24+fakeSN_doFake.out  \
+  -outFile_forceList   WS0047_475960_1230--700_combined_z_24_fakeForcePhoto.input  \
+  -outFile_stdout      makeForceList_fakesOnly_combined.stdout  \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeForceList_fakesOnly FAILED --> STOP PIPELINE " 
+   touch RUN26_combined_fakeForcePhoto.FAIL ; exit ; fi 
+
+forcePhoto  \
+  -inFile_forceList  WS0047_475960_1230--700_combined_z_24_fakeForcePhoto.input \
+  -outFile_results   WS0047_475960_1230--700_combined_z_24+fakeSN_fakeForcePhoto.out \
+  -outFile_stdout    WS0047_475960_1230--700_combined_z_24+fakeSN_fakeForcePhoto.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeForceList_fakesOnly FAILED --> STOP PIPELINE " 
+   touch RUN26_combined_fakeForcePhoto.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_24 
+echo "DONE processing RUN26_combined_fakeForcePhoto on $HOST" > RUN26_combined_fakeForcePhoto.DONE 

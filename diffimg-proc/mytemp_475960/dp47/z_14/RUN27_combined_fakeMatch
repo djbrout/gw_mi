@@ -1,0 +1,21 @@
+echo "# fakeMatch : match each fake to object. Collect & store monitor info. " 
+echo "# For each overlaid fake, search filterObj output file " 
+echo "# for matching object. Also read/store forcePhoto info. " 
+export RUNDIR='JOBDIR/dp47/z_14' 
+
+fakeMatch  \
+  -inFile_fakeList   WS0047_475960_1230--700_combined_z_14+fakeSN_doFake.out \
+  -inFile_fakeGalflux WS0047_475960_1230--700_combined_z_14_fakeGalflux.out \
+  -inFile_objList    WS0047_475960_1230--700_combined_z_14+fakeSN_filterObj.out \
+  -inFile_forceList  WS0047_475960_1230--700_combined_z_14+fakeSN_fakeForcePhoto.out \
+  -inFile_autoList   WS0047_475960_1230--700_combined_z_14+fakeSN_autoScan.out \
+  -outFile_fakeList  WS0047_475960_1230--700_results_z_14+fakeSN_fakeMatch.out \
+  -outFile_stdout    WS0047_475960_1230--700_results_z_14+fakeSN_fakeMatch.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " fakeMatch FAILED --> STOP PIPELINE " 
+   touch RUN27_combined_fakeMatch.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_14 
+echo "DONE processing RUN27_combined_fakeMatch on $HOST" > RUN27_combined_fakeMatch.DONE 

@@ -1,0 +1,37 @@
+echo "# insert_forceImageTable : write into SNFORCE_IMAGE table " 
+
+export DESDMFW_TASKID=''
+
+ insert_forceImageTable \
+   -inFile_diffCoadd  WS0047_475960_1230--700_combined_z_15+fakeSN_diff_mh.fits \
+   -inFile_psf        WS0047_475960_1230--700_combined_z_15+fakeSN.psf \
+   -outFile_stdout    insert_forceImageTable.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " insert_forceImageTable FAILED --> STOP PIPELINE " 
+   touch RUN28_combined_prepForcePhoto.FAIL ; exit ; fi 
+
+# START_COPY_FORCEIMAGES 
+export TOPDIR_SNFORCE_IMAGES='data/DESSN_PIPELINE/SNFORCE/IMAGES/20150917' 
+mkdir -p ${TOPDIR_SNFORCE_IMAGES} 
+cp WS0047_475960_1230--700_combined_z_15+fakeSN_diff_mh.fits \
+	 ${TOPDIR_SNFORCE_IMAGES} 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " copy_forceImage FAILED --> STOP PIPELINE " 
+   touch RUN28_combined_prepForcePhoto.FAIL ; exit ; fi 
+
+cp WS0047_475960_1230--700_combined_z_15+fakeSN.psf \
+	 ${TOPDIR_SNFORCE_IMAGES} 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " copy_forceImage FAILED --> STOP PIPELINE " 
+   touch RUN28_combined_prepForcePhoto.FAIL ; exit ; fi 
+
+# END_COPY_FORCEIMAGES 
+
+cd JOBDIR/dp47/z_15 
+echo "DONE processing RUN28_combined_prepForcePhoto on $HOST" > RUN28_combined_prepForcePhoto.DONE 

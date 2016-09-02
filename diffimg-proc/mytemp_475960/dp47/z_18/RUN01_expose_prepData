@@ -1,0 +1,13 @@
+echo "# Copy data file(s) and funpack them. " 
+
+cd JOBDIR/data/20150917-1230--700 
+
+ln -sf /pnfs/des/scratch/gw/exp/20150917/475960/D00475960_z_18_r2p08_immask.fits  JOBDIR/dp47/z_18/WS0047_475960_1230--700_tile1_z_18_mh.fits 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " copy FAILED --> STOP PIPELINE " 
+   touch RUN01_expose_prepData.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_18 
+echo "DONE processing RUN01_expose_prepData on $HOST" > RUN01_expose_prepData.DONE 

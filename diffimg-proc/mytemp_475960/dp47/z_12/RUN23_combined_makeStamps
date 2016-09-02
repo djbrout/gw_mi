@@ -1,0 +1,21 @@
+echo "# makeStamps : make stamp-image around each SN object (fits and gif) " 
+echo "# Runs on search, template and difference; " 
+echo "# ==> used for visual scanning.  " 
+echo "#   " 
+
+makeStamps  \
+  -inFile_search    WS0047_475960_1230--700_combined_z_12+fakeSN_mh.fits \
+  -inFile_template  WS0047_475960_1230--700_combined_z_12_template_mh.fits \
+  -inFile_diff      WS0047_475960_1230--700_combined_z_12+fakeSN_diff_mh.fits \
+  -inFile_objList   WS0047_475960_1230--700_combined_z_12+fakeSN_filterObj.out \
+  -outDir               stamps_20150917_1230--700_z_12 \
+  -outFile_stampList    STAMPS.LIST \
+  -outFile_stdout    WS0047_475960_1230--700_combined_z_12+fakeSN_makeStamps.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeStamps FAILED --> STOP PIPELINE " 
+   touch RUN23_combined_makeStamps.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_12 
+echo "DONE processing RUN23_combined_makeStamps on $HOST" > RUN23_combined_makeStamps.DONE 

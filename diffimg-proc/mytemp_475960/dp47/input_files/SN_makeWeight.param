@@ -1,0 +1,13 @@
+# Created Mar 01, 2012 by R.Kessler
+# arguments for makeWeight program
+# Jun 16 2016: Modify for new makeWeight
+#
+
+MKWGT_FORCE:   1  # 0=> skip if already done; 1=> always do it
+
+MKWGT_TEMPLATE_ARG: -w5 0.5 -border 15
+MKWGT_TEMPLATE_ARG: -wmin 1.e-8 -intp 2 -skycor 1 -wopt 2 -badpix 0xFFFF
+
+#MKWGT_EXPOSURE_ARG: -w5 0.5 -border 15 -wmin 1.e-6 -intp 2 
+MKWGT_EXPOSURE_ARG: -wopt 2
+

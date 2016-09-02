@@ -1,0 +1,20 @@
+echo "# sex : make star catalog from distorted templates  " 
+echo "#   " 
+
+# -----------------------------------------
+START_EXPAND_LOOP: 
+sex \
+                WS0047_475960_1230--700_combined_z_14_templateXX.fits \
+  -WEIGHT_IMAGE WS0047_475960_1230--700_combined_z_14_templateXX.weight.fits \
+  -CATALOG_NAME WS0047_475960_1230--700_combined_z_14_templateXX.cat \
+  -c SN_redim_ALL.sex \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " sex FAILED --> STOP PIPELINE " 
+   touch RUN17_combined+expose_sexDistorTEMPLATES.FAIL ; exit ; fi 
+
+END_EXPAND_LOOP: 
+
+cd JOBDIR/dp47/z_14 
+echo "DONE processing RUN17_combined+expose_sexDistorTEMPLATES on $HOST" > RUN17_combined+expose_sexDistorTEMPLATES.DONE 

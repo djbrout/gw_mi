@@ -1,0 +1,17 @@
+#
+# DESDM login configuration
+#
+# The DAGMaker will look for a  ~/.wgetrc-desdm
+# file. If you already have it, please make sure
+# that the information listed here is present there.
+#
+# If you don't have a ~/.wgetrc-desdm file
+# please modify this file to match your DESDM
+# credentials and run:
+#
+#  mv wgetrc-desdm ~/.wgetrc-desdm
+#  chmod g-r ~/.wgetrc-desdm
+#
+user=THEUSERNAME
+password=THEPASSWORD
+

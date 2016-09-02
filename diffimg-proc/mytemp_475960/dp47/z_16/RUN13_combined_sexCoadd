@@ -1,0 +1,15 @@
+echo "# sex : make star catalog for PSFex on combined search-image " 
+echo "#   " 
+sex  WS0047_475960_1230--700_combined_z_16+fakeSN.fits \
+  -WEIGHT_IMAGE WS0047_475960_1230--700_combined_z_16+fakeSN.weight.fits \
+  -CATALOG_NAME WS0047_475960_1230--700_combined_z_16+fakeSN.cat \
+  -c SN_redim_ASSOC.sex \
+  -ASSOC_NAME   STARCAT_20150917_1230--700_z_16.LIST \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " sex FAILED --> STOP PIPELINE " 
+   touch RUN13_combined_sexCoadd.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_16 
+echo "DONE processing RUN13_combined_sexCoadd on $HOST" > RUN13_combined_sexCoadd.DONE 

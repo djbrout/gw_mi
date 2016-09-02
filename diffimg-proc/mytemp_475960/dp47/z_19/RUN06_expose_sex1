@@ -1,0 +1,14 @@
+echo "# sex : make star cat for astrometry/scamp " 
+echo "#   " 
+sex  WS0047_475960_1230--700_tile1_z_19.fits \
+  -WEIGHT_IMAGE WS0047_475960_1230--700_tile1_z_19.weight.fits \
+  -CATALOG_NAME WS0047_475960_1230--700_tile1_z_19.cat \
+  -c SN_redim_ALL.sex \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " sex FAILED --> STOP PIPELINE " 
+   touch RUN06_expose_sex1.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_19 
+echo "DONE processing RUN06_expose_sex1 on $HOST" > RUN06_expose_sex1.DONE 

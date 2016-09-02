@@ -1,0 +1,86 @@
+./RUN01_expose_prepData >& RUN01_expose_prepData.LOG 
+if [ -f RUN01_expose_prepData.FAIL ]; then  exit ; fi 
+
+./RUN02_expose_makeStarCat >& RUN02_expose_makeStarCat.LOG 
+if [ -f RUN02_expose_makeStarCat.FAIL ]; then  exit ; fi 
+
+./RUN03_expose_mkWStemplate >& RUN03_expose_mkWStemplate.LOG 
+if [ -f RUN03_expose_mkWStemplate.FAIL ]; then  exit ; fi 
+
+./RUN04_expose_stripPV >& RUN04_expose_stripPV.LOG 
+if [ -f RUN04_expose_stripPV.FAIL ]; then  exit ; fi 
+
+./RUN05_expose_makeWeight >& RUN05_expose_makeWeight.LOG 
+if [ -f RUN05_expose_makeWeight.FAIL ]; then  exit ; fi 
+
+./RUN06_expose_sex1 >& RUN06_expose_sex1.LOG 
+if [ -f RUN06_expose_sex1.FAIL ]; then  exit ; fi 
+
+./RUN07_combined_astromScamp >& RUN07_combined_astromScamp.LOG 
+if [ -f RUN07_combined_astromScamp.FAIL ]; then  exit ; fi 
+
+./RUN08_combined_astromHeaders >& RUN08_combined_astromHeaders.LOG 
+if [ -f RUN08_combined_astromHeaders.FAIL ]; then  exit ; fi 
+
+./RUN09_expose_sex2 >& RUN09_expose_sex2.LOG 
+if [ -f RUN09_expose_sex2.FAIL ]; then  exit ; fi 
+
+./RUN10_expose_psfex1 >& RUN10_expose_psfex1.LOG 
+if [ -f RUN10_expose_psfex1.FAIL ]; then  exit ; fi 
+
+./RUN11_combined+expose_doFake >& RUN11_combined+expose_doFake.LOG 
+if [ -f RUN11_combined+expose_doFake.FAIL ]; then  exit ; fi 
+
+./RUN12_combined_swarpSEARCH >& RUN12_combined_swarpSEARCH.LOG 
+if [ -f RUN12_combined_swarpSEARCH.FAIL ]; then  exit ; fi 
+
+./RUN13_combined_sexCoadd >& RUN13_combined_sexCoadd.LOG 
+if [ -f RUN13_combined_sexCoadd.FAIL ]; then  exit ; fi 
+
+./RUN14_combined_psfexCoadd >& RUN14_combined_psfexCoadd.LOG 
+if [ -f RUN14_combined_psfexCoadd.FAIL ]; then  exit ; fi 
+
+./RUN15_combined_ingest >& RUN15_combined_ingest.LOG 
+if [ -f RUN15_combined_ingest.FAIL ]; then  exit ; fi 
+
+./RUN16_combined+expose_distorTEMPLATES >& RUN16_combined+expose_distorTEMPLATES.LOG 
+if [ -f RUN16_combined+expose_distorTEMPLATES.FAIL ]; then  exit ; fi 
+
+./RUN17_combined+expose_sexDistorTEMPLATES >& RUN17_combined+expose_sexDistorTEMPLATES.LOG 
+if [ -f RUN17_combined+expose_sexDistorTEMPLATES.FAIL ]; then  exit ; fi 
+
+./RUN18_combined+expose_hotpants >& RUN18_combined+expose_hotpants.LOG 
+if [ -f RUN18_combined+expose_hotpants.FAIL ]; then  exit ; fi 
+
+./RUN19_combined_coaddWSdiff >& RUN19_combined_coaddWSdiff.LOG 
+if [ -f RUN19_combined_coaddWSdiff.FAIL ]; then  exit ; fi 
+
+./RUN20_combined_sexDiffim >& RUN20_combined_sexDiffim.LOG 
+if [ -f RUN20_combined_sexDiffim.FAIL ]; then  exit ; fi 
+
+./RUN21_combined_mergeDiffim >& RUN21_combined_mergeDiffim.LOG 
+if [ -f RUN21_combined_mergeDiffim.FAIL ]; then  exit ; fi 
+
+./RUN22_combined+expose_filterObj >& RUN22_combined+expose_filterObj.LOG 
+if [ -f RUN22_combined+expose_filterObj.FAIL ]; then  exit ; fi 
+
+./RUN23_combined_makeStamps >& RUN23_combined_makeStamps.LOG 
+if [ -f RUN23_combined_makeStamps.FAIL ]; then  exit ; fi 
+
+./RUN24_combined_autoScan >& RUN24_combined_autoScan.LOG 
+if [ -f RUN24_combined_autoScan.FAIL ]; then  exit ; fi 
+
+./RUN25_combined_makeCand >& RUN25_combined_makeCand.LOG 
+if [ -f RUN25_combined_makeCand.FAIL ]; then  exit ; fi 
+
+./RUN26_combined_fakeForcePhoto >& RUN26_combined_fakeForcePhoto.LOG 
+if [ -f RUN26_combined_fakeForcePhoto.FAIL ]; then  exit ; fi 
+
+./RUN27_combined_fakeMatch >& RUN27_combined_fakeMatch.LOG 
+if [ -f RUN27_combined_fakeMatch.FAIL ]; then  exit ; fi 
+
+./RUN28_combined_prepForcePhoto >& RUN28_combined_prepForcePhoto.LOG 
+if [ -f RUN28_combined_prepForcePhoto.FAIL ]; then  exit ; fi 
+
+
+echo "z_20  finished at `date +%y%m%d_%H%M` " >> JOBDIR/dp47/FILTERCHIP.DONE

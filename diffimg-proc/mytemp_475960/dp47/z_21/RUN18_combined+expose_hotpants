@@ -1,0 +1,33 @@
+echo "# hotpants : create search-template difference image  " 
+echo "#   " 
+
+# -----------------------------------------
+START_EXPAND_LOOP: 
+echo WS0047_475960_1230--700_combined_z_21+fakeSN_diffXX.fits >> INTERNAL_WSDIFF.LIST 
+
+hotpants  \
+  -inim   WS0047_475960_1230--700_combined_z_21+fakeSN.fits \
+  -tmplim WS0047_475960_1230--700_combined_z_21_templateXX.fits \
+  -outim  WS0047_475960_1230--700_combined_z_21+fakeSN_diffXX.fits \
+  -ini    WS0047_475960_1230--700_combined_z_21+fakeSN.weight.fits \
+  -tni    WS0047_475960_1230--700_combined_z_21_templateXX.weight.fits \
+  -oni    WS0047_475960_1230--700_combined_z_21+fakeSN_diffXX.weight.fits \
+     -useWeight -nsx 10 -nsy 20 -n t -convvar \
+     -r 20 -rss 25 -kfm 0.999 -bgo 2 \
+     -rk0 9.01 -wk0 9 -wkX 5 -wkY 5 -rkx 5.01 -rky 5.01 \
+     -ng 1 1 6.0 \
+     -v 1 \
+     -mcs 10.0 -mds 5.0 -mdf 0.2 -mks 0.05 -mnor 5.0 \
+     -sdif 5.0 -serr 1.e-6 \
+     -il -999999 -iu 999999 \
+     -tl -999999 -tu 999999 \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " hotpants FAILED --> STOP PIPELINE " 
+   touch RUN18_combined+expose_hotpants.FAIL ; exit ; fi 
+
+END_EXPAND_LOOP: 
+
+cd JOBDIR/dp47/z_21 
+echo "DONE processing RUN18_combined+expose_hotpants on $HOST" > RUN18_combined+expose_hotpants.DONE 

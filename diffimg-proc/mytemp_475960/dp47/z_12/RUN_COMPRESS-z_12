@@ -1,0 +1,15 @@
+fpack -D -Y  WS0047_475960_1230--700_tile1_z_12.fits 
+fpack -D -Y  WS0047_475960_1230--700_tile1_z_12.weight.fits 
+fpack -D -Y  WS0047_475960_1230--700_tile1_z_12+fakeSN.fits 
+fpack -D -Y  WS0047_475960_1230--700_tile1_z_12+fakeSN.weight.fits 
+fpack -D -Y  WSTemplate_475960_1230--700_GWV1_z_12.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12+fakeSN_mh.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12_templateXX.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12_templateXX.weight.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12+fakeSN_diffXX.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12+fakeSN_diffXX.weight.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12+fakeSN_diff_mh.fits 
+fpack -D -Y  WS0047_475960_1230--700_combined_z_12_template_mh.fits 
+  tar -cf stamps_20150917_1230--700_z_12.tar stamps_20150917_1230--700_z_12 
+  gzip stamps_20150917_1230--700_z_12.tar 
+  rm -r stamps_20150917_1230--700_z_12 

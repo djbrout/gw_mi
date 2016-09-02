@@ -1,0 +1,18 @@
+echo "# makeWeight : recalculate wgt-map and remove or mask image defects " 
+echo "# Extract image and weight map from each multi-header fits file. " 
+echo "# The output weight is zero for masked pixels.  " 
+echo "#  " 
+makeWeight  \
+  -wopt 2 \
+  -inFile_img       WS0047_475960_1230--700_tile1_z_05_mh.fits \
+  -outFile_sci      WS0047_475960_1230--700_tile1_z_05.fits \
+  -outFile_wgt      WS0047_475960_1230--700_tile1_z_05.weight.fits \
+  -outFile_stdout   WS0047_475960_1230--700_tile1_z_05_makeWeight.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeWeight FAILED --> STOP PIPELINE " 
+   touch RUN05_expose_makeWeight.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_05 
+echo "DONE processing RUN05_expose_makeWeight on $HOST" > RUN05_expose_makeWeight.DONE 

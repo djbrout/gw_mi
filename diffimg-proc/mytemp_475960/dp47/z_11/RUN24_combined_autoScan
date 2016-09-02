@@ -1,0 +1,24 @@
+echo "# autoScan.py : auto-scan based on machine-learning  " 
+
+export DIRNAME_AUTOSCAN='/cvmfs/des.opensciencegrid.org/fnal/SNautoScanTrainings/ml3.2' 
+
+
+python \
+/cvmfs/des.opensciencegrid.org/eeups/fnaleups/Linux64/diffimg/gwdevel12/bin/autoScan.py  \
+  -inFile_objList  WS0047_475960_1230--700_combined_z_11+fakeSN_filterObj.out \
+  -inDir_stamps      stamps_20150917_1230--700_z_11  \
+  -inFile_stampList  STAMPS.LIST  \
+  -inFile_imputer   ${DIRNAME_AUTOSCAN}/imputerml3.2.obj \
+  -inFile_model     ${DIRNAME_AUTOSCAN}/ml3.2.classifier/ml3.2.comp \
+  -inFile_scaler    ${DIRNAME_AUTOSCAN}/scalerml3.2.obj \
+  -no_galaxy_catalog \
+  -outFile_results  WS0047_475960_1230--700_combined_z_11+fakeSN_autoScan.out \
+  -outFile_stdout   WS0047_475960_1230--700_combined_z_11+fakeSN_autoScan.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " autoScan.py FAILED --> STOP PIPELINE " 
+   touch RUN24_combined_autoScan.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_11 
+echo "DONE processing RUN24_combined_autoScan on $HOST" > RUN24_combined_autoScan.DONE 

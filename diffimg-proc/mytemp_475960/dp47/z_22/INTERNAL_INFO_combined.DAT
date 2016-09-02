@@ -1,0 +1,87 @@
+NITE:    20150917   
+FILTER:  z 
+CCDNUM:  22   
+FC:      z_22     
+FIELD:   1230--700  
+N_EXPOSURES:     1 
+TILE:            0    
+EXPNUM:          475960  
+EXPOSURE_TIME:   300  
+DATAPREFIX:      WS0047_475960_1230--700_combined_z_22 
+FAKEPREFIX:      WS0047_475960_1230--700_combined_z_22+fakeSN 
+CPUNODE:     
+
+SEARCH_LISFILE:         INTERNAL_EXPOSURES.LIST 
+SEARCH+fakeSN_LISFILE:  INTERNAL_EXPOSURES+fakeSN.LIST 
+SEARCH+fakeSN_diff_LISFILE:  INTERNAL_EXPOSURES+fakeSN_diff.LIST 
+DISTORTEMPLATE_LISFILE:  INTERNAL_EXPOSURES_distorTemplates.LIST 
+DISTORTEMPLATE_SEXCAT_LISFILE:  INTERNAL_distorTemplates_SEXCAT.LIST 
+STAMPLIST:  STAMPS.LIST 
+STAMPDIR:  stamps_20150917_1230--700_z_22 
+
+SEARCH_MHFILE:      WS0047_475960_1230--700_combined_z_22_mh.fits 
+SEARCH_IMAGEFILE:   WS0047_475960_1230--700_combined_z_22.fits 
+SEARCH_WEIGHTFILE:  WS0047_475960_1230--700_combined_z_22.weight.fits
+SEARCH_MASKFILE:    WS0047_475960_1230--700_combined_z_22.mask.fits
+SEARCH_HEADFILE:    WS0047_475960_1230--700_combined_z_22.head  
+SEARCH_PSFFILE:     WS0047_475960_1230--700_combined_z_22.psf
+SEARCH_SEXCATFILE:  WS0047_475960_1230--700_combined_z_22.cat 
+SEARCH_XMLFILE:     WS0047_475960_1230--700_combined_z_22.xml
+SEARCH_SEXCAT_LISFILE:  INTERNAL_EXPOSURES_SEXCAT.LIST 
+SEARCH+fakeSN_IMAGEFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN.fits 
+SEARCH+fakeSN_WEIGHTFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN.weight.fits
+SEARCH+fakeSN_MASKFILE:     WS0047_475960_1230--700_combined_z_22+fakeSN.mask.fits
+SEARCH+fakeSN_HEADFILE:     WS0047_475960_1230--700_combined_z_22+fakeSN.head  
+SEARCH+fakeSN_LISTFILE:     WS0047_475960_1230--700_combined_z_22+fakeSN_doFake.out 
+SEARCH+fakeSN_MATCHFILE:    WS0047_475960_1230--700_results_z_22+fakeSN_fakeMatch.out
+SEARCH+fakeSN_MATCHLOG:     WS0047_475960_1230--700_results_z_22+fakeSN_fakeMatch.stdout
+SEARCH+fakeSN_MHFILE:       WS0047_475960_1230--700_combined_z_22+fakeSN_mh.fits 
+FORCEPHOTO_FAKEPREFIX:   WS0047_475960_1230--700_combined_z_22_fakeForcePhoto 
+SEARCH+fakeSN_PSFFILE:      WS0047_475960_1230--700_combined_z_22+fakeSN.psf 
+SEARCH+fakeSN_SEXCATFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN.cat 
+SEARCH+fakeSN_XMLFILE:      WS0047_475960_1230--700_combined_z_22+fakeSN.xml 
+SEARCH+fakeSN_STAMPFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_srch.fits
+
+SNtemplate_TNORM_LOGFILE:  WSTemplate_475960_1230--700_GWV1_z_22.log 
+SNtemplate_LISFILE:        WSTemplate_475960_1230--700_GWV1_z_22.lis 
+SNtemplate_IMAGEFILE:      WSTemplate_475960_1230--700_GWV1_z_22.fits 
+SNtemplate_WEIGHTFILE:     WSTemplate_475960_1230--700_GWV1_z_22.weight.fits
+SNtemplate_CATFILE:     WSTemplate_475960_1230--700_GWV1_z_22.cat
+DISTOR_TEMPLATE_IMAGEFILE:    WS0047_475960_1230--700_combined_z_22_templateXX.fits 
+DISTOR_TEMPLATE_WEIGHTFILE:   WS0047_475960_1230--700_combined_z_22_templateXX.weight.fits
+DISTOR_TEMPLATE_HEADFILE:     WS0047_475960_1230--700_combined_z_22_templateXX.head 
+DISTOR_TEMPLATE_MHFILE:       WS0047_475960_1230--700_combined_z_22_templateXX_mh.fits 
+DISTOR_TEMPLATE_STAMPFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_tempXX.fits 
+DISTOR_TEMPLATE_CATFILE:     WS0047_475960_1230--700_combined_z_22_templateXX.cat 
+
+DIFF_IMAGEFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_diffXX.fits 
+DIFF_WEIGHTFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN_diffXX.weight.fits
+DIFF_MASKFILE:     WS0047_475960_1230--700_combined_z_22+fakeSN_diff.mask.fits
+DIFF_KERNFILE:     WS0047_475960_1230--700_combined_z_22+fakeSN_diff.kern.fits
+DIFF_SEXCATFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN_diff.cat 
+DIFF_PSFFILE:      WS0047_475960_1230--700_combined_z_22+fakeSN_diff.psf 
+DIFF_MHFILE:       WS0047_475960_1230--700_combined_z_22+fakeSN_diff_mh.fits 
+WSTEMPLATE_SEXCAT_LISFILE:  INTERNAL_WSTemplates_SEXCAT_z_22.LIST 
+WSTEMPLATE_LISFILE:  INTERNAL_WSdistorTemplates_z_22.LIST 
+WSTEMPLATE_MHFILE:   WS0047_475960_1230--700_combined_z_22_template_mh.fits 
+WSTEMPLATE_IMAGEFILE:   WS0047_475960_1230--700_combined_z_22_template.fits 
+WSTEMPLATE_WEIGHTFILE:  WS0047_475960_1230--700_combined_z_22_template.weight.fits 
+WSDIFF_LISFILE:  INTERNAL_WSDIFF.LIST 
+WSDIFF_MHFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_diff_mh.fits 
+WSDIFF_IMAGEFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_diff.fits 
+WSDIFF_WEIGHTFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN_diff.weight.fits
+WSDIFF_SEXCATFILE:    WS0047_475960_1230--700_combined_z_22+fakeSN_diff.cat 
+
+filterObj_LISFILE:  INTERNAL_filterObj.LIST 
+filterObj_LOGFILE:  WS0047_475960_1230--700_combined_z_22+fakeSN_filterObj.stdout
+filterObj_OUTFILE:  WS0047_475960_1230--700_combined_z_22+fakeSN_filterObj.out 
+FAKEGALFLUX_OUTFILE:  WS0047_475960_1230--700_combined_z_22_fakeGalflux.out 
+autoScan_LOGFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN_autoScan.stdout 
+autoScan_OUTFILE:   WS0047_475960_1230--700_combined_z_22+fakeSN_autoScan.out 
+makeCand_LOGFILE:  WS0047_475960_1230--700_results_z_22+fakeSN_makeCand.stdout
+makeCand_OUTFILE:  WS0047_475960_1230--700_results_z_22+fakeSN_makeCand.out 
+MONCOLLECT_SUBDIR:   headers 
+forcePhoto_LOGFILE:  WS0047_475960_1230--700_combined_z_22+fakeSN_fakeForcePhoto.stdout
+forcePhoto_OUTFILE:  WS0047_475960_1230--700_combined_z_22+fakeSN_fakeForcePhoto.out 
+STARCAT_LIST:  STARCAT_20150917_1230--700_z_22.LIST 
+

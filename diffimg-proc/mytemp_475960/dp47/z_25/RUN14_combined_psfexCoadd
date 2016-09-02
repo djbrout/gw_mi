@@ -1,0 +1,13 @@
+echo "# psfex : get PSF for nitely-combined image. " 
+echo "#   " 
+psfex WS0047_475960_1230--700_combined_z_25+fakeSN.cat \
+  -c SN_image.psfex  -PSF_DIR ./ \
+  -XML_NAME WS0047_475960_1230--700_combined_z_25+fakeSN.xml \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " psfex FAILED --> STOP PIPELINE " 
+   touch RUN14_combined_psfexCoadd.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_25 
+echo "DONE processing RUN14_combined_psfexCoadd on $HOST" > RUN14_combined_psfexCoadd.DONE 

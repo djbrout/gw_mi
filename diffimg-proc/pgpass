@@ -1,0 +1,15 @@
+#
+# SISPI db configuration
+#
+# The DAGMaker will look for a  ~/.pgpass
+# file. If you already have it, please make sure
+# that the configs listed here are present there.
+#
+# If you don't have a ~/.pgpass file
+# please modify this file to match the SISPI db
+# loging info and run:
+#
+#  mv pgpass ~/.pgpass
+#  chmod g-r ~/.pgpass
+#
+des20.fnal.gov:5443:decam_prd:decam_reader:THEPASSWORD

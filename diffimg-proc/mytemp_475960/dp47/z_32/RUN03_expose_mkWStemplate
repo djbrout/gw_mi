@@ -1,0 +1,45 @@
+echo "# makeWSTemplates.sh: make wide-survey template " 
+makeWSTemplates.sh \
+  -inFile_img        WS0047_475960_1230--700_tile1_z_32_mh.fits \
+  -outPath           JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1 \
+  -nstarMin          10 \
+  -inFile_sexParams  SN_redim_ALL.sex \
+  -outFile_prefix    WSTemplateXX_475960_1230--700_GWV1_z_32 \
+  -outFile_templatelist  WSTemplate_475960_1230--700_GWV1_z_32.lis \
+  -outFile_numlist       WSTemplate_475960_1230--700_GWV1_z_32.numList \
+  -outFile_sexcatlist    WSTemplate_475960_1230--700_GWV1_z_32.catList \
+  -outFile_stdout        WSTemplate_475960_1230--700_GWV1_z_32.stdout \
+  -verbose 1 \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeWSTemplates.sh FAILED --> STOP PIPELINE " 
+   touch RUN03_expose_mkWStemplate.FAIL ; exit ; fi 
+
+cp JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1/WSTemplate_475960_1230--700_GWV1_z_32.lis . 
+cp JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1/WSTemplate_475960_1230--700_GWV1_z_32.numList . 
+cp JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1/WSTemplate_475960_1230--700_GWV1_z_32.catList . 
+
+EXPAND_LOOP.pl 'RUN*' WSTemplate_475960_1230--700_GWV1_z_32.numList > EXPAND_LOOP.stdout 
+EXPAND_LOOP.pl 'run*' WSTemplate_475960_1230--700_GWV1_z_32.numList > EXPAND_LOOP.stdout 
+
+# ------------------------------------------------
+echo "# swarp-coadd the templates for doFake" 
+first_template=`head -n 1 WSTemplate_475960_1230--700_GWV1_z_32.lis` 
+echo "First distorted template : $first_template" 
+
+listhead $first_template \
+  > WSTemplate_475960_1230--700_GWV1_z_32_coadd.head 
+swarp \
+  @WSTemplate_475960_1230--700_GWV1_z_32.lis \
+  -c SN_diffcmb.swarp \
+  -IMAGEOUT_NAME   WSTemplate_475960_1230--700_GWV1_z_32_coadd.fits \
+  -WEIGHTOUT_NAME  WSTemplate_475960_1230--700_GWV1_z_32_coadd.weight.fits \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " swarp FAILED --> STOP PIPELINE " 
+   touch RUN03_expose_mkWStemplate.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_32 
+echo "DONE processing RUN03_expose_mkWStemplate on $HOST" > RUN03_expose_mkWStemplate.DONE 

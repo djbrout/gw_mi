@@ -1,0 +1,1 @@
+jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_475960.dag

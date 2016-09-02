@@ -1,0 +1,21 @@
+# Inputs for custom coadd of hotPants diffs to account for
+# correlated errors in search image.
+
+# COMBINE_TYPE: AVERAGE / WEIGHTED / MEDIAN (default=AVERAGE)
+COMBINE_TYPE: WEIGHTED 
+
+#DOSKY: 0=>DISABLE SKY-SUB, 1=>ENABLE SKY-SUB (default=1)
+DOSKY:  1 
+
+SEARCH_IMAGE:  WS0047_475960_1230--700_combined_z_19+fakeSN.fits 
+SEARCH_WEIGHT: WS0047_475960_1230--700_combined_z_19+fakeSN.weight.fits 
+
+# -----------------------------------------
+START_EXPAND_LOOP: 
+TEMPLATE+DIFF_IMAGE:  XX  WS0047_475960_1230--700_combined_z_19_templateXX.fits  WS0047_475960_1230--700_combined_z_19+fakeSN_diffXX.fits 
+TEMPLATE+DIFF_WEIGHT: XX  WS0047_475960_1230--700_combined_z_19_templateXX.weight.fits  WS0047_475960_1230--700_combined_z_19+fakeSN_diffXX.weight.fits 
+
+END_EXPAND_LOOP: 
+
+OUT_COADD_IMAGE:  WS0047_475960_1230--700_combined_z_19+fakeSN_diff.fits 
+OUT_COADD_WEIGHT: WS0047_475960_1230--700_combined_z_19+fakeSN_diff.weight.fits 

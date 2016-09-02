@@ -1,0 +1,112 @@
+# ##################################################
+#
+# Sep 18 2014: change veto-mag cut from 99 to 21.0 (for SNVETO catalog)
+#
+# Jan 15 2015: add new parameter to fix or float background in PSF fit
+#
+# Feb 2 2015: rename DIPOLE[0,1,2] -> DIPOLE_[nneg2,nneg4,nneg6] to 
+#             be more clear and to be consistent with forcePhoto.
+#
+# Aug 21 2015: change object-candidate match tolerance from 1.08 to 1.0 arcsec
+#
+############## filterObj cuts #################
+
+FLAG_FLOATBACK  1   # 1-> float background in PSF fit; 0->fix BACK=0
+
+CFUDGE          0.1
+DIPOLE_NNEG2    200.0  # number of pixels below -2 sigma
+DIPOLE_NNEG4     20.0  # number of pixels below -4 sigma
+DIPOLE_NNEG6      2.0  # number of pixels below -6 sigma
+#Cut on sextractor flags
+FLAGCUT     0.0
+#Maximum magnitude to accept a candidate
+MAXMAG      30.0
+MAXA         1.5
+MAXCHISQ  9999.0
+#Cut on maximum sextractor SPREAD_MODEL < MAXSPRD + SPRFACT*SPREADERR_MODEL
+MAXSPRD     1.0
+SPRFACT     3.0
+#Min probabily on chi-squared of agreement of different frames
+MINPRB     1.0e-4
+MINPRBg    1.0e-4
+MINPRBr    1.0e-4
+MINPRBi    1.0e-4
+MINPRBz    1.0e-4
+#Minimum S/N of accepted detections
+MINSN        3.5
+PSFPOW       1.0
+#Minimum accepted magnitude in veto catalog
+VETOMAG     21.0
+#Tolerance for searching in veto catalog
+VETOTOL     0.02
+#Scale factor for veto catalog radius
+VETOSCL     1.0
+#Veto catalog version -- must match exactly -- CURRENT means find current version and use that
+VETOVER     CURRENT
+#list of VTYPES to exclude from consideration, comma separated, e.g. 1,2,3 (X means include everything)
+VETOXCL     X
+ZPTERR      0.25
+
+################# makeCand cuts ####################
+
+#Range in days to use in matching observations to make a candidate
+MATCHMJD_MIN  -30.0  
+MATCHMJD_MAX  +30.0  
+  
+# Matching tolerance (degrees) for objects to make a candidate
+# change to exactly 1'' (Aug 21 2015) from 0.0003
+MATCHTOL   0.00028
+
+# matching tolerance to fake (in filterObj and in makeCand)
+# Aug 28 2015: Reduce from 0.0004 to 0.0003 
+FAKETOL    0.0003
+
+# min ML_SCORE (from autoScan) for SNOBS selection
+# May 19 2015: Set min ML score to 0.3
+MIN_MLSCORE  0.3
+
+################# monDiffim params ##################
+
+# Jul 17 2014 - updates corresponding to monDiffim updates
+#                (for FNAL and NERSC processing; below not used at NCSA)
+#
+# Jul 19, 2014: adjusted mon params from Masao
+
+MONSNDP_FILTER g
+GOODRANGE_NREAL_SEX        10   350
+GOODRANGE_NREAL_FILTEROBJ   2   200
+GOODRANGE_NREAL_AUTOSCAN    1   100
+GOODRANGE_NFAKE_AUTOSCAN    0   20
+GOODRANGE_MAG20_AUTOSCAN    3   4
+GOODRANGE_MAGMEAN           20.0 25.0
+GOODRANGE_MAGRMS            0.2  3.0
+
+
+MONSNDP_FILTER r
+GOODRANGE_NREAL_SEX        10   350
+GOODRANGE_NREAL_FILTEROBJ   2   200
+GOODRANGE_NREAL_AUTOSCAN    1   100
+GOODRANGE_NFAKE_AUTOSCAN    0   20
+GOODRANGE_MAG20_AUTOSCAN    3   4
+GOODRANGE_MAGMEAN           20.0 25.0
+GOODRANGE_MAGRMS            0.2  3.0
+
+MONSNDP_FILTER i
+GOODRANGE_NREAL_SEX        10   350
+GOODRANGE_NREAL_FILTEROBJ   2   200
+GOODRANGE_NREAL_AUTOSCAN    1   100
+GOODRANGE_NFAKE_AUTOSCAN    0   20
+GOODRANGE_MAG20_AUTOSCAN    3   4
+GOODRANGE_MAGMEAN           20.0 25.0
+GOODRANGE_MAGRMS            0.2  3.0
+
+MONSNDP_FILTER z
+GOODRANGE_NREAL_SEX        10   350
+GOODRANGE_NREAL_FILTEROBJ   2   200
+GOODRANGE_NREAL_AUTOSCAN    1   100
+GOODRANGE_NFAKE_AUTOSCAN    0   20
+GOODRANGE_MAG20_AUTOSCAN    3   4
+GOODRANGE_MAGMEAN           20.0 25.0
+GOODRANGE_MAGRMS            0.2  3.0
+
+# END

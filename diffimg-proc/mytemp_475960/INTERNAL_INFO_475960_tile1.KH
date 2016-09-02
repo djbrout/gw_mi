@@ -1,0 +1,56 @@
+NITE:    20150917  
+FILTER:  z
+CCDNUM:  THECCD
+FC:      z_$CCD     
+FIELD:   1230--700  
+N_EXPOSURES:     1 
+TILE:            20    
+EXPNUM:          475960
+EXPOSURE_TIME:   EXPTIME
+DATAPREFIX:      SNp1_475960_1230--700_tile1_z_$CCD 
+FAKEPREFIX:      SNp1_243830_SN-E1_tile1_z_$CCD+fakeSN 
+CPUNODE:    generic
+
+SEARCH_IMAGEFILE:   SNp1_475960_1230--700_tile1_z_$CCD.fits 
+SEARCH_WEIGHTFILE:  SNp1_475960_1230--700_tile1_z_$CCD.weight.fits
+SEARCH_MASKFILE:    SNp1_475960_1230--700_tile1_z_$CCD.mask.fits
+SEARCH_HEADFILE:    SNp1_475960_1230--700_tile1_z_$CCD.head  
+SEARCH_PSFFILE:     SNp1_475960_1230--700_tile1_z_$CCD.psf
+SEARCH_SEXCATFILE:  SNp1_475960_1230--700_tile1_z_$CCD.cat 
+SEARCH_XMLFILE:     SNp1_475960_1230--700_tile1_z_$CCD.xml
+SEARCH_SEXCAT_LISFILE:  INTERNAL_EXPOSURES_SEXCAT.LIST 
+SEARCH+fakeSN_IMAGEFILE:    SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.fits 
+SEARCH+fakeSN_WEIGHTFILE:   SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.weight.fits
+SEARCH+fakeSN_MASKFILE:     SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.mask.fits
+SEARCH+fakeSN_HEADFILE:     SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.head  
+SEARCH+fakeSN_LISTFILE:     SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_doFake.out 
+SEARCH+fakeSN_MATCHFILE:    SNp1_475960_1230--700_results_z_$CCD+fakeSN_fakeMatch.out
+SEARCH+fakeSN_MATCHLOG:     SNp1_475960_1230--700_results_z_$CCD+fakeSN_fakeMatch.stdout
+FORCEPHOTO_FAKEPREFIX:  forcePhoto_fakeSNonly
+SEARCH+fakeSN_PSFFILE:      SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.psf 
+SEARCH+fakeSN_SEXCATFILE:   SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.cat 
+SEARCH+fakeSN_XMLFILE:      SNp1_475960_1230--700_tile1_z_$CCD+fakeSN.xml 
+SEARCH+fakeSN_STAMPFILE:    SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_srch.fits
+
+SNtemplate_TNORM_LOGFILE:  SNTemplate_1230--700_V140815SV_z_$CCD.log 
+SNtemplate_LISFILE:        SNTemplate_1230--700_V140815SV_z_$CCD.lis 
+SNtemplate_IMAGEFILE:      SNTemplate_1230--700_V140815SV_z_$CCD.fits 
+SNtemplate_WEIGHTFILE:     SNTemplate_1230--700_V140815SV_z_$CCD.weight.fits
+SNtemplate_CATFILE:     SNTemplate_1230--700_V140815SV_z_$CCD.cat
+DISTOR_TEMPLATE_IMAGEFILE:    SNp1_475960_1230--700_tile1_z_$CCD_template.fits 
+DISTOR_TEMPLATE_WEIGHTFILE:   SNp1_475960_1230--700_tile1_z_$CCD_template.weight.fits
+DISTOR_TEMPLATE_HEADFILE:     SNp1_475960_1230--700_tile1_z_$CCD_template.head 
+DISTOR_TEMPLATE_MHFILE:       SNp1_475960_1230--700_tile1_z_$CCD_template_mh.fits 
+DISTOR_TEMPLATE_STAMPFILE:    SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_temp.fits 
+DISTOR_TEMPLATE_CATFILE:     SNp1_475960_1230--700_tile1_z_$CCD_template.cat 
+
+DIFF_IMAGEFILE:    SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.fits 
+DIFF_WEIGHTFILE:   SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.weight.fits
+DIFF_MASKFILE:     SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.mask.fits
+DIFF_KERNFILE:     SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.kern.fits
+DIFF_SEXCATFILE:   SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.cat 
+DIFF_PSFFILE:      SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff.psf 
+DIFF_MHFILE:       SNp1_475960_1230--700_tile1_z_$CCD+fakeSN_diff_mh.fits 
+
+filterObj_LISFILE:  INTERNAL_filterObj.LIST 
+

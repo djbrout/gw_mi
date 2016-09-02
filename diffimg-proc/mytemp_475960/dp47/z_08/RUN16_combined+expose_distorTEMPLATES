@@ -1,0 +1,30 @@
+echo "# swarp : Prepare distorted templates for hotpants.  " 
+echo "#   " 
+
+# -----------------------------------------
+START_EXPAND_LOOP: 
+echo WS0047_475960_1230--700_combined_z_08_templateXX.fits  >> INTERNAL_WSdistorTemplates_z_08.LIST 
+listhead WS0047_475960_1230--700_combined_z_08+fakeSN.fits > \
+	 WS0047_475960_1230--700_combined_z_08_templateXX.head 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " listhead FAILED --> STOP PIPELINE " 
+   touch RUN16_combined+expose_distorTEMPLATES.FAIL ; exit ; fi 
+
+swarp \
+                  WSTemplateXX_475960_1230--700_GWV1_z_08.fits \
+  -WEIGHT_IMAGE   WSTemplateXX_475960_1230--700_GWV1_z_08.weight.fits \
+  -IMAGEOUT_NAME  WS0047_475960_1230--700_combined_z_08_templateXX.fits \
+  -WEIGHTOUT_NAME WS0047_475960_1230--700_combined_z_08_templateXX.weight.fits \
+  -c SN_distemp.swarp \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " swarp FAILED --> STOP PIPELINE " 
+   touch RUN16_combined+expose_distorTEMPLATES.FAIL ; exit ; fi 
+
+END_EXPAND_LOOP: 
+
+cd JOBDIR/dp47/z_08 
+echo "DONE processing RUN16_combined+expose_distorTEMPLATES on $HOST" > RUN16_combined+expose_distorTEMPLATES.DONE 

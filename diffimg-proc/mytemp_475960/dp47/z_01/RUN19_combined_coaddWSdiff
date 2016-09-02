@@ -1,0 +1,32 @@
+echo "# coaddWSdiff : Coadd hotPants-diffs from each WS template. " 
+echo "# Use custom code to handle errors correctly. " 
+
+
+coaddWSdiff \
+  -inFile_list  run19_coaddWSdiff.input \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " coaddWSdiff FAILED --> STOP PIPELINE " 
+   touch RUN19_combined_coaddWSdiff.FAIL ; exit ; fi 
+
+# --------------------------------------------------- 
+echo "# swarp-coadd the templates for autoScan " 
+first_template=`head -n 1 INTERNAL_WSdistorTemplates_z_01.LIST` 
+echo "First distorted template : $first_template" 
+
+listhead $first_template \
+  > WS0047_475960_1230--700_combined_z_01_template.head 
+
+swarp @INTERNAL_WSdistorTemplates_z_01.LIST \
+  -c SN_diffcmb.swarp \
+  -IMAGEOUT_NAME  WS0047_475960_1230--700_combined_z_01_template.fits \
+  -WEIGHTOUT_NAME WS0047_475960_1230--700_combined_z_01_template.weight.fits \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " swarp FAILED --> STOP PIPELINE " 
+   touch RUN19_combined_coaddWSdiff.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_01 
+echo "DONE processing RUN19_combined_coaddWSdiff on $HOST" > RUN19_combined_coaddWSdiff.DONE 

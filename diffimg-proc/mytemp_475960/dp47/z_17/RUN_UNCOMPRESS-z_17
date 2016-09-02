@@ -1,0 +1,14 @@
+funpack -D  WS0047_475960_1230--700_tile1_z_17.fits.fz 
+funpack -D  WS0047_475960_1230--700_tile1_z_17.weight.fits.fz 
+funpack -D  WS0047_475960_1230--700_tile1_z_17+fakeSN.fits.fz 
+funpack -D  WS0047_475960_1230--700_tile1_z_17+fakeSN.weight.fits.fz 
+funpack -D  WSTemplate_475960_1230--700_GWV1_z_17.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17+fakeSN_mh.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17_templateXX.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17_templateXX.weight.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17+fakeSN_diffXX.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17+fakeSN_diffXX.weight.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17+fakeSN_diff_mh.fits.fz 
+funpack -D  WS0047_475960_1230--700_combined_z_17_template_mh.fits.fz 
+  tar -xzf stamps_20150917_1230--700_z_17.tar.gz 
+  rm stamps_20150917_1230--700_z_17.tar.gz 

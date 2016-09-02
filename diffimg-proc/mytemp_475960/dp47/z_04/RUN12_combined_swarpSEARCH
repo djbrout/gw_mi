@@ -1,0 +1,45 @@
+echo "# swarp : combine search images if > 1 exposure " 
+
+listhead WS0047_475960_1230--700_tile1_z_04+fakeSN.fits \
+       > WS0047_475960_1230--700_combined_z_04+fakeSN.head 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " listhead FAILED --> STOP PIPELINE " 
+   touch RUN12_combined_swarpSEARCH.FAIL ; exit ; fi 
+
+ln -sf WS0047_475960_1230--700_tile1_z_04+fakeSN.fits \
+	 WS0047_475960_1230--700_combined_z_04+fakeSN.fits 
+ln -sf WS0047_475960_1230--700_tile1_z_04+fakeSN.weight.fits \
+	 WS0047_475960_1230--700_combined_z_04+fakeSN.weight.fits 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " swarp FAILED --> STOP PIPELINE " 
+   touch RUN12_combined_swarpSEARCH.FAIL ; exit ; fi 
+
+echo "#  " 
+echo "# ------------------------------------------------------ " 
+echo "# Created combined image WITHOUT fakes for finder charts. " 
+echo "#  (not used in DiffImg pipeline)  " 
+
+listhead WS0047_475960_1230--700_tile1_z_04.fits \
+       > WS0047_475960_1230--700_combined_z_04.head 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " listhead FAILED --> STOP PIPELINE " 
+   touch RUN12_combined_swarpSEARCH.FAIL ; exit ; fi 
+
+ln -sf WS0047_475960_1230--700_tile1_z_04.fits \
+	 WS0047_475960_1230--700_combined_z_04.fits 
+ln -sf WS0047_475960_1230--700_tile1_z_04.weight.fits \
+	 WS0047_475960_1230--700_combined_z_04.weight.fits 
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " swarp FAILED --> STOP PIPELINE " 
+   touch RUN12_combined_swarpSEARCH.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_04 
+echo "DONE processing RUN12_combined_swarpSEARCH on $HOST" > RUN12_combined_swarpSEARCH.DONE 

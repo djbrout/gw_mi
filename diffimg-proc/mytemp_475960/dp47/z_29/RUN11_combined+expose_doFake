@@ -1,0 +1,29 @@
+echo "# doFake : Create new search image with fakeSN overlaid on galaxies. " 
+echo "#   " 
+doFake \
+  -inFile_sci      WS0047_475960_1230--700_tile1_z_29.fits \
+  -inFile_wgt      WS0047_475960_1230--700_tile1_z_29.weight.fits \
+  -inFile_psf      WS0047_475960_1230--700_tile1_z_29.psf \
+  -inFile_sexCat   WS0047_475960_1230--700_tile1_z_29.cat \
+  -inFile_tWgt     WSTemplate_475960_1230--700_GWV1_z_29_coadd.weight.fits \
+  -inFile_CALIB_STARS    STARCAT_20150917_1230--700_z_29.LIST \
+   -outFile_STARCAT STARMATCH_doFake.out -SNCUT_MAG 15 25 -SNCUT_TREST -10 30 -dbVersion_SNFake KNFakes57279noHost \
+  -outFile_sci     WS0047_475960_1230--700_tile1_z_29+fakeSN.fits \
+  -outFile_wgt     WS0047_475960_1230--700_tile1_z_29+fakeSN.weight.fits \
+  -outFile_fakeList  WS0047_475960_1230--700_tile1_z_29+fakeSN_doFake.out \
+  -outFile_stdout  WS0047_475960_1230--700_tile1_z_29_doFake.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " doFake FAILED --> STOP PIPELINE " 
+   touch RUN11_combined+expose_doFake.FAIL ; exit ; fi 
+
+echo "#   " 
+echo "# Catenate doFake LIST files from each exposure. " 
+echo "# Note that each exposure should have the same fakes " 
+echo "# unless the pointing dithers/jitters. " 
+
+cat WS*tile*_doFake.out > WS0047_475960_1230--700_combined_z_29+fakeSN_doFake.out 
+
+cd JOBDIR/dp47/z_29 
+echo "DONE processing RUN11_combined+expose_doFake on $HOST" > RUN11_combined+expose_doFake.DONE 

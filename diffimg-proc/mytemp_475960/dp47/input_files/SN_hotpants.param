@@ -1,0 +1,52 @@
+#Sept 13, 2013 J. Marriner
+#Add serr=1.e-6 and set sdiff=5.0
+#Sept 3, 2013 J. Marriner
+#Change sdif to 1.0
+#Dec. 21, 2012 J. Marriner
+#Change to use pixel parameterization of kernel
+#Nov. 15, 2012 J Marriner
+# Change to ko=1 ngauss=4
+#Nov 5, 2012 J. Marriner
+#Changed hotpants parameters back to defaults
+#Oct 8, 2012 J. Marriner
+#Increased upper and lower limits to large values
+#Bad pixels should be flagged in makeWeight
+#Sept 19, 2012 J. Marriner
+# Added arguments for new hotpants version 7.1.0
+# Remove arguments not needed by new fit
+# Mar 13, 2012 J. Marriner
+# Changed format so that arguments can be used literally
+# HOTPANTS_ARG lines are for all filters
+# g, r, i, and z are for the specified filter
+# increased kfm  (completeness for "OK" pixels)
+# Kernel parameters are defaults, but now listed explicitly  
+# July 9 2010 J. Marriner - modified lower threshholdlimits
+# May 20 2010 R.Kessler
+# Hotpants parameters.
+# Note that hotpants does NOT read this file;
+# this file is parsed and the parameters are
+# passed to hotpants vis command-line args.
+# --------------------
+# hotpants args
+
+HOTPANTS_ARG:  -useWeight -nsx 10 -nsy 20  -n t -convvar
+HOTPANTS_ARG:  -r 20 -rss 25 -kfm 0.999 -bgo 2 
+HOTPANTS_ARG:  -rk0 9.01 -wk0 9 -wkX 5 -wkY 5 -rkx 5.01 -rky 5.01 
+HOTPANTS_ARG:  -ng  1 1 6.0 
+HOTPANTS_ARG:  -v 1 
+HOTPANTS_ARG:  -mcs 10.0 -mds 5.0 -mdf 0.2 -mks 0.05 -mnor 5.0 
+HOTPANTS_ARG:  -sdif 5.0 -serr 1.e-6
+
+HOTPANTS_ARG_g:  -il -999999  -iu 999999
+HOTPANTS_ARG_g:  -tl -999999  -tu 999999
+
+HOTPANTS_ARG_r:  -il -999999  -iu 999999
+HOTPANTS_ARG_r:  -tl -999999  -tu 999999
+
+HOTPANTS_ARG_i:  -il -999999  -iu 999999
+HOTPANTS_ARG_i:  -tl -999999  -tu 999999
+
+HOTPANTS_ARG_z:  -il -999999  -iu 999999
+HOTPANTS_ARG_z:  -tl -999999  -tu 999999
+
+# ====================== END =====================

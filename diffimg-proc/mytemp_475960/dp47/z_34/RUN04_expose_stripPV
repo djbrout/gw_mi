@@ -1,0 +1,3 @@
+echo "# OPT_ASTROM=6 --> SKIP stripPV for TILE=1 " 
+cd JOBDIR/dp47/z_34 
+echo "DONE processing RUN04_expose_stripPV on $HOST" > RUN04_expose_stripPV.DONE 

@@ -1,0 +1,29 @@
+echo "# immerge : diff image+mask+weight --> multi-header file " 
+echo "# These mh files are needed for archiving. " 
+
+immerge  \
+  -outFile_img   \
+    WS0047_475960_1230--700_combined_z_33+fakeSN_diff_mh.fits \
+  -inList_merge \
+    WS0047_475960_1230--700_combined_z_33+fakeSN_diff.fits \
+    WS0047_475960_1230--700_combined_z_33+fakeSN_diff.weight.fits \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " immerge FAILED --> STOP PIPELINE " 
+   touch RUN21_combined_mergeDiffim.FAIL ; exit ; fi 
+
+immerge  \
+  -outFile_img \
+    WS0047_475960_1230--700_combined_z_33_template_mh.fits \
+  -inList_merge \
+    WS0047_475960_1230--700_combined_z_33_template.fits \
+    WS0047_475960_1230--700_combined_z_33_template.weight.fits \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " immerge FAILED --> STOP PIPELINE " 
+   touch RUN21_combined_mergeDiffim.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_33 
+echo "DONE processing RUN21_combined_mergeDiffim on $HOST" > RUN21_combined_mergeDiffim.DONE 

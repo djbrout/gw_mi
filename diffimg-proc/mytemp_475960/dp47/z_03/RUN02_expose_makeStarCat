@@ -1,0 +1,14 @@
+echo "# makeStarCat: Get STAR catalog for Sextractor -> PSFEX " 
+makeStarCat \
+  -STARSOURCE_DBCATALOG  CURRENT \
+  -inFile_img       WS0047_475960_1230--700_tile1_z_03_mh.fits \
+  -outFile_starCat  STARCAT_20150917_1230--700_z_03.LIST \
+  -outFile_stdout   STARCAT_20150917_1230--700_z_03.stdout \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " makeStarCat FAILED --> STOP PIPELINE " 
+   touch RUN02_expose_makeStarCat.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_03 
+echo "DONE processing RUN02_expose_makeStarCat on $HOST" > RUN02_expose_makeStarCat.DONE 

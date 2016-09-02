@@ -1,0 +1,13 @@
+echo "# doAstrom.pl : Update sci-image headers with scamp-astrometry " 
+doAstrom.pl   \
+   -inFile_sciList   INTERNAL_EXPOSURES.LIST  \
+   -inFile_tList     WSTemplate_475960_1230--700_GWV1_z_15.lis  \
+   -inPath_templates  JOBDIR/template_inputs/20150917/475960/WSTemplate_1230--700/GWV1  \
+
+CODE=$? ; echo "RETURN CODE: $CODE "
+if [ $CODE != 0 ]  ; then 
+   echo " doAstrom.pl FAILED --> STOP PIPELINE " 
+   touch RUN08_combined_astromHeaders.FAIL ; exit ; fi 
+
+cd JOBDIR/dp47/z_15 
+echo "DONE processing RUN08_combined_astromHeaders on $HOST" > RUN08_combined_astromHeaders.DONE 
