@@ -252,12 +252,13 @@ class eventmanager:
         print '-'*20
         jobid='NA'
         for o in out.split('\n'):
-            print o
-            print 'hah'
+            print o.strip()
+            #print 'hah'
             if 'Use job id' in o:
                 jobid = o.split()[3]
-        print 'jobiddddddd',jobid
-        out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW')
+        #print 'jobiddddddd',jobid
+        out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW').read()
+        #print out
         image.jobid = jobid
         sys.exit()
         # jobid = out.split(NEED TO FIGURE OUT HOW TO PARSE JOBID)
