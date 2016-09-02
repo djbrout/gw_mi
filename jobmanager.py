@@ -327,7 +327,7 @@ class eventmanager:
                     'object':str(s[7])
                 })
 
-                self.runProcessingIfNotAlready(image)
+                runProcessingIfNotAlready(image)
             print 'Done checking mountaintop database...'
             sys.exit()
             if time.time() - pptime > postprocessingtime:
