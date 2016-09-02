@@ -16,7 +16,9 @@ from blitzdb import FileBackend
 
 class Trigger(Document):
     pass
-class imageProcessing(Document):
+class SEimageProcessing(Document):
+    pass
+class preprocessing(Document):
     pass
 
 from datetime import datetime as dt
@@ -126,8 +128,11 @@ class eventmanager:
         if timedelta > sejob_timecushion:
             for jsonfile in self.jsonfilelist:
                 print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
-                out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
-                #out = os.popen('ssh desgw@des41.fnal.gov;source move; SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
+                #out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
+                out = os.popen('ssh desgw@des41.fnal.gov;source move;'
+                               'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
+                               'setup jobsub_client;'
+                               'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
                 print out
         print 'just submitted minidagmaker with json files'
         #sys.exit()
@@ -317,7 +322,7 @@ class eventmanager:
                 expnum = str(s[0])
                 nite = str(s[1])
                 band = str(s[2])
-                image = imageProcessing({
+                image = SEimageProcessing({
                     'expnum':expnum,
                     'nite':nite,
                     'band':band,
@@ -405,14 +410,14 @@ class eventmanager:
 def runProcessingIfNotAlready(image,backend):
     try:
         #print 'this image.expnum', image.expnum
-        images = backend.filter(imageProcessing, {'expnum': image.expnum})
+        images = backend.filter(SEimageProcessing, {'expnum': image.expnum})
         if len(images) == 0:
             submit_SEjob(image,backend)
             print 'Expnum', image.expnum, 'was just submitted for processing'
         else:
             print 'Expnum', image.expnum, 'has already been submitted for processing'
         raw_input()
-    except imageProcessing.DoesNotExist:
+    except SEimageProcessing.DoesNotExist:
         submit_SEjob(image,backend)
         print 'Expnum', image.expnum, 'was just submitted for processing'
 
@@ -450,7 +455,7 @@ def submit_SEjob(image,backend):
 
 
 def submitProcessing_STANDALONE(expnum,triggerid,real,band='NA',nite='NA'):
-    image = imageProcessing({
+    image = SEimageProcessing({
         'expnum': expnum,
         'nite': nite,
         'band': band,
@@ -473,7 +478,7 @@ def removeExposureFromProcessingDB(expnum,real):
     else:
         backend = FileBackend("./testdb")
 
-    image = backend.filter(imageProcessing, {'expnum': expnum})
+    image = backend.filter(SEimageProcessing, {'expnum': expnum})
     backend.delete(image)
     'Exposure',expnum,'removed from database'
 
