@@ -404,7 +404,7 @@ class eventmanager:
 
 def runProcessingIfNotAlready(image,backend):
     try:
-        print 'this image.expnum', image.expnum
+        #print 'this image.expnum', image.expnum
         images = backend.filter(imageProcessing, {'expnum': image.expnum})
         if len(images) == 0:
             submit_SEjob(image,backend)
