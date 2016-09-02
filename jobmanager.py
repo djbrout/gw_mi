@@ -111,22 +111,6 @@ class eventmanager:
         self.monitor_images_from_mountain()
         #self.submit_post_processing()
 
-
-    def runProcessingIfNotAlready(self, image):
-        #raw_input()
-        try:
-            print 'this image.expnum', image.expnum
-            images = self.backend.filter(imageProcessing,{'expnum' : image.expnum})
-            if len(images) == 0:
-                self.submit_SEjob(image)
-                print 'Expnum', image.expnum, 'was just submitted for processing'
-            else:
-                print 'Expnum',image.expnum,'has already been submitted for processing'
-            raw_input()
-        except imageProcessing.DoesNotExist:
-            self.submit_SEjob(image)
-            print 'Expnum',image.expnum,'was just submitted for processing'
-
     def submit_all_jsons_for_sejobs(self):
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
         currentTime = dt.utcnow()
@@ -231,41 +215,6 @@ class eventmanager:
     #
     #     return uniquesubmitexpnums
 
-    def submit_SEjob(self,image):
-        expnum = image.expnum
-
-        # print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
-        #       'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
-        #       'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
-        #       'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
-
-        print 'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
-              'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
-              ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
-              ' -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)
-        #sys.exit()
-        out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
-              'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
-              ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
-              ' -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)).read()#STILL NEED TO PARSE FOR JOBID
-        print out
-        print '-'*20
-        jobid='NA'
-        for o in out.split('\n'):
-            print o.strip()
-            #print 'hah'
-            if 'Use job id' in o:
-                jobid = o.split()[3]
-        #print 'jobiddddddd',jobid
-        out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW').read()
-        print out
-        image.jobid = jobid
-        self.backend.save(image)
-        self.backend.commit()
-        sys.exit()
-
-
-
     # def submit_images_to_dagmaker(self,explist):
     #     submission_counter = 0
     #     maxsub = 1
@@ -353,36 +302,6 @@ class eventmanager:
             query = "SELECT expnum,nite,band,exptime,radeg,decdeg,propid,object FROM prod.exposure@desoper WHERE " \
                     "expnum > 475900 and propid=" + propid + "and obstype='object' ORDER BY expnum"  # latest
 
-            #
-            # find out how much total time used with gw prop id and pass that to annis code
-            # insure it comes along with one of these two tags
-            #
-            # 477001
-            # 20150920
-            # z
-            # 90.0
-            # 112.782517 - 70.0374
-            # 2015
-            # B - 01
-            # 87
-            # DES
-            # wide
-            # hex
-            # 1130 - -700
-            # 507412
-            # 20151231
-            # z
-            # 90.0
-            # 31.445925
-            # 5.09265
-            # 2015
-            # B - 01
-            # 87
-            # DESGW: LIGO
-            # event
-            # G211117: 8
-            # of
-            # 30
 
             self.cursor.execute(query)
 
@@ -393,6 +312,8 @@ class eventmanager:
                 print str(s[0]) + "\t" + str(s[1]) + "\t" + str(s[2]) + "\t" + str(s[3]) + "\t" + str(
                     s[4]) + "\t" + str(s[5]) + "\t" + str(s[6]) + "\t" + str(s[7])
 
+                if not 'DESGW' in str(s[7]): continue
+
                 expnum = str(s[0])
                 nite = str(s[1])
                 band = str(s[2])
@@ -401,46 +322,27 @@ class eventmanager:
                     'nite':nite,
                     'band':band,
                     'jobid':np.nan,
+                    'status':'Not Submitted',
+                    'triggerid': self.trigger_id
+                    'object':str(s[7])
                 })
-                print 'self.runProcessingIfNotAlready(image)'
+
                 self.runProcessingIfNotAlready(image)
-
-                # if not expnum in self.firedlist:
-                #     try:
-                #         if submission_counter < maxsub:
-                #             #print 'subprocess.call(["sh", "DAGMaker.sh", expnum]) ' # create dag
-                #             #print 'created dag for ' + str(expnum)
-                #             #print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW ' \
-                #             #      'file://desgw_pipeline_00"' + expnum + '".dag"])'  # submit to the grid
-                #             #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' +\
-                #             #      band + '" -n "+nite]) #submit local'
-                #             #print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
-                #             newfireds.append(expnum)
-                #             submission_counter += 1
-                #     except:
-                #         print 'SUBMISSION FAILED'
-
-            # write newfireds to file
-            ofile.close()
-            file_firedlist = open('./processing/firedlist.txt', 'a')
-            for f in newfireds:
-                print 'New Fired: ' + str(f)
-                file_firedlist.write(str(f) + '\n')
-            file_firedlist.close()
-            #sys.exit()
-
+            print 'Done checking mountaintop database...'
+            sys.exit()
             if time.time() - pptime > postprocessingtime:
                 pptime = time.time()
                 print '***** Firing post processing script *****'
                 sys.exit()
                 self.submit_post_processing()
-            sys.exit()
+            #sys.exit()
+            print 'Waiting 2 minutes to check from mountain...'
             time.sleep(120)
 
-            cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
-            for f in cfiles:
-                if f.split('.')[-1] == 'npz':
-                    cp.makeNewPage(f)
+            # cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
+            # for f in cfiles:
+            #     if f.split('.')[-1] == 'npz':
+            #         cp.makeNewPage(f)
 
     def submit_post_processing(self):
         firedlist = open('./processing/firedlist.txt', 'r')
@@ -499,6 +401,81 @@ class eventmanager:
 
     # EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
 
+
+def runProcessingIfNotAlready(image,backend):
+    try:
+        print 'this image.expnum', image.expnum
+        images = backend.filter(imageProcessing, {'expnum': image.expnum})
+        if len(images) == 0:
+            submit_SEjob(image,backend)
+            print 'Expnum', image.expnum, 'was just submitted for processing'
+        else:
+            print 'Expnum', image.expnum, 'has already been submitted for processing'
+        raw_input()
+    except imageProcessing.DoesNotExist:
+        submit_SEjob(image,backend)
+        print 'Expnum', image.expnum, 'was just submitted for processing'
+
+
+def submit_SEjob(image,backend):
+    expnum = image.expnum
+
+    # print 'subprocess.call(["sh", "jobsub_submit --role=DESGW --group=des --OS=SL6 --resource - ' \
+    #       'provides = usage_model = DEDICATED, OPPORTUNISTIC, OFFSITE, FERMICLOUD - M --email - to = ' \
+    #       'marcelle @ fnal.ogv - -memory = 3000MB --disk = 94 GB --cpu = 4 --expected-lifetime = long ' \
+    #       'file://SE_job.sh -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)+'"])'
+
+    print 'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
+          'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
+          ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
+          ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)
+    # sys.exit()
+    out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
+                   'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=marcelle@fnal.ogv' \
+                   ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
+                   ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)).read()  # STILL NEED TO PARSE FOR JOBID
+    print out
+    print '-' * 20
+    jobid = 'NA'
+    for o in out.split('\n'):
+        if 'Use job id' in o:
+            jobid = o.split()[3]
+    out = os.popen('jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+    print out
+    image.jobid = jobid
+    image.status = 'Processing'
+    backend.save(image)
+    backend.commit()
+    #sys.exit()
+
+
+def submitProcessing_STANDALONE(expnum,triggerid,real,band='NA',nite='NA'):
+    image = imageProcessing({
+        'expnum': expnum,
+        'nite': nite,
+        'band': band,
+        'jobid': np.nan,
+        'triggerid': triggerid,
+        'status': 'Not Submitted'
+    })
+
+    if real:
+        backend = FileBackend("./realdb")
+    else:
+        backend = FileBackend("./testdb")
+
+    print 'self.runProcessingIfNotAlready(image)'
+    runProcessingIfNotAlready(image,backend)
+
+def removeExposureFromProcessingDB(expnum,real):
+    if real:
+        backend = FileBackend("./realdb")
+    else:
+        backend = FileBackend("./testdb")
+
+    image = backend.filter(imageProcessing, {'expnum': expnum})
+    backend.delete(image)
+    'Exposure',expnum,'removed from database'
 
 def sendEmail(trigger_id):
     import smtplib
