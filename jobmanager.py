@@ -115,9 +115,11 @@ class eventmanager:
     def runProcessingIfNotAlready(self, image):
         #raw_input()
         try:
-            print 'image.expnum', image.expnum
+            print 'this image.expnum', image.expnum
             images = self.backend.filter(imageProcessing,{'expnum' : image.expnum})
             print 'len(images)',len(images)
+            for im in images:
+                print image.expnum
             print 'Expnum',image.expnum,'has already been submitted for processing'
             raw_input()
         except imageProcessing.DoesNotExist:
@@ -419,6 +421,7 @@ class eventmanager:
             if time.time() - pptime > postprocessingtime:
                 pptime = time.time()
                 print '***** Firing post processing script *****'
+                sys.exit()
                 self.submit_post_processing()
             sys.exit()
             time.sleep(120)
