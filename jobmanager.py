@@ -257,13 +257,14 @@ class eventmanager:
             if 'Use job id' in o:
                 jobid = o.split()[3]
         print 'jobiddddddd',jobid
-        sys.exit()
         out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW')
         image.jobid = jobid
+        sys.exit()
         # jobid = out.split(NEED TO FIGURE OUT HOW TO PARSE JOBID)
         # image.jobid = jobid
         self.backend.save(image)
         self.backend.commit()
+
 
         #THIS WILL BE REPLACED BY MINIDAGMAKER
 
