@@ -129,10 +129,18 @@ class eventmanager:
             for jsonfile in self.jsonfilelist:
                 print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
                 #out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
-                out = os.popen('ssh desgw@des41.fnal.gov;source move;'
-                               'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
-                               'setup jobsub_client;'
-                               'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
+                # out = os.popen('ssh desgw@des41.fnal.gov;source move;'
+                #                'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
+                #                'setup jobsub_client;'
+                #                'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
+
+                args = ['ssh -t desgw@des41.fnal.gov "source move;'+
+                        'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'+
+                        'setup jobsub_client;'+
+                        'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
+                        ]
+                p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
+                # print p.communicate()
                 print out
         print 'just submitted minidagmaker with json files'
         #sys.exit()
