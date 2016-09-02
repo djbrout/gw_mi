@@ -139,6 +139,7 @@ class eventmanager:
                         'setup jobsub_client;'+
                         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
                         ]
+                print args
                 p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
                 print p.communicate()
                 #print out
