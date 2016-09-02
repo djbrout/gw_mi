@@ -250,9 +250,13 @@ class eventmanager:
               ' -r 2 -p 05 -b z -n 20121025 -e '+str(expnum)).read()#STILL NEED TO PARSE FOR JOBID
         print out
         print '-'*20
-        for o in out:
+        jobid='NA'
+        for o in out.split('\n'):
             print o
             print 'hah'
+            if 'Use job id' in o:
+                jobid = o.split()[3]
+        print 'jobiddddddd',jobid
         sys.exit()
         out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW')
         image.jobid = jobid
