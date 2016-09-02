@@ -113,10 +113,13 @@ class eventmanager:
 
 
     def runProcessingIfNotAlready(self, image):
-        raw_input()
+        #raw_input()
         try:
+            print 'image.expnum', image.expnum
             images = self.backend.filter(imageProcessing,{'expnum' : image.expnum})
+            print 'len(images)',len(images)
             print 'Expnum',image.expnum,'has already been submitted for processing'
+            raw_input()
         except imageProcessing.DoesNotExist:
             self.submit_SEjob(self,image)
             print 'Expnum',image.expnum,'was just submitted for processing'
