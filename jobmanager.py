@@ -258,16 +258,13 @@ class eventmanager:
                 jobid = o.split()[3]
         #print 'jobiddddddd',jobid
         out = os.popen('jobsub_rm --jobid='+jobid+' --group=des --role=DESGW').read()
-        #print out
+        print out
         image.jobid = jobid
-        sys.exit()
-        # jobid = out.split(NEED TO FIGURE OUT HOW TO PARSE JOBID)
-        # image.jobid = jobid
         self.backend.save(image)
         self.backend.commit()
+        sys.exit()
 
 
-        #THIS WILL BE REPLACED BY MINIDAGMAKER
 
     # def submit_images_to_dagmaker(self,explist):
     #     submission_counter = 0
