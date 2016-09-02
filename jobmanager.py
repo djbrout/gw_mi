@@ -140,8 +140,8 @@ class eventmanager:
                         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
                         ]
                 p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
-                # print p.communicate()
-                print out
+                print p.communicate()
+                #print out
         print 'just submitted minidagmaker with json files'
         #sys.exit()
         raw_input()
