@@ -145,8 +145,8 @@ class eventmanager:
                 #         ]
                 args = ['source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)]
                 print args
-                ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
-                print ro
+                #ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
+                #print ro
                 #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
                 #print p.communicate()
 
