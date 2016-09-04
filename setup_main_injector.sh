@@ -52,7 +52,7 @@ setup --nolocks easyaccess
 setup --nolocks yaml
 setup --nolocks blitzdb
 
-source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
-setup jobsub_client
+#source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
+#setup jobsub_client
 
 echo $GW_DIR

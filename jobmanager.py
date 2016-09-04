@@ -134,15 +134,28 @@ class eventmanager:
                 #                'setup jobsub_client;'
                 #                'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
 
-                args = ['ssh -t desgw@des41.fnal.gov "source move;'+
-                        'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'+
-                        'setup jobsub_client;'+
-                        'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
-                        ]
+                # args = ['ssh','desgw@des41.fnal.gov','source move',
+                #         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
+                #         'setup jobsub_client',
+                #         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile),
+                #         ]
+                # args = ['source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
+                #         'setup jobsub_client',
+                #         'SEMaker_RADEC.sh ' + os.path.join(self.datadir, jsonfile),
+                #         ]
+                args = ['source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)]
                 print args
-                p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
-                print p.communicate()
-                #print out
+                ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
+                print ro
+                #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
+                #print p.communicate()
+
+                out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                print out
+                sys.exit()
+                NEED TO GET DAGFILE AND SUBMIT IT!
+                NEED TO POINT TO STABLE SEMAKER_RADEC.SH DIRECTORYAND NOT MY OWN BECAUSE OF EXPOSURE.LIST
+
         print 'just submitted minidagmaker with json files'
         #sys.exit()
         raw_input()
