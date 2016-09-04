@@ -157,14 +157,20 @@ class eventmanager:
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 for o in out.split('\n'):
+                    print o
+                    print 'file://' in o
                     if 'file://' in o:
+
                         dagfile = o.split('/')[-1]
                         self.dagfile = os.path.join(self.processingdir,dagfile)
-                        os.system('mv '+dagfile+' '+self.dagfile)
+                        os.system('cp '+dagfile+' '+self.dagfile)
+                        jobsubmitline = copy(o)
                 print self.dagfile
+                #sys.exit()
+
+                out = os.popen(['ssh desgw','source move','ls']).read()
+                print out
                 sys.exit()
-                #NEED TO GET DAGFILE AND SUBMIT IT!
-                #NEED TO POINT TO STABLE SEMAKER_RADEC.SH DIRECTORYAND NOT MY OWN BECAUSE OF EXPOSURE.LIST
 
         print 'just submitted minidagmaker with json files'
         #sys.exit()
