@@ -163,7 +163,7 @@ class eventmanager:
                     #print 'file://' in o
                     if 'file://' in o:
                         dagfile = o.split('/')[-1]
-                        self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1][:-1]+' '+dagfile)
+                        self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1]+'_'+dagfile)
                         os.system('cp '+dagfile+' '+self.dagfile)
                         jobsubmitline = copy(o)
                 print self.dagfile
