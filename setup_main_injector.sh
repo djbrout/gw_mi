@@ -41,6 +41,7 @@ export DESGW_DATA_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/g
 
 setup --nolocks pyslalib
 setup --nolocks pygcn
+setup --nolocks pycurl
 setup --nolocks requests
 setup --nolocks matplotlib
 setup --nolocks healpy
