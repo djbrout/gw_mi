@@ -9,10 +9,12 @@ import jobmanager_config
 import numpy as np
 import dilltools
 import sys, getopt, traceback
+from copy import copy
 import candidatepages as cp
 
 from blitzdb import Document
 from blitzdb import FileBackend
+
 
 class Trigger(Document):
     pass
