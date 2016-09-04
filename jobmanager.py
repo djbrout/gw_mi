@@ -79,6 +79,10 @@ class eventmanager:
         self.trigger_id = trigger_id
         self.datadir = datadir
         self.triggerdir = triggerdir
+        self.processingdir = os.path.join(self.triggerdir,'PROCESSING')
+        if not os.path.exists(self.processingdir):
+            os.makedirs(self.processingdir)
+
         dire = './processing/' + trigger_id + '/'
         if not os.path.exists(dire):
             os.makedirs(dire)
@@ -143,8 +147,8 @@ class eventmanager:
                 #         'setup jobsub_client',
                 #         'SEMaker_RADEC.sh ' + os.path.join(self.datadir, jsonfile),
                 #         ]
-                args = ['source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)]
-                print args
+                #args = 'source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)
+                #print args
                 #ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
                 #print ro
                 #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
@@ -152,13 +156,19 @@ class eventmanager:
 
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
+                for o in out.split('\n'):
+                    if 'file://' in o:
+                        dagfile = o.split('/')[-1]
+                        self.dagfile = os.path.join(self.processingdir,dagfile)
+                        os.system('mv '+dagfile+' '+self.dagfile)
+                print self.dagfile
                 sys.exit()
                 #NEED TO GET DAGFILE AND SUBMIT IT!
                 #NEED TO POINT TO STABLE SEMAKER_RADEC.SH DIRECTORYAND NOT MY OWN BECAUSE OF EXPOSURE.LIST
 
         print 'just submitted minidagmaker with json files'
         #sys.exit()
-        raw_input()
+        #raw_input()
 
 
     # # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
