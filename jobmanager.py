@@ -159,18 +159,17 @@ class eventmanager:
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 for o in out.split('\n'):
-                    print o
-                    print 'file://' in o
+                    #print o
+                    #print 'file://' in o
                     if 'file://' in o:
-
                         dagfile = o.split('/')[-1]
-                        self.dagfile = os.path.join(self.processingdir,dagfile)
+                        self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1]+' '+dagfile)
                         os.system('cp '+dagfile+' '+self.dagfile)
                         jobsubmitline = copy(o)
                 print self.dagfile
                 #sys.exit()
 
-                out = os.popen(['ssh desgw','source move','ls']).read()
+                out = subprocess.check_output(['ssh desgw','source move','ls'],stderr=subprocess.STDOUT)
                 print out
                 sys.exit()
 
