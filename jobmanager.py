@@ -153,8 +153,8 @@ class eventmanager:
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 sys.exit()
-                NEED TO GET DAGFILE AND SUBMIT IT!
-                NEED TO POINT TO STABLE SEMAKER_RADEC.SH DIRECTORYAND NOT MY OWN BECAUSE OF EXPOSURE.LIST
+                #NEED TO GET DAGFILE AND SUBMIT IT!
+                #NEED TO POINT TO STABLE SEMAKER_RADEC.SH DIRECTORYAND NOT MY OWN BECAUSE OF EXPOSURE.LIST
 
         print 'just submitted minidagmaker with json files'
         #sys.exit()
