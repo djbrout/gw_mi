@@ -156,6 +156,11 @@ class eventmanager:
                 #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
                 #print p.communicate()
 
+
+
+
+
+
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 for o in out.split('\n'):
@@ -167,10 +172,20 @@ class eventmanager:
                         os.system('cp '+dagfile+' '+self.dagfile)
                         jobsubmitline = copy(o)
                 print self.dagfile
-                #sys.exit()
 
-                out = subprocess.check_output(['ssh desgw','source move','ls'],stderr=subprocess.STDOUT)
+                out = os.popen(
+                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/desgw/gw_mi/diffimg-proc/'
+                    'SE_jobs_r2p08_70.dag').read()
                 print out
+                for o in out.split('\n'):
+                    if 'Use job id' in o:
+                        jobid = o.split()[3]
+                out = os.popen(
+                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                    'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                print out
+
                 sys.exit()
 
         print 'just submitted minidagmaker with json files'
