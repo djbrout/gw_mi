@@ -192,7 +192,7 @@ class eventmanager:
                     'status' : 'Submitted'
                 })
 
-                runProcessingIfNotAlready(image, self.backend)
+                #runProcessingIfNotAlready(image, self.backend)
 
                 #sys.exit()
 
@@ -472,11 +472,8 @@ class eventmanager:
 def runProcessingIfNotAlready(image,backend):
     try:
         #print 'this image.expnum', image.expnum
-        try:
-            images = backend.filter(SEimageProcessing, {'expnum': image.expnum})
-        except:
-            print 'SEimageProcessing does not exist'
-            images = []
+        #print image.expnum
+        images = backend.filter(SEimageProcessing, {'expnum': image.expnum})
         if len(images) == 0:
             submit_SEjob(image,backend)
             print 'Expnum', image.expnum, 'was just submitted for processing'
