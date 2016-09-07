@@ -171,12 +171,11 @@ class eventmanager:
                 print self.dagfile
 
 
-                print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/desgw/gw_mi/diffimg-proc/'+dagfile
+                print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile
 
                 out = os.popen(
                     'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/djbrout/pysmp/diffimg-proc/'+
-                    dagfile).read()
+                    'jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile).read()
                 print out
                 for o in out.split('\n'):
                     if 'Use job id' in o:
