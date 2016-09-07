@@ -394,7 +394,10 @@ class eventmanager:
                     'object':str(s[7])
                 })
 
-                runProcessingIfNotAlready(image,self.backend)
+                #runProcessingIfNotAlready(image,self.backend)
+
+                print './diffimg_proc/getOverlaps_single_expo.csh ./diffimg_proc/exposures_'+band+'.list '+expnum
+                sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
             if time.time() - pptime > postprocessingtime:
@@ -498,10 +501,11 @@ def submit_SEjob(image,backend):
           ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
           ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)
     # sys.exit()
-    out = os.popen('jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
-                   'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=djbrout@gmail.com' \
-                   ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
-                   ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)).read()  # STILL NEED TO PARSE FOR JOBID
+    out = os.popen( 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                    'jobsub_submit --role=DESGW --group=des --OS=SL6 --resource-provides=usage_model=' \
+                    'DEDICATED,OPPORTUNISTIC,OFFSITE,FERMICLOUD -M --email-to=djbrout@gmail.com' \
+                    ' --memory=3000MB --disk=94GB --cpu=4 --expected-lifetime=long file://SE_job.sh' \
+                    ' -r 2 -p 05 -b z -n 20121025 -e ' + str(expnum)).read()  # STILL NEED TO PARSE FOR JOBID
     print out
     print '-' * 20
     jobid = 'NA'
