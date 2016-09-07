@@ -23,6 +23,7 @@ class SEimageProcessing(Document):
 class preprocessing(Document):
     pass
 
+
 from datetime import datetime as dt
 from datetime import timedelta as td
 
@@ -157,10 +158,6 @@ class eventmanager:
                 #print p.communicate()
 
 
-
-
-
-
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 for o in out.split('\n'):
@@ -175,8 +172,8 @@ class eventmanager:
 
                 out = os.popen(
                     'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/desgw/gw_mi/diffimg-proc/'
-                    'SE_jobs_r2p08_70.dag').read()
+                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/desgw/gw_mi/diffimg-proc/'+
+                    dagfile).read()
                 print out
                 for o in out.split('\n'):
                     if 'Use job id' in o:
@@ -186,9 +183,18 @@ class eventmanager:
                     'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
                 print out
 
-                sys.exit()
+                image = preprocessing({
+                    'jsonfilename': os.path.join(self.datadir, jsonfile),
+                    'jobid': jobid,
+                    'dagfile': self.dagfile,
+                    'status' : 'Submitted'
+                })
 
-        print 'just submitted minidagmaker with json files'
+                runProcessingIfNotAlready(image, self.backend)
+
+                #sys.exit()
+
+        print 'Finished submitting minidagmaker with all json files'
         #sys.exit()
         #raw_input()
 
