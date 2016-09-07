@@ -175,7 +175,7 @@ class eventmanager:
 
                 out = os.popen(
                     'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/desgw/gw_mi/diffimg-proc/'+
+                    'jobsub_submit_dag -G des --role=DESGW file:///data/des41.a/data/djbrout/pysmp/diffimg-proc/'+
                     dagfile).read()
                 print out
                 for o in out.split('\n'):
