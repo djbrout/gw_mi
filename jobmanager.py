@@ -380,7 +380,7 @@ class eventmanager:
                     s[4]) + "\t" + str(s[5]) + "\t" + str(s[6]) + "\t" + str(s[7])
 
                 if not 'DESGW' in str(s[7]): continue
-
+                print 'exptime',float(s[3])
                 if not float(s[3]) > 29.: continue
 
                 expnum = str(s[0])
