@@ -381,14 +381,19 @@ class eventmanager:
 
                 if not 'DESGW' in str(s[7]): continue
 
+                if not float(s[3]) > 29.: continue
+
                 expnum = str(s[0])
                 nite = str(s[1])
                 band = str(s[2])
+                exptime = str(s[3])
+
                 image = SEimageProcessing({
                     'expnum':expnum,
                     'nite':nite,
                     'band':band,
                     'jobid':np.nan,
+                    'exptime':exptime,
                     'status':'Not Submitted',
                     'triggerid': self.trigger_id,
                     'object':str(s[7])
@@ -396,7 +401,7 @@ class eventmanager:
 
                 #runProcessingIfNotAlready(image,self.backend)
 
-                print './diffimg_proc/getOverlaps_single_expo.csh ./diffimg_proc/exposures_'+band+'.list '+expnum
+                print './diffimg-proc/getOverlaps_single_expo.csh ./diffimg-proc/exposures_'+band+'.list '+expnum
                 sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
