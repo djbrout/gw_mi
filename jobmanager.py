@@ -407,8 +407,8 @@ class eventmanager:
 
                 #runProcessingIfNotAlready(image,self.backend)
 
-                print './diffimg-proc/getOverlaps_single_expo.csh ./diffimg-proc/exposures_'+band+'.list '+expnum
-                sys.exit()
+                print './diffimg-proc/getTiling.sh '+expnum
+                #sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
 
