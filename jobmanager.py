@@ -15,10 +15,13 @@ import candidatepages as cp
 from blitzdb import Document
 from blitzdb import FileBackend
 
+import yaml
 
 class Trigger(Document):
     pass
 class SEimageProcessing(Document):
+    pass
+class hexStrategyDict(Document):
     pass
 class preprocessing(Document):
     pass
@@ -65,9 +68,12 @@ class eventmanager:
             print 'Database entry created!'
 
 
-
         self.backend.save(thisevent)
         self.backend.commit()
+
+        with open("strategy.yaml", "r") as f:
+            self.config = yaml.safe_load(f);
+
 
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
@@ -405,6 +411,10 @@ class eventmanager:
                 sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
+
+
+            HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
+
             if time.time() - pptime > postprocessingtime:
                 pptime = time.time()
                 print '***** Firing post processing script *****'

@@ -576,6 +576,9 @@ export TOPDIR_TEMPLATES=/data/des30.a/data/WSTemplates
 
 FIELD_TILING=$( egrep "^\s?${EXPNUM}" exposures.list | sed -e 's/.*DES.*hex //' -e 's/tiling//' -e s/\"// )
 
+echo "FIELD_TILING"
+echo FIELD_TILING
+exit
 
 ############ check and do something special if the word hex is not present ############
 
