@@ -71,7 +71,7 @@ class eventmanager:
         self.backend.save(thisevent)
         self.backend.commit()
 
-        with open("strategy.yaml", "r") as f:
+        with open(os.path.join(triggerdir,"strategy.yaml"), "r") as f:
             self.config = yaml.safe_load(f);
 
 
