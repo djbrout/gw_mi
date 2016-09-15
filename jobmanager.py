@@ -413,7 +413,7 @@ class eventmanager:
             sys.exit()
 
 
-            HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
+            #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
 
             if time.time() - pptime > postprocessingtime:
                 pptime = time.time()
