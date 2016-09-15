@@ -612,3 +612,6 @@ if [ "$FIELD" == "$TILING" ]; then
     TILING=1
 fi
 fi
+
+echo $FIELD
+echo $TILING
