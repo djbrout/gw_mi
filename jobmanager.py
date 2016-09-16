@@ -47,6 +47,9 @@ clearfiredlist = True
 class eventmanager:
     def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir, real):
 
+        os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
+
+
         if real:
             self.backend = FileBackend("./realdb")
         else:
@@ -354,6 +357,7 @@ class eventmanager:
         maxsub = 10000
         postprocessingtime = 1800 #every half hour fire off Tim's code for post-processing
         while keepgoing:
+            os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
             index += 1
             newfireds = []
             if time.time() - starttime > 50000:
