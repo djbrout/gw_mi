@@ -415,9 +415,9 @@ class eventmanager:
                 field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).read()
                 print field_tiling
                 field = field_tiling.split([-2])
-                tiling = field_tiling.split9[-1])
+                tiling = field_tiling.split([-1])
                 print 'field tiling',field,tiling
-
+                raw_input()
                 #sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
