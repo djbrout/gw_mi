@@ -166,7 +166,8 @@ class eventmanager:
                 #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
                 #print p.communicate()
 
-
+                print 'source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
+                sys.exit()
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
                 for o in out.split('\n'):
