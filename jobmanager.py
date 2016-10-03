@@ -442,7 +442,7 @@ class eventmanager:
                 #runProcessingIfNotAlready(image,self.backend)
 
                 print './diffimg-proc/getTiling.sh '+expnum
-                field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).read()
+                field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()[-1]
                 print 'field_tiling',field_tiling
                 hexnite = field_tiling+'_'+str(nite)
                 print 'hexnite',hexnite
