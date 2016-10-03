@@ -446,7 +446,7 @@ class eventmanager:
                 print 'field_tiling',field_tiling
                 hexnite = field_tiling+'_'+str(nite)
                 print 'hexnite',hexnite
-                raw_input()
+                sys.exit()
 
 
 
