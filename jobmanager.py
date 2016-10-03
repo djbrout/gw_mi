@@ -76,7 +76,9 @@ class eventmanager:
 
         with open(os.path.join(triggerdir,"strategy.yaml"), "r") as f:
             self.config = yaml.safe_load(f);
-
+        self.filterobslist = self.config['exposure_filter']
+        print self.filterobslist
+        raw_input('filterobslist')
 
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
@@ -170,15 +172,16 @@ class eventmanager:
                 #sys.exit()
                 out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                 print out
-                for o in out.split('\n'):
-                    #print o
-                    #print 'file://' in o
-                    if 'file://' in o:
-                        dagfile = o.split('/')[-1]
-                        self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
-                        os.system('cp '+dagfile+' '+self.dagfile)
-                        jobsubmitline = copy(o)
-                print self.dagfile
+                if 'non-zero exit status' in out:
+                    dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
+                else:
+                    for o in out.split('\n'):
+                        if 'file://' in o:
+                            dagfile = o.split('/')[-1]
+                            self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
+                            os.system('cp '+dagfile+' '+self.dagfile)
+                            jobsubmitline = copy(o)
+                    print self.dagfile
 
 
                 print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile
@@ -187,13 +190,16 @@ class eventmanager:
                     'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                     'jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile).read()
                 print out
-                for o in out.split('\n'):
-                    if 'Use job id' in o:
-                        jobid = o.split()[3]
-                out = os.popen(
-                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                    'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
-                print out
+                if 'non-zero exit status' in out:
+                    dt.sendEmailSubject(self.trigger_id, 'Error in submitting .json for preprocessing: ' + out)
+                else:
+                    for o in out.split('\n'):
+                        if 'Use job id' in o:
+                            jobid = o.split()[3]
+                    out = os.popen(
+                        'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                        'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                    print out
 
                 image = preprocessing({
                     'jsonfilename': os.path.join(self.datadir, jsonfile),
@@ -415,10 +421,10 @@ class eventmanager:
                 print './diffimg-proc/getTiling.sh '+expnum
                 field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).read()
                 print field_tiling
-                field = field_tiling.split([-2])
-                tiling = field_tiling.split([-1])
-                print 'field tiling',field,tiling
-                raw_input()
+                #field = field_tiling.split([-2])
+                #tiling = field_tiling.split([-1])
+                #print 'field tiling',field,tiling
+                #raw_input()
                 #sys.exit()
             print 'Done checking mountaintop database...'
             sys.exit()
