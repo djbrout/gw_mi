@@ -78,11 +78,11 @@ class eventmanager:
             self.config = yaml.safe_load(f);
         self.filterobslist = np.array(self.config['exposure_filter'],dtype='str')
         self.strategydict = {}
-        print self.filterobslist
+        #print self.filterobslist
         for f in np.unique(self.filterobslist):
             self.strategydict[f] = len(self.filterobslist[self.filterobslist == f])
-        print self.strategydict
-        raw_input('filterobslist')
+        #print self.strategydict
+        #raw_input('filterobslist')
 
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
@@ -149,69 +149,78 @@ class eventmanager:
 
         if timedelta > sejob_timecushion:
             for jsonfile in self.jsonfilelist:
-                print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
-                #out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
-                # out = os.popen('ssh desgw@des41.fnal.gov;source move;'
-                #                'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
-                #                'setup jobsub_client;'
-                #                'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
+                print 'json',jsonfile
+                try: #check if this json file is already in the submitted preprocessing database
+                    thisjson = self.backend.get(preprocessing, {'jsonfilename': os.path.join(self.datadir, jsonfile)})
+                    print 'Found this json in desgw database...'
+                except preprocessing.DoesNotExist: #do submission and then add to database
+                    print '.json not yet submitted'
+                    print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
+                    #out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
+                    # out = os.popen('ssh desgw@des41.fnal.gov;source move;'
+                    #                'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
+                    #                'setup jobsub_client;'
+                    #                'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
 
-                # args = ['ssh','desgw@des41.fnal.gov','source move',
-                #         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
-                #         'setup jobsub_client',
-                #         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile),
-                #         ]
-                # args = ['source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
-                #         'setup jobsub_client',
-                #         'SEMaker_RADEC.sh ' + os.path.join(self.datadir, jsonfile),
-                #         ]
-                #args = 'source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)
-                #print args
-                #ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
-                #print ro
-                #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
-                #print p.communicate()
+                    # args = ['ssh','desgw@des41.fnal.gov','source move',
+                    #         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
+                    #         'setup jobsub_client',
+                    #         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile),
+                    #         ]
+                    # args = ['source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
+                    #         'setup jobsub_client',
+                    #         'SEMaker_RADEC.sh ' + os.path.join(self.datadir, jsonfile),
+                    #         ]
+                    #args = 'source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)
+                    #print args
+                    #ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
+                    #print ro
+                    #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
+                    #print p.communicate()
 
-                print 'source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
-                #sys.exit()
-                out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
-                print out
-                if 'non-zero exit status' in out:
-                    dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
-                else:
-                    for o in out.split('\n'):
-                        if 'file://' in o:
-                            dagfile = o.split('/')[-1]
-                            self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
-                            os.system('cp '+dagfile+' '+self.dagfile)
-                            jobsubmitline = copy(o)
-                    print self.dagfile
+                    print 'source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
+                    #sys.exit()
+                    out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    print out
+                    if 'non-zero exit status' in out:
+                        dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
+                    else:
+                        for o in out.split('\n'):
+                            if 'file://' in o:
+                                dagfile = o.split('/')[-1]
+                                self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
+                                os.system('cp '+dagfile+' '+self.dagfile)
+                                jobsubmitline = copy(o)
+                        print self.dagfile
 
+                    print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile
 
-                print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile
-
-                out = os.popen(
-                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                    'jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile).read()
-                print out
-                if 'non-zero exit status' in out:
-                    dt.sendEmailSubject(self.trigger_id, 'Error in submitting .json for preprocessing: ' + out)
-                else:
-                    for o in out.split('\n'):
-                        if 'Use job id' in o:
-                            jobid = o.split()[3]
                     out = os.popen(
                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                        'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                        'jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile).read()
                     print out
+                    if 'non-zero exit status' in out:
+                        dt.sendEmailSubject(self.trigger_id, 'Error in submitting .json for preprocessing: ' + out)
+                    else:
+                        for o in out.split('\n'):
+                            if 'Use job id' in o:
+                                jobid = o.split()[3]
+                        out = os.popen(
+                            'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                            'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                        print out
 
-                image = preprocessing({
-                    'jsonfilename': os.path.join(self.datadir, jsonfile),
-                    'jobid': jobid,
-                    'dagfile': self.dagfile,
-                    'status' : 'Submitted'
-                })
+                    thisjson = preprocessing({
+                        'jsonfilename': os.path.join(self.datadir, jsonfile),
+                        'jobid': jobid,
+                        'dagfile': self.dagfile,
+                        'status' : 'Submitted'
+                    })
 
+                    self.backend.save(thisjson)
+                    self.backend.commit()
+                    print 'saved'
+                raw_input()
                 #runProcessingIfNotAlready(image, self.backend)
 
                 #sys.exit()
@@ -409,6 +418,8 @@ class eventmanager:
                 band = str(s[2])
                 exptime = str(s[3])
 
+                FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
+
                 image = SEimageProcessing({
                     'expnum':expnum,
                     'nite':nite,
@@ -430,6 +441,11 @@ class eventmanager:
                 #print 'field tiling',field,tiling
                 #raw_input()
                 #sys.exit()
+
+                NOW ADD THAT FIELD TILING ENTRY TO THE FIELD TILING DATABASE IF IT DOESNT ALREADY EXIST
+
+                THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
+
             print 'Done checking mountaintop database...'
             sys.exit()
 
