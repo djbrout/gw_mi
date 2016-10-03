@@ -426,9 +426,21 @@ class eventmanager:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
                 except exposures.DoesNotExist:  # do submission and then add to database
+                    #runProcessingIfNotAlready(image,self.backend)
+
+                    print './diffimg-proc/getTiling.sh '+expnum
+                    res = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()
+                    field,tiling =res[-2],res[-1]
+                    #print 'field_tiling',field_tiling
+                    hexnite = field+'_'+tiling+'_'+str(nite)
+                    print 'hexnite',hexnite
+
                     exposure = exposures({
                         'expnum':expnum,
                         'nite':nite,
+                        'field':field,
+                        'tiling':tiling,
+                        'hexnite':hexnite,
                         'band':band,
                         'jobid':np.nan,
                         'exptime':exptime,
@@ -438,15 +450,7 @@ class eventmanager:
                     })
 
 
-
-                #runProcessingIfNotAlready(image,self.backend)
-
-                print './diffimg-proc/getTiling.sh '+expnum
-                field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()[-1]
-                print 'field_tiling',field_tiling
-                hexnite = field_tiling+'_'+str(nite)
-                print 'hexnite',hexnite
-                sys.exit()
+                    sys.exit()
 
 
 
