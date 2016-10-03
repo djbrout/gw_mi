@@ -21,7 +21,9 @@ class Trigger(Document):
     pass
 class SEimageProcessing(Document):
     pass
-class hexStrategyDict(Document):
+class hexes(Document):
+    pass
+class exposures(Document):
     pass
 class preprocessing(Document):
     pass
@@ -220,7 +222,7 @@ class eventmanager:
                     self.backend.save(thisjson)
                     self.backend.commit()
                     print 'saved'
-                raw_input()
+                #raw_input()
                 #runProcessingIfNotAlready(image, self.backend)
 
                 #sys.exit()
@@ -420,22 +422,35 @@ class eventmanager:
 
                 #FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
 
-                image = SEimageProcessing({
-                    'expnum':expnum,
-                    'nite':nite,
-                    'band':band,
-                    'jobid':np.nan,
-                    'exptime':exptime,
-                    'status':'Not Submitted',
-                    'triggerid': self.trigger_id,
-                    'object':str(s[7])
-                })
+                try:  # check if this json file is already in the submitted preprocessing database
+                    exposure = self.backend.get(exposures, {'expnum': expnum})
+                    print 'Found this exposure in desgw database...'
+                except exposures.DoesNotExist:  # do submission and then add to database
+                    exposure = exposures({
+                        'expnum':expnum,
+                        'nite':nite,
+                        'band':band,
+                        'jobid':np.nan,
+                        'exptime':exptime,
+                        'status':'Awaiting additional exposures',
+                        'triggerid': self.trigger_id,
+                        'object':str(s[7])
+                    })
+
+
 
                 #runProcessingIfNotAlready(image,self.backend)
 
                 print './diffimg-proc/getTiling.sh '+expnum
                 field_tiling = os.popen('./diffimg-proc/getTiling.sh '+expnum).read()
-                print field_tiling
+                print 'field_tiling',field_tiling
+                hexnite = field_tiling+'_'+str(nite)
+                print 'hexnite',hexnite
+                raw_input()
+
+
+
+
                 #field = field_tiling.split([-2])
                 #tiling = field_tiling.split([-1])
                 #print 'field tiling',field,tiling
