@@ -77,7 +77,11 @@ class eventmanager:
         with open(os.path.join(triggerdir,"strategy.yaml"), "r") as f:
             self.config = yaml.safe_load(f);
         self.filterobslist = self.config['exposure_filter']
+        self.strategydict = {}
         print self.filterobslist
+        for f in np.unique(self.filterobslist):
+            self.strategydict[f] = len(self.filterobslist[self.filterobslist == f])
+        print self.strategydict
         raw_input('filterobslist')
 
         self.connection = ea.connect(DATABASE)
