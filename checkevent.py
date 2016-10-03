@@ -86,7 +86,9 @@ def process_gcn(payload, root):
     print payload
     print 'GOT GCN LIGO EVENT'
 
-    if root.attrib['role'] != config.mode.lower(): return #This can be changed in the config file
+    if root.attrib['role'] != config.mode.lower():
+        print 'This event was not of type '+str(config.mode.upper())
+        return #This can be changed in the config file
     
 
     trigger_id = str(root.find("./What/Param[@name='GraceID']").attrib['value'])
