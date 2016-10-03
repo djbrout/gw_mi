@@ -76,7 +76,7 @@ class eventmanager:
 
         with open(os.path.join(triggerdir,"strategy.yaml"), "r") as f:
             self.config = yaml.safe_load(f);
-        self.filterobslist = self.config['exposure_filter']
+        self.filterobslist = np.array(self.config['exposure_filter'],dtype='str')
         self.strategydict = {}
         print self.filterobslist
         for f in np.unique(self.filterobslist):
