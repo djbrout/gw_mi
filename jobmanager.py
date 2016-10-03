@@ -418,7 +418,7 @@ class eventmanager:
                 band = str(s[2])
                 exptime = str(s[3])
 
-                FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
+                #FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
 
                 image = SEimageProcessing({
                     'expnum':expnum,
@@ -442,9 +442,9 @@ class eventmanager:
                 #raw_input()
                 #sys.exit()
 
-                NOW ADD THAT FIELD TILING ENTRY TO THE FIELD TILING DATABASE IF IT DOESNT ALREADY EXIST
+                #NOW ADD THAT FIELD TILING ENTRY TO THE FIELD TILING DATABASE IF IT DOESNT ALREADY EXIST
 
-                THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
+                #THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
 
             print 'Done checking mountaintop database...'
             sys.exit()
