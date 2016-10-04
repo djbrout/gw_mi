@@ -448,9 +448,8 @@ class eventmanager:
                         'object':str(s[7])
                     })
 
-                    self.backend.commit(exposure)
-                    self.backend.save()
-
+                    self.backend.save(exposure)
+                    self.backend.commit()
 
                 hexnite = exposure.hexnite
 
@@ -471,8 +470,8 @@ class eventmanager:
                         'num_observed_z': 0,
                     })
 
-                    self.backend.commit(hex)
-                    self.backend.save()
+                    self.backend.save(hex)
+                    self.backend.commit()
                     print hex
 
                 if band == 'g':
@@ -488,7 +487,7 @@ class eventmanager:
                 self.backend.save()
 
                 print hex
-                
+
                 didwork = False
                 if hex.num_observed_g == hex.num_target_g:
                     if hex.num_observed_r == hex.num_target_r:
