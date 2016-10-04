@@ -421,11 +421,10 @@ class eventmanager:
                 exptime = str(s[3])
 
                 #FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
-
-                try:  # check if this json file is already in the submitted preprocessing database
+                try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
-                except exposures.DoesNotExist:  # do submission and then add to database
+                except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
 
                     print './diffimg-proc/getTiling.sh '+expnum
@@ -449,8 +448,61 @@ class eventmanager:
                         'object':str(s[7])
                     })
 
+                    self.backend.commit(exposure)
+                    self.backend.save()
 
-                    sys.exit()
+
+                hexnite = exposure.hexnite
+
+                try:
+                    hex = self.backend.get(hexes, {'hexnite': hexnite})
+                    print 'Found this hex in desgw database...'
+                except hexes.DoesNotExist:
+                    hex = hexes({
+                        'hexnite': hexnite,
+                        'strategy': self.strategy['exposure_filter'],
+                        'num_target_g': len(exposure_filter[exposure_filter == 'g']),
+                        'num_target_r': len(exposure_filter[exposure_filter == 'r']),
+                        'num_target_i': len(exposure_filter[exposure_filter == 'i']),
+                        'num_target_z': len(exposure_filter[exposure_filter == 'z']),
+                        'num_observed_g': 0,
+                        'num_observed_r': 0,
+                        'num_observed_i': 0,
+                        'num_observed_z': 0,
+                    })
+
+                    self.backend.commit(hex)
+                    self.backend.save()
+                    print hex
+
+                if band == 'g':
+                    hex.num_observed_g += 1
+                if band == 'r':
+                    hex.num_observed_r += 1
+                if band == 'i':
+                    hex.num_observed_i += 1
+                if band == 'z':
+                    hex.num_observed_z += 1
+
+                self.backend.commit(hex)
+                self.backend.save()
+
+                print hex
+                
+                didwork = False
+                if hex.num_observed_g == hex.num_target_g:
+                    if hex.num_observed_r == hex.num_target_r:
+                        if hex.num_observed_i == hex.num_target_i:
+                            if hex.num_observed_z == hex.num_target_z:
+                                print 'All exposures in strategy satisfied! '
+                                didwork = True
+                                #SUBMIT THE IMAGE NOW
+
+                if not didwork:
+                    print 'Could not find all images in strategy for this hex... Added to database and will continue' \
+                          'waiting...'
+
+                sys.exit()
 
 
 
