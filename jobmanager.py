@@ -499,13 +499,14 @@ class eventmanager:
                             if hex.num_observed_z == hex.num_target_z:
                                 print 'All exposures in strategy satisfied! '
                                 didwork = True
+                                sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
                 if not didwork:
                     print 'Could not find all images in strategy for this hex... Added to database and will continue' \
                           'waiting...'
 
-                sys.exit()
+                #sys.exit()
 
 
 
