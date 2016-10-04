@@ -284,10 +284,12 @@ class eventmanager:
                     print './diffimg-proc/getTiling.sh '+expnum
                     res = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()
                     print res
-                    sys.exit()
+                    #sys.exit()
                     field,tiling =res[-2],res[-1]
                     #print 'field_tiling',field_tiling
                     hexnite = field.strip()+'_'+tiling.strip()+'_'+str(nite)
+                    print hexnite
+                    sys.exit()
                     #print 'hexnite',hexnite
                     print 'Creating exposure in database...',hexnite
                     exposure = exposures({
