@@ -452,7 +452,8 @@ class eventmanager:
                     self.backend.commit()
 
                 hexnite = exposure.hexnite
-
+                print 'hexnite',hexnite
+                sys.exit()
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
                     #self.backend.delete(hex)
@@ -468,10 +469,11 @@ class eventmanager:
                         'num_target_r': len(exposure_filter[exposure_filter == 'r']),
                         'num_target_i': len(exposure_filter[exposure_filter == 'i']),
                         'num_target_z': len(exposure_filter[exposure_filter == 'z']),
-                        'num_observed_g': 0,
-                        'num_observed_r': 0,
-                        'num_observed_i': 0,
-                        'num_observed_z': 0,
+                        'observed_g': [],
+                        'observed_r': [],
+                        'observed_i': [],
+                        'observed_z': [],
+                        'submitted_for_processing': 'No'
                     })
 
                     self.backend.save(hex)
@@ -479,13 +481,13 @@ class eventmanager:
                     print hex.attributes
 
                 if band == 'g':
-                    hex.num_observed_g += 1
+                    hex.observed_g.append(expnum)
                 if band == 'r':
-                    hex.num_observed_r += 1
+                    hex.observed_r.append(expnum)
                 if band == 'i':
-                    hex.num_observed_i += 1
+                    hex.observed_i.append(expnum)
                 if band == 'z':
-                    hex.num_observed_z += 1
+                    hex.observed_z.append(expnum)
 
                 self.backend.save(hex)
                 self.backend.commit()
@@ -493,11 +495,12 @@ class eventmanager:
                 print hex.attributes
 
                 didwork = False
-                if hex.num_observed_g == hex.num_target_g:
-                    if hex.num_observed_r == hex.num_target_r:
-                        if hex.num_observed_i == hex.num_target_i:
-                            if hex.num_observed_z == hex.num_target_z:
+                if len(hex.observed_g) == hex.num_target_g:
+                    if len(hex.observed_r) == hex.num_target_r:
+                        if len(hex.observed_i) == hex.num_target_i:
+                            if len(hex.observed_z) == hex.num_target_z:
                                 print 'All exposures in strategy satisfied! '
+                                hex.submitted_for_processing = 'Yes'
                                 didwork = True
                                 sys.exit()
                                 #SUBMIT THE IMAGE NOW
