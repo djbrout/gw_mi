@@ -431,7 +431,7 @@ class eventmanager:
                     res = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()
                     field,tiling =res[-2],res[-1]
                     #print 'field_tiling',field_tiling
-                    hexnite = field+'_'+tiling+'_'+str(nite)
+                    hexnite = field.strip()+'_'+tiling.strip()+'_'+str(nite)
                     print 'hexnite',hexnite
 
                     exposure = exposures({
