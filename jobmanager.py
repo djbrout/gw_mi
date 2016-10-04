@@ -274,9 +274,9 @@ class eventmanager:
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
-                    self.backend.delete(exposure)
-                    self.backend.commit()
-                    exposure = self.backend.get(exposures, {'expnum': expnum})
+                    # self.backend.delete(exposure)
+                    # self.backend.commit()
+                    # exposure = self.backend.get(exposures, {'expnum': expnum})
 
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
@@ -288,8 +288,8 @@ class eventmanager:
                     field,tiling =res[-2],res[-1]
                     #print 'field_tiling',field_tiling
                     hexnite = field.strip()+'_'+tiling.strip()+'_'+str(nite)
-                    print hexnite
-                    sys.exit()
+                    #print hexnite
+                    #sys.exit()
                     #print 'hexnite',hexnite
                     print 'Creating exposure in database...',hexnite
                     exposure = exposures({
@@ -311,6 +311,7 @@ class eventmanager:
 
                 hexnite = exposure.hexnite
                 print 'hexnite',hexnite
+                raw_input()
                 #sys.exit()
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
