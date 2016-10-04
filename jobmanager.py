@@ -475,7 +475,7 @@ class eventmanager:
 
                     self.backend.save(hex)
                     self.backend.commit()
-                    print hex
+                    print hex.attributes
 
                 if band == 'g':
                     hex.num_observed_g += 1
@@ -489,7 +489,7 @@ class eventmanager:
                 self.backend.save(hex)
                 self.backend.commit()
 
-                print hex
+                print hex.attributes
 
                 didwork = False
                 if hex.num_observed_g == hex.num_target_g:
