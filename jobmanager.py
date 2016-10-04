@@ -156,32 +156,8 @@ class eventmanager:
                     thisjson = self.backend.get(preprocessing, {'jsonfilename': os.path.join(self.datadir, jsonfile)})
                     print 'Found this json in desgw database...'
                 except preprocessing.DoesNotExist: #do submission and then add to database
-                    print '.json not yet submitted'
-                    print 'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)
-                    #out = os.popen('ssh desgw@des41.fnal.gov;source move;ls').read()
-                    # out = os.popen('ssh desgw@des41.fnal.gov;source move;'
-                    #                'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup;'
-                    #                'setup jobsub_client;'
-                    #                'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile)).read()
-
-                    # args = ['ssh','desgw@des41.fnal.gov','source move',
-                    #         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
-                    #         'setup jobsub_client',
-                    #         'SEMaker_RADEC.sh '+os.path.join(self.datadir,jsonfile),
-                    #         ]
-                    # args = ['source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup',
-                    #         'setup jobsub_client',
-                    #         'SEMaker_RADEC.sh ' + os.path.join(self.datadir, jsonfile),
-                    #         ]
-                    #args = 'source ./diffimg-proc/SEMaker_RADEC.sh '+ os.path.join(self.datadir, jsonfile)
-                    #print args
-                    #ro = subprocess.check_output(args, stderr=subprocess.STDOUT)
-                    #print ro
-                    #p = subprocess.Popen(args, stdout=PIPE, stderr=PIPE, shell=True)
-                    #print p.communicate()
 
                     print 'source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
-                    #sys.exit()
                     out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                     print out
                     if 'non-zero exit status' in out:
@@ -230,132 +206,6 @@ class eventmanager:
         print 'Finished submitting minidagmaker with all json files'
         #sys.exit()
         #raw_input()
-
-
-    # # USE JSON TO FIND ALL EXISTING DES IMAGES THAT OVERLAP WITH LIGOXDES AND SUBMIT THEM IF THEY ARE NOT
-    # #  ALREADY IN FIREDLIST
-    # def submit_all_images_in_LIGOxDES_footprint(self):
-    #
-    #     obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])#THIS IS A DATETIME OBJ
-    #     currentTime = dt.utcnow()
-    #     ras = []
-    #     decs = []
-    #     filts = []
-    #     print '***** The current time is UTC',currentTime,'*****'
-    #     delt = obsStartTime-currentTime
-    #
-    #     timedelta = td(days=delt.days,seconds=delt.seconds).total_seconds()/3600.
-    #     print '***** The time delta is ',timedelta,'hours *****'
-    #     #if timedelta > np.pi:
-    #     if timedelta > -9999999:
-    #         print '***** Firing off all SE jobs near our planned hexes... *****'
-    #         for jsonfile in self.jsonfilelist:
-    #             with open(os.path.join(self.datadir, jsonfile)) as data_file:
-    #                 jsondata = json.load(data_file)
-    #                 for js in jsondata:
-    #                     ras.append(js[u'RA'])
-    #                     decs.append(js[u'dec'])
-    #                     filts.append(js[u'filter'])
-    #
-    #         exposurenums = self.getNearbyImages(ras,decs,filts)
-    #         iii = 0
-    #         for exp in exposurenums:
-    #             iii += 1
-    #             print iii
-    #             self.submit_SEjob(exp)
-    #
-    #         #unique list of hexes and filters and find the closest exposures for each hex
-    #
-    #         #sort hexes by ra and then make a list of all exposure ids in exposures.list within 3 degrees of each hex
-    #         #submit that list self.submit_SEjob().
-    #     else:
-    #         print '***** The time delta is too small, we dont have time for SE jobs ******\n***** Waiting for first ' \
-    #               'images to come off the mountain *****'
-
-    # def getNearbyImages(self,ras,decs,filts):
-    #
-    #     allexposures = dilltools.read('./processing/exposures.list',1, 2, delim=' ')
-    #
-    #     EXPTIME =np.array(map(float, map(lambda x: x if not x in ['plate','EXPTIME'] else '-999',
-    #                                      allexposures['EXPTIME'])))
-    #     EXPNUM = np.array(map(float, map(lambda x: x if not x in ['plate', 'EXPNUM'] else '-999',
-    #                                       allexposures['EXPNUM'])))
-    #     TELRA =np.array(map(float, map(lambda x: x if not x in ['plate','RADEG'] else '-999',
-    #                                      allexposures['TELRA'])))
-    #     TELDEC =np.array(map(float, map(lambda x: x if not x in ['plate','DECDEG'] else '-999',
-    #                                      allexposures['TELDEC'])))
-    #     FILT = np.array(allexposures['BAND'],dtype='str')
-    #
-    #     TELRA[TELRA>180] = TELRA[TELRA>180] - 360.
-    #
-    #     ww = EXPTIME >= jobmanager_config.min_template_exptime
-    #     exposedRAS = TELRA[ww]
-    #     exposedDECS = TELDEC[ww]
-    #     exposedNUMS = EXPNUM[ww]
-    #     FILT = FILT[ww]
-    #
-    #     # print min(exposedRAS),max(exposedRAS)
-    #     # print min(ras),max(ras)
-    #     # print min(exposedDECS),max(exposedDECS)
-    #     # print min(decs),max(decs)
-    #     # print 'exposedRAS',exposedRAS,exposedRAS.shape
-    #
-    #     submitexpnums = []
-    #
-    #     for ra,dec,filt in zip(ras,decs,filts):
-    #         dist = np.array(np.sqrt((ra-exposedRAS)**2 + (dec-exposedDECS)**2))
-    #         #print min(dist),max(dist)
-    #         nearby = (dist < jobmanager_config.SE_radius) & (FILT == filt)
-    #         submitexpnums.extend(exposedNUMS[nearby])
-    #     submitexpnums = np.array(submitexpnums)
-    #     _, idx = np.unique(submitexpnums, return_index=True)
-    #     uniquesubmitexpnums = submitexpnums[np.sort(idx)]
-    #
-    #     return uniquesubmitexpnums
-
-    # def submit_images_to_dagmaker(self,explist):
-    #     submission_counter = 0
-    #     maxsub = 1
-    #     if len(explist) > 1:
-    #         print '***** SUBMITTING IMAGES AS CO-ADDS *****'
-    #         if not explist[0] in self.firedlist:
-    #             try:
-    #                 if submission_counter < maxsub:
-    #                     # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-    #                     subprocess.call(["sh", "DAGMaker.sh", [str(exp)+' ' for exp in explist]])  # create dag
-    #                     print 'created dag for ' + str(explist)
-    #                     print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"' \
-    #                           + expnum + '".dag"])'  # submit to the grid
-    #                     #print 'submitting to grid'
-    #                     #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band + '"
-    #                     # -n "+nite]) #submit local'
-    #                     print 'SUBMITTED JOB FOR EXPOSURES: ',explist
-    #                     newfireds.extend(explist)
-    #                     submission_counter += 1
-    #             except:
-    #                 print 'SUBMISSION FAILED EXPNUMS', explist
-    #
-    #     else:
-    #         print '***** SUBMITTING IMAGE AS SE JOB (using dagmaker) *****'
-    #         expnum = explist[0]
-    #         if not expnum in self.firedlist:
-    #             try:
-    #                 if submission_counter < maxsub:
-    #                     # subprocess.call(["sh", "DAGMaker.sh", '00'+expnum]) #create dag
-    #                     subprocess.call(["sh", "DAGMaker.sh", expnum])  # create dag
-    #                     print 'created dag for ' + str(expnum)
-    #                     print 'subprocess.call(["sh", "jobsub_submit_dag -G des --role=DESGW file://desgw_pipeline_00"'\
-    #                           + expnum + '".dag"])'  # submit to the grid
-    #                     #print 'submitting to grid'
-    #                     #print 'subprocess.call(["./RUN_DIFFIMG_PIPELINE_LOCAL.sh","-E "' + nite + '" -b "' + band +
-    #                     # '" -n "+nite]) #submit local'
-    #                     print 'SUBMITTED JOB FOR EXPOSURE: ' + expnum
-    #                     newfireds.append(expnum)
-    #                     submission_counter += 1
-    #             except:
-    #                 print 'SUBMISSION FAILED EXPNUM',expnum
-
-
 
     # Loop queries for images from mountain and submits them
     # Need to add complexity that monitors filter strategy and waits for entire groups of images to be co-added
@@ -413,7 +263,7 @@ class eventmanager:
 
                 if not 'DESGW' in str(s[7]): continue
                 print 'exptime',float(s[3])
-                if not float(s[3]) > 29.: continue
+                if not float(s[3]) > 29.: continue #exposure must be longer than 30 seconds
 
                 expnum = str(s[0])
                 nite = str(s[1])
@@ -424,9 +274,9 @@ class eventmanager:
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
-                    self.backend.delete(exposure)
-                    self.backend.commit()
-                    exposure = self.backend.get(exposures, {'expnum': expnum})
+                    # self.backend.delete(exposure)
+                    # self.backend.commit()
+                    # exposure = self.backend.get(exposures, {'expnum': expnum})
 
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
@@ -436,8 +286,8 @@ class eventmanager:
                     field,tiling =res[-2],res[-1]
                     #print 'field_tiling',field_tiling
                     hexnite = field.strip()+'_'+tiling.strip()+'_'+str(nite)
-                    print 'hexnite',hexnite
-
+                    #print 'hexnite',hexnite
+                    print 'Creating exposure in database...',hexnite
                     exposure = exposures({
                         'expnum':expnum,
                         'nite':nite,
@@ -457,7 +307,7 @@ class eventmanager:
 
                 hexnite = exposure.hexnite
                 print 'hexnite',hexnite
-                sys.exit()
+                #sys.exit()
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
                     #self.backend.delete(hex)
@@ -477,35 +327,104 @@ class eventmanager:
                         'observed_r': [],
                         'observed_i': [],
                         'observed_z': [],
-                        'submitted_for_processing': 'No'
+                        'exposures': [],
+                        'status': 'Awaiting additional exposures',
+                        'dagfile' : None,
                     })
 
                     self.backend.save(hex)
                     self.backend.commit()
                     print hex.attributes
 
+                if hex.status == 'Submitted for processing':
+                    continue
+
                 if band == 'g':
-                    hex.observed_g.append(expnum)
+                    if not expnum in hex.observed_g:
+                        hex.observed_g.append(expnum)
+                        hex.exposures.append(expnum)
                 if band == 'r':
-                    hex.observed_r.append(expnum)
+                    if not expnum in hex.observed_r:
+                        hex.observed_r.append(expnum)
+                        hex.exposures.append(expnum)
                 if band == 'i':
-                    hex.observed_i.append(expnum)
+                    if not expnum in hex.observed_i:
+                        hex.observed_i.append(expnum)
+                        hex.exposures.append(expnum)
                 if band == 'z':
-                    hex.observed_z.append(expnum)
+                    if not expnum in hex.observed_z:
+                        hex.observed_z.append(expnum)
+                        hex.exposures.append(expnum)
 
                 self.backend.save(hex)
                 self.backend.commit()
 
                 print hex.attributes
 
-                didwork = False
+                #didwork = False
                 if len(hex.observed_g) == hex.num_target_g:
                     if len(hex.observed_r) == hex.num_target_r:
                         if len(hex.observed_i) == hex.num_target_i:
                             if len(hex.observed_z) == hex.num_target_z:
                                 print 'All exposures in strategy satisfied! '
-                                hex.submitted_for_processing = 'Yes'
-                                didwork = True
+
+                                submissionPassed = True
+
+                                exposurestring = ''
+                                logstring = ''
+                                for exps in hex.exposures:
+                                    exposurestring += exps+' '
+                                    logstring += exps+'_'
+
+                                print 'source ./diffimg-proc/DAGMaker.sh ' + exposurestring
+                                out = os.popen('source ./diffimg-proc/DAGMaker.sh ' + exposurestring ).read()
+                                print out
+                                f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
+                                f.write(out)
+                                f.close()
+                                if 'non-zero exit status' in out:
+                                    dt.sendEmailSubject(self.trigger_id, 'Error in creating dag for desgw hex: ' + out)
+                                    submissionPassed = False
+                                else:
+                                    for o in out.split('\n'):
+                                        if 'file://' in o:
+                                            dagfile = o.split('/')[-1]
+                                            self.dagfile = os.path.join(self.processingdir,logstring.split('.')[0]+'.dag')
+                                            os.system('cp ' + dagfile + ' ' + self.dagfile)
+                                    print self.dagfile
+
+                                print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile
+
+                                out = os.popen(
+                                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                                    'jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile).read()
+                                print out
+                                if 'non-zero exit status' in out:
+                                    dt.sendEmailSubject(self.trigger_id,
+                                                        'Error in submitting hex dag for processing: ' + out)
+                                    submissionPassed = False
+                                else:
+                                    for o in out.split('\n'):
+                                        if 'Use job id' in o:
+                                            jobid = o.split()[3]
+                                    out = os.popen(
+                                        'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                                        'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                                    print out
+
+                                if submissionPassed:
+
+                                    hex.status = 'Submitted for processing'
+                                    hex.dagfile = thisdag
+                                    self.backend.save(hex)
+                                    self.backend.commit()
+
+                                    for expn in hex.exposures:
+                                        exp = self.backend.get(exposures, {'expnum': expn})
+                                        exp.status = 'Submitted for processing'
+                                        self.backend.save(exp)
+                                        self.backend.commit()
+                                    #didwork = True
                                 sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
