@@ -274,15 +274,17 @@ class eventmanager:
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
-                    # self.backend.delete(exposure)
-                    # self.backend.commit()
-                    # exposure = self.backend.get(exposures, {'expnum': expnum})
+                    self.backend.delete(exposure)
+                    self.backend.commit()
+                    exposure = self.backend.get(exposures, {'expnum': expnum})
 
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
 
                     print './diffimg-proc/getTiling.sh '+expnum
                     res = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()
+                    print res
+                    sys.exit()
                     field,tiling =res[-2],res[-1]
                     #print 'field_tiling',field_tiling
                     hexnite = field.strip()+'_'+tiling.strip()+'_'+str(nite)
