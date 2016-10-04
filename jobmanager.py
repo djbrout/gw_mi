@@ -483,8 +483,8 @@ class eventmanager:
                 if band == 'z':
                     hex.num_observed_z += 1
 
-                self.backend.commit(hex)
-                self.backend.save()
+                self.backend.save(hex)
+                self.backend.commit()
 
                 print hex
 
