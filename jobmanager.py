@@ -455,9 +455,9 @@ class eventmanager:
 
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
-                    self.backend.delete(hex)
-                    self.backend.commit()
-                    hex = self.backend.get(hexes, {'hexnite': hexnite})
+                    #self.backend.delete(hex)
+                    #self.backend.commit()
+                    #hex = self.backend.get(hexes, {'hexnite': hexnite})
 
                     print 'Found this hex in desgw database...'
                 except hexes.DoesNotExist:
