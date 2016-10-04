@@ -361,7 +361,7 @@ class eventmanager:
 
                 print hex.attributes
 
-                #didwork = False
+                didwork = False
                 if len(hex.observed_g) == hex.num_target_g:
                     if len(hex.observed_r) == hex.num_target_r:
                         if len(hex.observed_i) == hex.num_target_i:
@@ -424,7 +424,7 @@ class eventmanager:
                                         exp.status = 'Submitted for processing'
                                         self.backend.save(exp)
                                         self.backend.commit()
-                                    #didwork = True
+                                    didwork = True
                                 sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
