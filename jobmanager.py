@@ -455,7 +455,7 @@ class eventmanager:
 
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
-                    backend.delete(hex)
+                    self.backend.delete(hex)
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
 
                     print 'Found this hex in desgw database...'
