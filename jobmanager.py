@@ -424,6 +424,10 @@ class eventmanager:
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
+                    self.backend.delete(exposure)
+                    self.backend.commit()
+                    exposure = self.backend.get(exposures, {'expnum': expnum})
+
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
 
