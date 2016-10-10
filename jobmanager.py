@@ -315,7 +315,7 @@ class eventmanager:
                 print 'hexnite',hexnite
                 if '--' in hexnite:
                     print exposure.attributes
-                    raw_input()
+                    #raw_input()
                 #raw_input()
                 #sys.exit()
                 try:
@@ -346,6 +346,9 @@ class eventmanager:
                     self.backend.commit()
                     print hex.attributes
 
+                if '--' in hexnite:
+                    print hex.attributes
+                    raw_input()
                 if hex.status == 'Submitted for processing':
                     print 'Hex ',hexnite,' band',band,'exposure',expnum,'has already been submitted for processing'
                     #raw_input()
