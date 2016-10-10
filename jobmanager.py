@@ -440,8 +440,8 @@ class eventmanager:
                                 #SUBMIT THE IMAGE NOW
 
                 if not didwork:
-                    print 'Could not find all images in strategy for this hex... Added to database and will continue ' \
-                          'waiting...'
+                    print 'Could not find all images in strategy for this hex... Added hex', hexnite,' to database ' \
+                        'and will continue waiting...'
 
                 #sys.exit()
 
