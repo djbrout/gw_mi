@@ -275,6 +275,9 @@ class eventmanager:
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
+                    print exposure.attributes
+                    if expnum == 506432:
+                        sys.exit()
                     self.backend.delete(exposure)
                     self.backend.commit()
                     exposure = self.backend.get(exposures, {'expnum': expnum})
