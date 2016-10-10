@@ -342,7 +342,7 @@ class eventmanager:
                     print hex.attributes
 
                 if hex.status == 'Submitted for processing':
-                    print 'Hex ',hexnite,'has already been submitted for processing'
+                    print 'Hex ',hexnite,' band',band,'exposure',expnum,'has already been submitted for processing'
                     raw_input()
                     continue
 
