@@ -19,8 +19,8 @@ import yaml
 
 class Trigger(Document):
     pass
-class SEimageProcessing(Document):
-    pass
+#class SEimageProcessing(Document):
+#    pass
 class hexes(Document):
     pass
 class exposures(Document):
@@ -344,7 +344,7 @@ class eventmanager:
 
                 if hex.status == 'Submitted for processing':
                     print 'Hex ',hexnite,' band',band,'exposure',expnum,'has already been submitted for processing'
-                    raw_input()
+                    #raw_input()
                     continue
 
                 if band == 'g':
@@ -436,7 +436,7 @@ class eventmanager:
                                     didwork = True
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
-                                sys.exit()
+                                #sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
                 if not didwork:
@@ -459,7 +459,7 @@ class eventmanager:
                 #THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
 
             print 'Done checking mountaintop database...'
-            sys.exit()
+            #sys.exit()
 
 
             #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
@@ -529,6 +529,8 @@ class eventmanager:
         pass
 
 
+
+
     # LIST OF EXPOSURES
 
     # CANDIDATE FILE
@@ -536,20 +538,20 @@ class eventmanager:
     # EXCLUSIONFILE WHICH IS LIST_OF_EXPOSRES-CANDIDATE_FILE
 
 
-def runProcessingIfNotAlready(image,backend):
-    try:
-        #print 'this image.expnum', image.expnum
-        #print image.expnum
-        images = backend.filter(SEimageProcessing, {'expnum': image.expnum})
-        if len(images) == 0:
-            submit_SEjob(image,backend)
-            print 'Expnum', image.expnum, 'was just submitted for processing'
-        else:
-            print 'Expnum', image.expnum, 'has already been submitted for processing'
-        raw_input()
-    except SEimageProcessing.DoesNotExist:
-        submit_SEjob(image,backend)
-        print 'Expnum', image.expnum, 'was just submitted for processing'
+# def runProcessingIfNotAlready(image,backend):
+#     try:
+#         #print 'this image.expnum', image.expnum
+#         #print image.expnum
+#         images = backend.filter(SEimageProcessing, {'expnum': image.expnum})
+#         if len(images) == 0:
+#             submit_SEjob(image,backend)
+#             print 'Expnum', image.expnum, 'was just submitted for processing'
+#         else:
+#             print 'Expnum', image.expnum, 'has already been submitted for processing'
+#         raw_input()
+#     except SEimageProcessing.DoesNotExist:
+#         submit_SEjob(image,backend)
+#         print 'Expnum', image.expnum, 'was just submitted for processing'
 
 
 def submit_SEjob(image,backend):
@@ -585,33 +587,66 @@ def submit_SEjob(image,backend):
     #sys.exit()
 
 
-def submitProcessing_STANDALONE(expnum,triggerid,real,band='NA',nite='NA'):
-    image = SEimageProcessing({
-        'expnum': expnum,
-        'nite': nite,
-        'band': band,
-        'jobid': np.nan,
-        'triggerid': triggerid,
-        'status': 'Not Submitted'
-    })
+# def submitProcessing_STANDALONE(expnum,triggerid,real,band='NA',nite='NA'):
+#     image = SEimageProcessing({
+#         'expnum': expnum,
+#         'nite': nite,
+#         'band': band,
+#         'jobid': np.nan,
+#         'triggerid': triggerid,
+#         'status': 'Not Submitted'
+#     })
+#
+#     if real:
+#         backend = FileBackend("./realdb")
+#     else:
+#         backend = FileBackend("./testdb")
+#
+#     print 'self.runProcessingIfNotAlready(image)'
+#     runProcessingIfNotAlready(image,backend)
+
+# def removeExposureFromProcessingDB(expnum,real):
+#     if real:
+#         backend = FileBackend("./realdb")
+#     else:
+#         backend = FileBackend("./testdb")
+#
+#     image = backend.filter(SEimageProcessing, {'expnum': expnum})
+#     backend.delete(image)
+#     'Exposure',expnum,'removed from database'
+
+def cleardb(real):
+    password = 'djb123'
+    user_input = raw_input('Please Enter Password: ')
+
+    if user_input != password:
+        sys.exit('Incorrect Password, terminating... \n')
 
     if real:
         backend = FileBackend("./realdb")
     else:
         backend = FileBackend("./testdb")
 
-    print 'self.runProcessingIfNotAlready(image)'
-    runProcessingIfNotAlready(image,backend)
+    images = backend.filter(preprocessing, {'status': 'Submitted'})
+    images.delete()
+    hexen = backend.filter(hexes,{'num_target_g':0})
+    hexen.delete()
+    exposuren = backend.filter(exposures,{'status':'Awaiting additional exposures'})
+    exposuren.delete()
 
-def removeExposureFromProcessingDB(expnum,real):
+
+
+
+
+def removeHexFromProcessingDB(hexnite,real):
     if real:
         backend = FileBackend("./realdb")
     else:
         backend = FileBackend("./testdb")
 
-    image = backend.filter(SEimageProcessing, {'expnum': expnum})
-    backend.delete(image)
-    'Exposure',expnum,'removed from database'
+    hex = backend.filter(hexes, {'hexnite': hexnite})
+    backend.delete(hex)
+    'Hexnite',hexnite,'removed from database'
 
 def sendEmail(trigger_id):
     import smtplib
