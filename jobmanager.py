@@ -346,13 +346,13 @@ class eventmanager:
                     self.backend.commit()
                     print hex.attributes
 
-                if '--' in hexnite:
-                    print hex.attributes
-                    raw_input()
-                if hex.status == 'Submitted for processing':
-                    print 'Hex ',hexnite,' band',band,'exposure',expnum,'has already been submitted for processing'
-                    #raw_input()
-                    continue
+                # if '--' in hexnite:
+                #     print hex.attributes
+                #     raw_input()
+                # if hex.status == 'Submitted for processing':
+                #     print 'Hex ',hexnite,' band',band,'exposure',expnum,'has already been submitted for processing'
+                #     #raw_input()
+                #     continue
 
                 if band == 'g':
                     if not expnum in hex.observed_g:
@@ -426,6 +426,9 @@ class eventmanager:
                                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                                         'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
                                     print out
+                                if '--' in hexnite:
+                                    print 'Stopped for debug'
+                                    sys.exit()
 
                                 if submissionPassed:
 
