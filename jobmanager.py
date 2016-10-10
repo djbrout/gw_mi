@@ -635,7 +635,7 @@ def cleardb(real=False):
     hexen.delete()
     exposuren = backend.filter(exposures,{'status':'Awaiting additional exposures'})
     exposuren.delete()
-
+    backend.commit()
 
 
 
