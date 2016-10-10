@@ -429,9 +429,9 @@ class eventmanager:
                                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                                         'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
                                     print out
-                                if '--' in hexnite:
-                                    print 'Stopped for debug'
-                                    sys.exit()
+                                #if '--' in hexnite:
+                                #    print 'Stopped for debug'
+                                #    sys.exit()
 
                                 if submissionPassed:
 
