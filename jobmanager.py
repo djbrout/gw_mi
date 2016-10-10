@@ -420,7 +420,7 @@ class eventmanager:
                                 if submissionPassed:
 
                                     hex.status = 'Submitted for processing'
-                                    hex.dagfile = thisdag
+                                    hex.dagfile = self.dagfile
                                     self.backend.save(hex)
                                     self.backend.commit()
 
