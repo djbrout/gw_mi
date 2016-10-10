@@ -311,7 +311,7 @@ class eventmanager:
 
                 hexnite = exposure.hexnite
                 print 'hexnite',hexnite
-                raw_input()
+                #raw_input()
                 #sys.exit()
                 try:
                     hex = self.backend.get(hexes, {'hexnite': hexnite})
@@ -387,14 +387,14 @@ class eventmanager:
                                 f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                 f.write(out)
                                 f.close()
-                                if 'non-zero exit status' in out:
+                                if not 'To submit this DAG do' in out:
                                     dt.sendEmailSubject(self.trigger_id, 'Error in creating dag for desgw hex: ' + out)
                                     submissionPassed = False
                                 else:
                                     for o in out.split('\n'):
                                         if 'file://' in o:
                                             dagfile = o.split('/')[-1]
-                                            self.dagfile = os.path.join(self.processingdir,logstring.split('.')[0]+'.dag')
+                                            self.dagfile = os.path.join(self.processingdir,logstring+'job.dag')
                                             os.system('cp ' + dagfile + ' ' + self.dagfile)
                                     print self.dagfile
 
