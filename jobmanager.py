@@ -293,7 +293,10 @@ class eventmanager:
                     #sys.exit()
                     #print 'hexnite',hexnite
                     print 'Creating exposure in database...',hexnite
-                    raw_input()
+                    if '--' in hexnite:
+                        print 'found bad example'
+                        raw_input()
+
                     exposure = exposures({
                         'expnum':expnum,
                         'nite':nite,
