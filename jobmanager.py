@@ -615,7 +615,7 @@ def submit_SEjob(image,backend):
 #     backend.delete(image)
 #     'Exposure',expnum,'removed from database'
 
-def cleardb(real):
+def cleardb(real=False):
     password = 'djb123'
     user_input = raw_input('Please Enter Password: ')
 
