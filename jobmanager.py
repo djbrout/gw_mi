@@ -270,13 +270,14 @@ class eventmanager:
                 band = str(s[2])
                 exptime = str(s[3])
 
+
                 #FIRST CHECK HERE THAT THE EXPOSURE NUMBER ISNT ALREADY IN THE DATABASE
                 try:
                     exposure = self.backend.get(exposures, {'expnum': expnum})
                     print 'Found this exposure in desgw database...'
-                    self.backend.delete(exposure)
-                    self.backend.commit()
-                    exposure = self.backend.get(exposures, {'expnum': expnum})
+                    # self.backend.delete(exposure)
+                    # self.backend.commit()
+                    # exposure = self.backend.get(exposures, {'expnum': expnum})
 
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
@@ -439,7 +440,7 @@ class eventmanager:
                                 #SUBMIT THE IMAGE NOW
 
                 if not didwork:
-                    print 'Could not find all images in strategy for this hex... Added to database and will continue' \
+                    print 'Could not find all images in strategy for this hex... Added to database and will continue ' \
                           'waiting...'
 
                 #sys.exit()
