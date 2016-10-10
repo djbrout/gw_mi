@@ -313,6 +313,9 @@ class eventmanager:
 
                 hexnite = exposure.hexnite
                 print 'hexnite',hexnite
+                if '--' in hexnite:
+                    print exposure.attributes
+                    raw_input()
                 #raw_input()
                 #sys.exit()
                 try:
