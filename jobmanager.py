@@ -472,6 +472,7 @@ class eventmanager:
                 self.submit_post_processing()
             #sys.exit()
             print 'Waiting 2 minutes to check from mountain...'
+            sys.exit()
             time.sleep(120)
 
             # cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
