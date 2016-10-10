@@ -425,11 +425,13 @@ class eventmanager:
                                     self.backend.commit()
 
                                     for expn in hex.exposures:
+                                        print expn, 'updated in database to Submitted For Processing'
                                         exp = self.backend.get(exposures, {'expnum': expn})
                                         exp.status = 'Submitted for processing'
                                         self.backend.save(exp)
                                         self.backend.commit()
                                     didwork = True
+                                print 'didwork',didwork
                                 sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
