@@ -278,9 +278,9 @@ class eventmanager:
                     # print exposure.attributes
                     # if expnum == 506432:
                     #     sys.exit()
-                    self.backend.delete(exposure)
-                    self.backend.commit()
-                    exposure = self.backend.get(exposures, {'expnum': expnum})
+                    # self.backend.delete(exposure)
+                    # self.backend.commit()
+                    # exposure = self.backend.get(exposures, {'expnum': expnum})
 
                 except exposures.DoesNotExist:  # add to database
                     #runProcessingIfNotAlready(image,self.backend)
