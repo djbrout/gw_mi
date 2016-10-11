@@ -352,6 +352,10 @@ class eventmanager:
                     self.backend.commit()
                     print hex.attributes
 
+                if hex.status == 'Submitted for processing':
+                    print 'This hex has already been submitted for processing'
+                    continue
+
                 # if '--' in hexnite:
                 #     print hex.attributes
                 #     raw_input()
