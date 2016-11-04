@@ -133,7 +133,7 @@ class eventmanager:
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
         #self.submit_all_images_in_LIGOxDES_footprint()#THIS IS OLD
-        self.submit_all_jsons_for_sejobs()
+        #############self.submit_all_jsons_for_sejobs()#THIS WILL NEED TO BE UNCOMMENTED
         self.monitor_images_from_mountain()
         #self.submit_post_processing()
 
