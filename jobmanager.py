@@ -296,6 +296,7 @@ class eventmanager:
                     #sys.exit()
                     #print 'hexnite',hexnite
                     print 'Creating exposure in database...',hexnite
+                    raw_input()
                     if '--' in hexnite:
                         print 'found bad example'
                         raw_input()
@@ -351,6 +352,8 @@ class eventmanager:
                     self.backend.save(hex)
                     self.backend.commit()
                     print hex.attributes
+                    print 'created new hex'
+                    raw_input()
 
                 if hex.status == 'Submitted for processing':
                     print 'This hex has already been submitted for processing'
@@ -392,7 +395,7 @@ class eventmanager:
                         if len(hex.observed_i) == hex.num_target_i:
                             if len(hex.observed_z) == hex.num_target_z:
                                 print 'All exposures in strategy satisfied! '
-
+                                raw_input()
                                 submissionPassed = True
 
                                 exposurestring = ''
@@ -439,7 +442,7 @@ class eventmanager:
                                 #if '--' in hexnite:
                                 #    print 'Stopped for debug'
                                 #    sys.exit()
-
+                                raw_input()
                                 if submissionPassed:
 
                                     hex.status = 'Submitted for processing'
@@ -456,12 +459,14 @@ class eventmanager:
                                     didwork = True
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
+                                raw_input()
                                 #sys.exit()
                                 #SUBMIT THE IMAGE NOW
 
                 if not didwork:
                     print 'Could not find all images in strategy for this hex... Added hex', hexnite,' to database ' \
                         'and will continue waiting...'
+                    raw_input()
 
                 #sys.exit()
 
@@ -479,7 +484,7 @@ class eventmanager:
                 #THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
 
             print 'Done checking mountaintop database...'
-            #sys.exit()
+            sys.exit()
 
 
             #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE

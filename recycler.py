@@ -767,9 +767,9 @@ if __name__ == "__main__":
             #e.updateWebpage()
 
             #e.send_nonurgent_Email()
-
+            ISREALTRIGGER = True
             eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
-                                                            os.path.join(trigger_path, trigger_id, 'maps'),False))
+                                                            os.path.join(trigger_path, trigger_id, 'maps'),ISREALTRIGGER))
             eventmngr.start()
 
             #e.send_nonurgent_Email()
