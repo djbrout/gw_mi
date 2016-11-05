@@ -143,14 +143,12 @@ class eventmanager:
                     print 'Found this json in desgw database...'
                 except preprocessing.DoesNotExist: #do submission and then add to database
 
-                    print 'cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
+                    print 'cd diffimg-proc; ./SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
                     os.chdir("diffimg-proc")
                     out = os.popen('./SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                     #out = os.popen('ls').read()
                     os.chdir("..")
-
                     print out
-                    sys.exit()
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
                     else:
@@ -398,11 +396,10 @@ class eventmanager:
 
                                 print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
                                 os.chdir("diffimg-proc")
-                                out = os.popen('ls').read()
-                                #out = os.popen('source DAGMaker.sh ' + exposurestring ).read()
+                                #out = os.popen('ls').read()
+                                out = os.popen('./DAGMaker.sh ' + exposurestring ).read()
                                 os.chdir("..")
                                 print out
-                                sys.exit()
                                 f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                 f.write(out)
                                 f.close()
