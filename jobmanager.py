@@ -43,7 +43,6 @@ hardjson = True
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
-clearfiredlist = True
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
@@ -80,16 +79,13 @@ class eventmanager:
             self.config = yaml.safe_load(f);
         self.filterobslist = np.array(self.config['exposure_filter'],dtype='str')
         self.strategydict = {}
-        #print self.filterobslist
+
         for f in np.unique(self.filterobslist):
             self.strategydict[f] = len(self.filterobslist[self.filterobslist == f])
-        #print self.strategydict
-        #raw_input('filterobslist')
 
         self.connection = ea.connect(DATABASE)
         self.cursor = self.connection.cursor()
-        #self.prdconnection = ea.connect(PRDDATABASE)
-        #self.prdcursor = self.prdconnection.cursor()
+
         self.jsonfilelist = jsonfilelist
 
         print self.jsonfilelist
@@ -113,14 +109,6 @@ class eventmanager:
         with open("jobmanager.yaml", "r") as g:
             self.jmconfig = yaml.safe_load(g);
 
-        if clearfiredlist:
-            file_firedlist = open('./processing/firedlist.txt', 'w')
-            file_firedlist.close()
-
-        file_firedlist = open('./processing/firedlist.txt', 'r')
-        firedlist = file_firedlist.readlines()
-        file_firedlist.close()
-        self.firedlist = map(str.strip, firedlist)
 
         q1 = "select expnum,nite,mjd_obs,telra,teldec,band,exptime,propid,obstype,object from exposure where " \
              "nite>20130828 and nite<20150101 and expnum<300000 and obstype='object' order by expnum"  # y1 images
@@ -132,10 +120,8 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
-        #self.submit_all_images_in_LIGOxDES_footprint()#THIS IS OLD
-        #############self.submit_all_jsons_for_sejobs()#THIS WILL NEED TO BE UNCOMMENTED
-        self.monitor_images_from_mountain()
-        #self.submit_post_processing()
+        self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
+        self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
 
     def submit_all_jsons_for_sejobs(self):
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
@@ -157,8 +143,8 @@ class eventmanager:
                     print 'Found this json in desgw database...'
                 except preprocessing.DoesNotExist: #do submission and then add to database
 
-                    print 'source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
-                    out = os.popen('source ./diffimg-proc/SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    print 'cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
+                    out = os.popen('cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                     print out
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
@@ -404,8 +390,8 @@ class eventmanager:
                                     exposurestring += exps+' '
                                     logstring += exps+'_'
 
-                                print 'source ./diffimg-proc/DAGMaker.sh ' + exposurestring
-                                out = os.popen('source ./diffimg-proc/DAGMaker.sh ' + exposurestring ).read()
+                                print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
+                                out = os.popen('cd diffimg-proc; source DAGMaker.sh ' + exposurestring ).read()
                                 print out
                                 f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                 f.write(out)
@@ -489,7 +475,7 @@ class eventmanager:
 
             #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
 
-            if time.time() - pptime > postprocessingtime:
+            if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
                 pptime = time.time()
                 print '***** Firing post processing script *****'
                 sys.exit()
@@ -497,7 +483,7 @@ class eventmanager:
             #sys.exit()
             print 'Waiting 2 minutes to check from mountain...'
             sys.exit()
-            time.sleep(120)
+            time.sleep(120)#looping over checking the mountain top
 
             # cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
             # for f in cfiles:
