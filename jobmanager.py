@@ -396,9 +396,11 @@ class eventmanager:
 
                                 print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
                                 os.chdir("diffimg-proc")
-                                out = os.popen('source DAGMaker.sh ' + exposurestring ).read()
+                                out = os.popen('ls').read()
+                                #out = os.popen('source DAGMaker.sh ' + exposurestring ).read()
                                 os.chdir("..")
                                 print out
+                                sys.exit()
                                 f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                 f.write(out)
                                 f.close()
