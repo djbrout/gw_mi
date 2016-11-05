@@ -145,10 +145,12 @@ class eventmanager:
 
                     print 'cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
                     os.chdir("diffimg-proc")
-                    out = os.popen('source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    #out = os.popen('source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    out = os.popen('ls').read()
                     os.chdir("..")
 
                     print out
+                    sys.exit()
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
                     else:
