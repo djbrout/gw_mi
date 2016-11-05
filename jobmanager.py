@@ -144,7 +144,10 @@ class eventmanager:
                 except preprocessing.DoesNotExist: #do submission and then add to database
 
                     print 'cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
-                    out = os.popen('cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    os.chdir("diffimg-proc")
+                    out = os.popen('source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    os.chdir("..")
+
                     print out
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
@@ -272,6 +275,7 @@ class eventmanager:
                     #runProcessingIfNotAlready(image,self.backend)
 
                     print './diffimg-proc/getTiling.sh '+expnum
+
                     res = os.popen('./diffimg-proc/getTiling.sh '+expnum).readlines()
                     print res
                     #sys.exit()
@@ -391,7 +395,9 @@ class eventmanager:
                                     logstring += exps+'_'
 
                                 print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
-                                out = os.popen('cd diffimg-proc; source DAGMaker.sh ' + exposurestring ).read()
+                                os.chdir("diffimg-proc")
+                                out = os.popen('source DAGMaker.sh ' + exposurestring ).read()
+                                os.chdir("..")
                                 print out
                                 f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                 f.write(out)
