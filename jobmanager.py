@@ -145,7 +145,7 @@ class eventmanager:
 
                     print 'cd diffimg-proc; source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
                     os.chdir("diffimg-proc")
-                    out = os.popen('source SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    out = os.popen('./SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
                     #out = os.popen('ls').read()
                     os.chdir("..")
 
