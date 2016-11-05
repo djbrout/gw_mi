@@ -155,8 +155,8 @@ class eventmanager:
                         for o in out.split('\n'):
                             if 'file://' in o:
                                 dagfile = o.split('/')[-1]
-                                self.dagfile = os.path.join(self.processingdir,'diffimg-proc',jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
-                                os.system('cp '+dagfile+' '+self.dagfile)
+                                self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
+                                os.system('cp diffimg-proc/'+dagfile+' '+self.dagfile)
                                 jobsubmitline = copy(o)
                         print self.dagfile
 
@@ -414,8 +414,8 @@ class eventmanager:
                                         for o in out.split('\n'):
                                             if 'file://' in o:
                                                 dagfile = o.split('/')[-1]
-                                                self.dagfile = os.path.join(self.processingdir,'diffimg-proc',logstring+'job.dag')
-                                                os.system('cp ' + dagfile + ' ' + self.dagfile)
+                                                self.dagfile = os.path.join(self.processingdir,logstring+'job.dag')
+                                                os.system('cp diffimg-proc/' + dagfile + ' ' + self.dagfile)
                                         print self.dagfile
 
                                     print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile
