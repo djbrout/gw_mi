@@ -155,7 +155,7 @@ class eventmanager:
                         for o in out.split('\n'):
                             if 'file://' in o:
                                 dagfile = o.split('/')[-1]
-                                self.dagfile = os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
+                                self.dagfile = os.path.join(self.processingdir,'diffimg-proc',jsonfile.split('/')[-1].split('.')[0]+'_'+dagfile)
                                 os.system('cp '+dagfile+' '+self.dagfile)
                                 jobsubmitline = copy(o)
                         print self.dagfile
@@ -388,53 +388,57 @@ class eventmanager:
                                 raw_input()
                                 submissionPassed = True
 
-                                exposurestring = ''
-                                logstring = ''
-                                for exps in hex.exposures:
-                                    exposurestring += exps+' '
-                                    logstring += exps+'_'
+                                for target, exps in zip([hex.num_target_g,hex.num_target_r,hex.num_target_i,hex.num_target_z],
+                                                        [hex.observed_g,hex.observed_r,hex.observed_i,hex.observed_z]):
 
-                                print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
-                                os.chdir("diffimg-proc")
-                                #out = os.popen('ls').read()
-                                out = os.popen('./DAGMaker.sh ' + exposurestring ).read()
-                                os.chdir("..")
-                                print out
-                                f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
-                                f.write(out)
-                                f.close()
-                                if not 'To submit this DAG do' in out:
-                                    dt.sendEmailSubject(self.trigger_id, 'Error in creating dag for desgw hex: ' + out)
-                                    submissionPassed = False
-                                else:
-                                    for o in out.split('\n'):
-                                        if 'file://' in o:
-                                            dagfile = o.split('/')[-1]
-                                            self.dagfile = os.path.join(self.processingdir,logstring+'job.dag')
-                                            os.system('cp ' + dagfile + ' ' + self.dagfile)
-                                    print self.dagfile
 
-                                print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile
+                                    exposurestring = ''
+                                    logstring = ''
+                                    for ex in exps:
+                                        exposurestring += ex+' '
+                                        logstring += ex+'_'
 
-                                out = os.popen(
-                                    'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                                    'jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile).read()
-                                print out
-                                if 'non-zero exit status' in out:
-                                    dt.sendEmailSubject(self.trigger_id,
-                                                        'Error in submitting hex dag for processing: ' + out)
-                                    submissionPassed = False
-                                else:
-                                    for o in out.split('\n'):
-                                        if 'Use job id' in o:
-                                            jobid = o.split()[3]
+                                    print 'cd diffimg-proc; source DAGMaker.sh ' + exposurestring
+                                    os.chdir("diffimg-proc")
+                                    #out = os.popen('ls').read()
+                                    out = os.popen('./DAGMaker.sh ' + exposurestring ).read()
+                                    os.chdir("..")
+                                    print out
+                                    f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
+                                    f.write(out)
+                                    f.close()
+                                    if not 'To submit this DAG do' in out:
+                                        dt.sendEmailSubject(self.trigger_id, 'Error in creating dag for desgw hex: ' + out)
+                                        submissionPassed = False
+                                    else:
+                                        for o in out.split('\n'):
+                                            if 'file://' in o:
+                                                dagfile = o.split('/')[-1]
+                                                self.dagfile = os.path.join(self.processingdir,'diffimg-proc',logstring+'job.dag')
+                                                os.system('cp ' + dagfile + ' ' + self.dagfile)
+                                        print self.dagfile
+
+                                    print 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile
+
                                     out = os.popen(
                                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
-                                        'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                                        'jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile).read()
                                     print out
-                                #if '--' in hexnite:
-                                #    print 'Stopped for debug'
-                                #    sys.exit()
+                                    if 'non-zero exit status' in out:
+                                        dt.sendEmailSubject(self.trigger_id,
+                                                            'Error in submitting hex dag for processing: ' + out)
+                                        submissionPassed = False
+                                    else:
+                                        for o in out.split('\n'):
+                                            if 'Use job id' in o:
+                                                jobid = o.split()[3]
+                                        out = os.popen(
+                                            'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
+                                            'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
+                                        print out
+                                    #if '--' in hexnite:
+                                    #    print 'Stopped for debug'
+                                    #    sys.exit()
                                 raw_input()
                                 if submissionPassed:
 
@@ -453,28 +457,12 @@ class eventmanager:
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
                                 raw_input()
-                                #sys.exit()
-                                #SUBMIT THE IMAGE NOW
 
                 if not didwork:
                     print 'Could not find all images in strategy for this hex... Added hex', hexnite,' to database ' \
                         'and will continue waiting...'
                     raw_input()
 
-                #sys.exit()
-
-
-
-
-                #field = field_tiling.split([-2])
-                #tiling = field_tiling.split([-1])
-                #print 'field tiling',field,tiling
-                #raw_input()
-                #sys.exit()
-
-                #NOW ADD THAT FIELD TILING ENTRY TO THE FIELD TILING DATABASE IF IT DOESNT ALREADY EXIST
-
-                #THEN ADD THE FILTER OBSERVED (AND EXP NUM) TO THE FIELD TILING DICTINOARY INSID ETHE FIELD TILING DATABASE
 
             print 'Done checking mountaintop database...'
             sys.exit()
