@@ -343,7 +343,7 @@ class eventmanager:
                     self.backend.commit()
                     print hex.attributes
                     print 'created new hex'
-                    raw_input()
+                    #raw_input()
 
                 if hex.status == 'Submitted for processing':
                     print 'This hex has already been submitted for processing'
@@ -385,7 +385,7 @@ class eventmanager:
                         if len(hex.observed_i) == hex.num_target_i:
                             if len(hex.observed_z) == hex.num_target_z:
                                 print 'All exposures in strategy satisfied! '
-                                raw_input()
+                                #raw_input()
                                 submissionPassed = True
 
                                 for target, exps in zip([hex.num_target_g,hex.num_target_r,hex.num_target_i,hex.num_target_z],
@@ -439,7 +439,7 @@ class eventmanager:
                                     #if '--' in hexnite:
                                     #    print 'Stopped for debug'
                                     #    sys.exit()
-                                raw_input()
+                                #raw_input()
                                 if submissionPassed:
 
                                     hex.status = 'Submitted for processing'
@@ -456,12 +456,12 @@ class eventmanager:
                                     didwork = True
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
-                                raw_input()
+                                #raw_input()
 
                 if not didwork:
                     print 'Could not find all images in strategy for this hex... Added hex', hexnite,' to database ' \
                         'and will continue waiting...'
-                    raw_input()
+                    #raw_input()
 
 
             print 'Done checking mountaintop database...'
