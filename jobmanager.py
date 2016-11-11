@@ -391,7 +391,7 @@ class eventmanager:
                                 for target, exps in zip([hex.num_target_g,hex.num_target_r,hex.num_target_i,hex.num_target_z],
                                                         [hex.observed_g,hex.observed_r,hex.observed_i,hex.observed_z]):
 
-
+                                    if target == 0: continue
                                     exposurestring = ''
                                     logstring = ''
                                     for ex in exps:
