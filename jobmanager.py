@@ -125,7 +125,7 @@ class eventmanager:
         self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
         tfin = time.time()
         print 'TOTAL SE JOBS TIME', tfin - tstart
-        sys.exit()
+        #sys.exit()
         self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
 
     def submit_all_jsons_for_sejobs(self):
@@ -413,6 +413,7 @@ class eventmanager:
                                     f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
                                     f.write(out)
                                     f.close()
+                                    tt = time.time()
                                     if not 'To submit this DAG do' in out:
                                         dt.sendEmailSubject(self.trigger_id, 'Error in creating dag for desgw hex: ' + out)
                                         submissionPassed = False
@@ -443,9 +444,10 @@ class eventmanager:
                                                 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                                                 'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
                                             print out
-                                    #if '--' in hexnite:
-                                    #    print 'Stopped for debug'
-                                    #    sys.exit()
+                                    ttt = time.time()
+                                    print 'TOTAL JOBSUB FOR A SINGLE DESGW IMAGE',ttt-tt
+
+                                    sys.exit()
                                 #raw_input()
                                 if submissionPassed:
 
