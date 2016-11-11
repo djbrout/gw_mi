@@ -222,7 +222,7 @@ class eventmanager:
         index = -1
         submission_counter = 0
         maxsub = 10000
-        postprocessingtime = 1800 #every half hour fire off Tim's code for post-processing
+        postprocessingtime = 180 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
             index += 1
@@ -478,9 +478,9 @@ class eventmanager:
                 if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
                     pptime = time.time()
                     print '***** Firing post processing script *****'
-                    sys.exit()
+                    #sys.exit()
                     self.submit_post_processing()
-                #sys.exit()
+                sys.exit()
                 print 'Waiting 10s to check from mountain...'
                 #sys.exit()
                 time.sleep(10)#looping over checking the mountain top
