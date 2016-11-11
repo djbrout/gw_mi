@@ -43,13 +43,15 @@ hardjson = True
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
+doimmediateremove = True
+
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
     def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir, real):
 
         #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
-
+        tstart = time.time()
 
         if real:
             self.backend = FileBackend("./realdb")
@@ -121,6 +123,9 @@ class eventmanager:
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
         self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
+        tfin = time.time()
+        print 'TOTAL SE JOBS TIME', tfin - tstart
+        sys.exit()
         self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
 
     def submit_all_jsons_for_sejobs(self):
