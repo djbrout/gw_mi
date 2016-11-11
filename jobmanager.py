@@ -445,9 +445,9 @@ class eventmanager:
                                                 'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
                                             print out
                                     ttt = time.time()
-                                    print 'TOTAL JOBSUB FOR A SINGLE DESGW IMAGE',ttt-tt
+                                    #print 'TOTAL JOBSUB FOR A SINGLE DESGW IMAGE',ttt-tt
 
-                                    sys.exit()
+                                    #sys.exit()
                                 #raw_input()
                                 if submissionPassed:
 
@@ -473,21 +473,21 @@ class eventmanager:
                     #raw_input()
 
 
-            print 'Done checking mountaintop database...'
-            sys.exit()
-
-
-            #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
-
-            if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
-                pptime = time.time()
-                print '***** Firing post processing script *****'
+                print 'Done checking mountaintop database...'
                 sys.exit()
-                self.submit_post_processing()
-            #sys.exit()
-            print 'Waiting 2 minutes to check from mountain...'
-            sys.exit()
-            time.sleep(120)#looping over checking the mountain top
+
+
+                #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
+
+                if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
+                    pptime = time.time()
+                    print '***** Firing post processing script *****'
+                    sys.exit()
+                    self.submit_post_processing()
+                #sys.exit()
+                print 'Waiting 2 minutes to check from mountain...'
+                sys.exit()
+                time.sleep(120)#looping over checking the mountain top
 
             # cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
             # for f in cfiles:
