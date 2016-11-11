@@ -473,10 +473,6 @@ class eventmanager:
                     #raw_input()
 
 
-                print 'Done checking mountaintop database...'
-                sys.exit()
-
-
                 #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
 
                 if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
@@ -485,9 +481,9 @@ class eventmanager:
                     sys.exit()
                     self.submit_post_processing()
                 #sys.exit()
-                print 'Waiting 2 minutes to check from mountain...'
-                sys.exit()
-                time.sleep(120)#looping over checking the mountain top
+                print 'Waiting 10s to check from mountain...'
+                #sys.exit()
+                time.sleep(10)#looping over checking the mountain top
 
             # cfiles = os.listdir(os.path.join(trigger_path,trigger_id,'candidates'))
             # for f in cfiles:
