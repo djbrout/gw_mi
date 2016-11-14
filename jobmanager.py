@@ -480,7 +480,7 @@ class eventmanager:
                     print '***** Firing post processing script *****'
                     #sys.exit()
                     self.submit_post_processing()
-                sys.exit()
+                #sys.exit()
                 print 'Waiting 10s to check from mountain...'
                 #sys.exit()
                 time.sleep(10)#looping over checking the mountain top
@@ -522,6 +522,7 @@ class eventmanager:
                          + ' --triggerid '+trigger_id+' --season 46 --ups True"'
                 ]
         print args
+
 
         #p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #print p.communicate()
