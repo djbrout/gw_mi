@@ -214,7 +214,7 @@ class eventmanager:
         for f in uniquefilts:
             filterstrategy[f] = len(exposure_filter[exposure_filter == f])
 
-        print 'filter strategy dictionary', filterstrategy
+        print 'filter strategy dictionary  ', filterstrategy
 
         starttime = time.time()
         pptime = time.time()
