@@ -222,7 +222,7 @@ class eventmanager:
         index = -1
         submission_counter = 0
         maxsub = 10000
-        postprocessingtime = 180 #every half hour fire off Tim's code for post-processing
+        postprocessingtime = 10 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
             index += 1
