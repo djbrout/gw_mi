@@ -506,7 +506,7 @@ class eventmanager:
         print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
-                         + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
+                         + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
                          + ' --triggerid '+trigger_id+' --season 46 --ups True'
         # os.system('source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
         #                  python '+os.path.join(gwpostdir,'postproc.py')\
@@ -518,7 +518,7 @@ class eventmanager:
         args = ['ssh -t desgw@des41.fnal.gov "source '+ os.path.join(gwpostdir, 'mi_setup.sh')+'; '+
                         'yes | python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
-                         + ' --outputdir ' + os.path.join(trigger_path,trigger_id,'candidates')\
+                         + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
                          + ' --triggerid '+trigger_id+' --season 46 --ups True"'
                 ]
         print args
