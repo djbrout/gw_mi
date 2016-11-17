@@ -507,7 +507,7 @@ class eventmanager:
                         python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
-                         + ' --triggerid '+trigger_id+' --season 46 --ups True'
+                         + ' --triggerid '+self.trigger_id+' --season 46 --ups True'
         # os.system('source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
         #                  python '+os.path.join(gwpostdir,'postproc.py')\
         #                  +' --expnums ' + expnumlist\
@@ -519,7 +519,7 @@ class eventmanager:
                         'yes | python '+os.path.join(gwpostdir,'postproc.py')\
                          +' --expnums ' + expnumlist\
                          + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
-                         + ' --triggerid '+trigger_id+' --season 46 --ups True"'
+                         + ' --triggerid '+self.trigger_id+' --season 46 --ups True"'
                 ]
         print args
 
