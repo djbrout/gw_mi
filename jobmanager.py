@@ -48,7 +48,7 @@ doimmediateremove = True
 # DATABASE = 'destest' #We can write here
 
 class eventmanager:
-    def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir, real):
+    def __init__(self, trigger_id, jsonfilelist, triggerdir, datadir, real, trigger_path):
 
         #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
         tstart = time.time()
@@ -73,6 +73,8 @@ class eventmanager:
             })
             print 'Database entry created!'
 
+        self.trigger_id = trigger_id
+        self.trigger_path = trigger_path
 
         self.backend.save(thisevent)
         self.backend.commit()
@@ -717,6 +719,6 @@ if __name__ == "__main__":
             trigger_id = str(a)
 
     trigger_dir = os.path.join(trigger_path,trigger_id)
-    thisevent = eventmanager(trigger_id=trigger_id,triggerdir=trigger_dir,datadir='',jsonfilelist='')
+    thisevent = eventmanager(trigger_id=trigger_id,triggerdir=trigger_dir,datadir='',jsonfilelist='',trigger_path=trigger_path)
 
     sendEmail(trigger_id)
