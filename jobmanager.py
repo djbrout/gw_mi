@@ -508,7 +508,7 @@ class eventmanager:
             expnumlist += f.expnum.strip()+' '
         print expnumlist
         print 'FIRING TIMs CODE'
-        sys.exit()
+        #sys.exit()
         gwpostdir = os.environ['GWPOST_DIR']
         print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
@@ -534,6 +534,7 @@ class eventmanager:
         #p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #print p.communicate()
         #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
+        sys.exit()
         return
 
 
