@@ -508,6 +508,7 @@ class eventmanager:
             expnumlist += f.expnum.strip()+' '
         print expnumlist
         print 'FIRING TIMs CODE'
+        os.mkdir(os.path.join(self.trigger_path,self.trigger_id,'candidates'))
         #sys.exit()
         gwpostdir = os.environ['GWPOST_DIR']
         print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
