@@ -543,9 +543,9 @@ class eventmanager:
 
         p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
-        print 'going'*1000
+        #print 'going'*1000
         print p.communicate()
-        print 'gone'*1000
+        #print 'gone'*1000
         #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
         #p.communicate()
         sys.exit()
