@@ -124,6 +124,7 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
+        self.submit_post_processing()
 
         self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
         tfin = time.time()
