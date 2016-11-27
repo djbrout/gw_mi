@@ -537,12 +537,12 @@ class eventmanager:
         args = ['yes | python ' + os.path.join(gwpostdir, 'postproc.py') \
                 + ' --expnums ' + expnumlist \
                 + ' --outputdir ' + os.path.join(self.trigger_path, self.trigger_id, 'candidates') \
-                + ' --triggerid ' + self.trigger_id + ' --season 46 --ups True"']
+                + ' --triggerid ' + self.trigger_id + ' --season 46 --ups True']
         print args
 
 
-        #p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
-        p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
+        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
         print 'going'*1000
         print p.communicate()
         print 'gone'*1000
