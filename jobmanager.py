@@ -501,7 +501,7 @@ class eventmanager:
         print fl
         #fl = ['475914','475915','475916','482859','482860','482861']
 
-        fl = self.backend.get(exposures, {'triggerid': self.trigger_id})
+        fl = self.backend.filter(exposures, {'triggerid': self.trigger_id})
 
         expnumlist = ''
         for f in fl:
