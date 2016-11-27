@@ -527,17 +527,24 @@ class eventmanager:
         #                  + ' --triggerid '+trigger_id+' --season 46 --ups True' )
 
         #pid = os.spawnlp(os.P_WAIT, "source", os.path.join(gwpostdir, 'diffimg_setup.sh'))
-        args = ['yes | ssh -t desgw@des41.fnal.gov "source '+ os.path.join(gwpostdir, 'mi_setup.sh')+'; '+
-                        'yes | python '+os.path.join(gwpostdir,'postproc.py')\
-                         +' --expnums ' + expnumlist\
-                         + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
-                         + ' --triggerid '+self.trigger_id+' --season 46 --ups True"'
-                ]
+        # args = ['yes | ssh -t desgw@des41.fnal.gov "source '+ os.path.join(gwpostdir, 'mi_setup.sh')+'; '+
+        #                 'yes | python '+os.path.join(gwpostdir,'postproc.py')\
+        #                  +' --expnums ' + expnumlist\
+        #                  + ' --outputdir ' + os.path.join(self.trigger_path,self.trigger_id,'candidates')\
+        #                  + ' --triggerid '+self.trigger_id+' --season 46 --ups True"'
+        #         ]
+
+        args = ['yes | python ' + os.path.join(gwpostdir, 'postproc.py') \
+                + ' --expnums ' + expnumlist \
+                + ' --outputdir ' + os.path.join(self.trigger_path, self.trigger_id, 'candidates') \
+                + ' --triggerid ' + self.trigger_id + ' --season 46 --ups True"']
         print args
 
 
         p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        print 'going'*1000
         print p.communicate()
+        print 'gone'*1000
         #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
         #p.communicate()
         sys.exit()
