@@ -124,6 +124,8 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
+        self.submit_post_processing()
+
         self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
         tfin = time.time()
         print 'TOTAL SE JOBS TIME', tfin - tstart
@@ -497,13 +499,16 @@ class eventmanager:
         fl = firedlist.readlines()
         firedlist.close()
         print fl
-        fl = ['475914','475915','475916','482859','482860','482861']
+        #fl = ['475914','475915','475916','482859','482860','482861']
+
+        fl = self.backend.get(exposures, {'triggerid': self.trigger_id})
+
         expnumlist = ''
         for f in fl:
-            expnumlist += f.strip()+' '
-
+            expnumlist += f.expnum.strip()+' '
+        print expnumlist
         print 'FIRING TIMs CODE'
-
+        sys.exit()
         gwpostdir = os.environ['GWPOST_DIR']
         print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
                         python '+os.path.join(gwpostdir,'postproc.py')\
