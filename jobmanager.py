@@ -43,7 +43,7 @@ hardjson = True
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
-doimmediateremove = True
+doimmediateremove = False
 
 # DATABASE = 'destest' #We can write here
 
@@ -197,6 +197,7 @@ class eventmanager:
                     self.backend.save(thisjson)
                     self.backend.commit()
                     print 'saved'
+                    sys.exit()
                 #raw_input()
                 #runProcessingIfNotAlready(image, self.backend)
 
