@@ -508,7 +508,11 @@ class eventmanager:
             expnumlist += f.expnum.strip()+' '
         print expnumlist
         print 'FIRING TIMs CODE'
-        os.mkdir(os.path.join(self.trigger_path,self.trigger_id,'candidates'))
+        try:
+            os.mkdir(os.path.join(self.trigger_path,self.trigger_id,'candidates'))
+        except:
+            print 'Candidates directory exists,',os.path.join(self.trigger_path,self.trigger_id,'candidates')
+            pass
         #sys.exit()
         gwpostdir = os.environ['GWPOST_DIR']
         print 'source ' + os.path.join(gwpostdir, 'diffimg_setup.sh') + '; \
@@ -532,8 +536,8 @@ class eventmanager:
         print args
 
 
-        #p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
-        #print p.communicate()
+        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        print p.communicate()
         #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
         sys.exit()
         return
