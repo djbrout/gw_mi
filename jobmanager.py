@@ -124,13 +124,13 @@ class eventmanager:
 
         os.system('cat ./processing/exposuresY1.tab ./processing/exposuresCurrent.tab > ./processing/exposures.list')
 
-        self.submit_post_processing()
+        #self.submit_post_processing()
 
         self.submit_all_jsons_for_sejobs()#preps all DES images that already exist
         tfin = time.time()
         print 'TOTAL SE JOBS TIME', tfin - tstart
         #sys.exit()
-        self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
+        #self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
 
     def submit_all_jsons_for_sejobs(self):
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
