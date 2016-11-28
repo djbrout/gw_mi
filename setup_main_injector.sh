@@ -51,6 +51,7 @@ setup --nolocks wget
 setup --nolocks easyaccess
 setup --nolocks yaml
 setup --nolocks blitzdb
+setup --nolocks joblib
 
 #source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup
 #setup jobsub_client
