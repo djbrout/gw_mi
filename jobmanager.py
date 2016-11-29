@@ -43,7 +43,7 @@ hardjson = True
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
-doimmediateremove = False
+doimmediateremove = True
 
 # DATABASE = 'destest' #We can write here
 
@@ -485,7 +485,7 @@ class eventmanager:
                     pptime = time.time()
                     print '***** Firing post processing script *****'
                     #sys.exit()
-                    #self.submit_post_processing()
+                    self.submit_post_processing()
                 #sys.exit()
                 print 'Waiting 10s to check from mountain...'
                 #sys.exit()
@@ -497,10 +497,10 @@ class eventmanager:
             #         cp.makeNewPage(f)
 
     def submit_post_processing(self):
-        firedlist = open('./processing/firedlist.txt', 'r')
-        fl = firedlist.readlines()
-        firedlist.close()
-        print fl
+        #firedlist = open('./processing/firedlist.txt', 'r')
+        #fl = firedlist.readlines()
+        #firedlist.close()
+        #print fl
         #fl = ['475914','475915','475916','482859','482860','482861']
 
         fl = self.backend.filter(exposures, {'triggerid': self.trigger_id})
@@ -542,7 +542,7 @@ class eventmanager:
                 + ' --triggerid ' + self.trigger_id + ' --season 70 --ups True']
         print args
 
-
+        sys.exit()
         p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
         #print 'going'*1000
