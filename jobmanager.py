@@ -484,8 +484,8 @@ class eventmanager:
                 if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
                     pptime = time.time()
                     print '***** Firing post processing script *****'
-                    sys.exit()
-                    self.submit_post_processing()
+                    #sys.exit()
+                    #self.submit_post_processing()
                 #sys.exit()
                 print 'Waiting 10s to check from mountain...'
                 #sys.exit()
