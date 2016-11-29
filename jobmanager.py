@@ -130,7 +130,7 @@ class eventmanager:
         tfin = time.time()
         print 'TOTAL SE JOBS TIME', tfin - tstart
         #sys.exit()
-        #self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
+        self.monitor_images_from_mountain()#A loop that waits for images off mountain and submits for processing
 
     def submit_all_jsons_for_sejobs(self):
         obsStartTime = self.getDatetimeOfFirstJson(self.jsonfilelist[0])  # THIS IS A DATETIME OBJ
@@ -197,7 +197,7 @@ class eventmanager:
                     self.backend.save(thisjson)
                     self.backend.commit()
                     print 'saved'
-                    sys.exit()
+                    #sys.exit()
                 #raw_input()
                 #runProcessingIfNotAlready(image, self.backend)
 
@@ -470,6 +470,7 @@ class eventmanager:
                                     didwork = True
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
+                                sys.exit()
                                 #raw_input()
 
                 if not didwork:
@@ -483,7 +484,7 @@ class eventmanager:
                 if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
                     pptime = time.time()
                     print '***** Firing post processing script *****'
-                    #sys.exit()
+                    sys.exit()
                     self.submit_post_processing()
                 #sys.exit()
                 print 'Waiting 10s to check from mountain...'
