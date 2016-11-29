@@ -178,10 +178,10 @@ class eventmanager:
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id, 'Error in submitting .json for preprocessing: ' + out)
                     else:
+                        for o in out.split('\n'):
+                            if 'Use job id' in o:
+                                jobid = o.split()[3]
                         if doimmediateremove:
-                            for o in out.split('\n'):
-                                if 'Use job id' in o:
-                                    jobid = o.split()[3]
                             out = os.popen(
                                 'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                                 'jobsub_rm --jobid=' + jobid + ' --group=des --role=DESGW').read()
