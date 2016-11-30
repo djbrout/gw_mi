@@ -39,7 +39,7 @@ DATABASE = 'desoper'  # read only
 
 PRDDATABASE = 'decam_prd'
 
-hardjson = True
+hardjson = False
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
