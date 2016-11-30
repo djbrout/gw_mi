@@ -587,9 +587,10 @@ class eventmanager:
 
 
     def getDatetimeOfFirstJson(self,jsonstring):
+        #'M263920-30-UTC-2016-12-1-0:44:00.json'
         js = jsonstring.split('UTC')[1]#-2015-12-27-3:2:00.json
         #date_object = dt.strptime(js, '-%Y-%m-%d-%H_%M_%S.json')
-        date_object = dt.strptime(js, '-%Y-%m-%d-%H_%M_%S-test.json')
+        date_object = dt.strptime(js[15:], '-%Y-%m-%d-%H_%M_%S-test.json')
         print '***** Datetime of first observation UTC',date_object,'*****'
         return date_object
 
