@@ -335,7 +335,6 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                                         </div>\
                                         <div class="gallery-details">\
                                             <h5>Cumulative Probability vs Number of Hexes Observed</h5>\
-                                            <p>grey curves from mock data challenge</p>\
                                         </div>\
                                     </div>\
                                 </div>\
