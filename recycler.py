@@ -759,14 +759,14 @@ if __name__ == "__main__":
                                    trigger_id),
                       trigger_id, mjd, config)
 
-            #e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
-            #e.getContours(exposure_length, config)
+            e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
+            e.getContours(exposure_length, config)
             jsonfilelist = e.makeJSON(config)
-            #e.make_cumulative_probs()
-            #e.updateTriggerIndex(real_or_sim=real_or_sim)
-            #e.updateWebpage()
+            e.make_cumulative_probs()
+            e.updateTriggerIndex(real_or_sim=real_or_sim)
+            e.updateWebpage()
 
-            #e.send_nonurgent_Email()
+            e.send_nonurgent_Email()
             ISREALTRIGGER = True
             eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
                                                             os.path.join(trigger_path, trigger_id, 'maps'),ISREALTRIGGER,trigger_path))
