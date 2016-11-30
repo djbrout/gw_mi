@@ -506,7 +506,7 @@ class eventmanager:
                     ppout = self.pp.communicate()
 
                     if self.thisevent.postprocint > 0:
-                        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint)+'.log')),'w')
+                        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))+'.log'),'w')
                         f.write(ppout)
                         f.close()
                     self.thisevent.postprocint += 1
