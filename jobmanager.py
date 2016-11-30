@@ -98,7 +98,7 @@ class eventmanager:
         if hardjson:
             self.jsonfilelist = hj
 
-        self.pp = subprocess.Popen('echo starting',stdout=PIPE, stderr=PIPE,shell=True)
+        #self.pp = subprocess.Popen('echo starting',stdout=PIPE, stderr=PIPE,shell=True)
 
         self.trigger_id = trigger_id
         self.datadir = datadir
@@ -503,13 +503,13 @@ class eventmanager:
                     print '***** Firing post processing script *****'
                     #sys.exit()
 
-                    ppout = self.pp.communicate()
+                    #ppout = self.pp.communicate()
 
-                    if self.thisevent.postprocint > 0:
-                        print ppout
-                        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))+'.log'),'w')
-                        f.write(ppout)
-                        f.close()
+                    # if self.thisevent.postprocint > 0:
+                    #     print ppout
+                    #     f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))+'.log'),'w')
+                    #     f.write(ppout)
+                    #     f.close()
                     self.thisevent.postprocint += 1
                     self.backend.save(self.thisevent)
                     self.backend.commit()
@@ -572,7 +572,8 @@ class eventmanager:
         print args
 
         #sys.exit()
-        self.pp = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))),'w')
+        self.pp = subprocess.Popen(args,stdout=f, stderr=f,shell=True)
         #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
         #print 'going'*1000
         #print self.pp.communicate()
