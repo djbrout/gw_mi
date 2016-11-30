@@ -228,7 +228,7 @@ def process_gcn(payload, root):
     print 'ARGSSSSSSSSSSSSSSSSSSSSS'
     print args
     f = open(os.path.join(config.trigger_outpath,trigger_id,'recycler.log'), "w")
-    subprocess.Popen(args,stdout=f)
+    subprocess.Popen(args,stdout=f,stderr=f)
     f.close()
     #Need to send an email here saying analysis code was fired
     
