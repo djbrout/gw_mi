@@ -227,8 +227,9 @@ def process_gcn(payload, root):
     args = ['python', 'recycler.py','--skymapfilename='+skymap_filename, '--triggerpath='+config.trigger_outpath, '--triggerid='+trigger_id, '--mjd='+str(trigger_mjd)]    
     print 'ARGSSSSSSSSSSSSSSSSSSSSS'
     print args
-    subprocess.Popen(args)
-
+    f = open(os.path.join(config.trigger_outpath,trigger_id,'recycler.log'), "w")
+    subprocess.Popen(args,stdout=f)
+    f.close()
     #Need to send an email here saying analysis code was fired
     
     print 'Finished downloading, fired off job, listening again...'
