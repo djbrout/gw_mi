@@ -325,7 +325,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <!-- /.gallery-filter -->\
                         <div class="row">\
                             <div class="isotope-gallery-container">\
-                                <div class="col-sm-6 col-xs-12 gallery-item-wrapper artwork creative">\
+                                <div class="col-sm-6 col-xs-12 gallery-item-wrapper nature outside">\
                                     <div class="gallery-item">\
                                         <div class="gallery-thumb">\
                                             <img src="images/'+str(trigger_id)+'-and-sim-cumprobs.png">\
