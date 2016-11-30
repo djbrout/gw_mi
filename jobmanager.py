@@ -59,10 +59,10 @@ class eventmanager:
             self.backend = FileBackend("./testdb")
 
         try:
-            thisevent = self.backend.get(Trigger, {'id': trigger_id})
+            self.thisevent = self.backend.get(Trigger, {'id': trigger_id})
             print 'Found this event in desgw database...'
         except Trigger.DoesNotExist:
-            thisevent = Trigger({
+            self.thisevent = Trigger({
                 'id':trigger_id,
                 'jsonfilelist':jsonfilelist,
                 'triggerpath':triggerdir,
@@ -70,13 +70,15 @@ class eventmanager:
                 'jobids':[
                     (0,'jsonfile_corresponding_to_jobid.json'),
                 ],
+                'postprocint': 0
             })
             print 'Database entry created!'
+
 
         self.trigger_id = trigger_id
         self.trigger_path = trigger_path
 
-        self.backend.save(thisevent)
+        self.backend.save(self.thisevent)
         self.backend.commit()
 
         with open(os.path.join(triggerdir,"strategy.yaml"), "r") as f:
@@ -95,6 +97,8 @@ class eventmanager:
         print self.jsonfilelist
         if hardjson:
             self.jsonfilelist = hj
+
+        self.pp = subprocess.Popen('echo starting',stdout=PIPE, stderr=PIPE,shell=True)
 
         self.trigger_id = trigger_id
         self.datadir = datadir
@@ -155,11 +159,14 @@ class eventmanager:
                     print 'cd diffimg-proc; ./SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)
                     os.chdir("diffimg-proc")
                     out = os.popen('./SEMaker_RADEC.sh '+os.path.join(self.datadir, jsonfile)).read()
+                    of = open(os.path.join(self.processingdir,jsonfile.split('/')[-1].split('.')[0]+'.SEMakerlog'),'w')
+                    of.write(out)
+                    of.close()
                     #out = os.popen('ls').read()
                     os.chdir("..")
                     print out
                     if 'non-zero exit status' in out:
-                        dt.sendEmailSubject(self.trigger_id,'Error in creating dag for .json: '+out)
+                        dt.sendEmailSubject(self.trigger_id,'Error in creating SEMaker dag for .json: '+out)
                     else:
                         for o in out.split('\n'):
                             if 'file://' in o:
@@ -175,6 +182,12 @@ class eventmanager:
                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                         'jobsub_submit_dag -G des --role=DESGW file://'+self.dagfile).read()
                     print out
+
+                    of = open(os.path.join(self.processingdir,
+                                           jsonfile.split('/')[-1].split('.')[0] + '.SEdagsubmitlog'), 'w')
+                    of.write(out)
+                    of.close()
+
                     if 'non-zero exit status' in out:
                         dt.sendEmailSubject(self.trigger_id, 'Error in submitting .json for preprocessing: ' + out)
                     else:
@@ -227,7 +240,7 @@ class eventmanager:
         index = -1
         submission_counter = 0
         maxsub = 10000
-        postprocessingtime = 10 #every half hour fire off Tim's code for post-processing
+        postprocessingtime = 100 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
             index += 1
@@ -413,9 +426,11 @@ class eventmanager:
                                     os.chdir("diffimg-proc")
                                     #out = os.popen('ls').read()
                                     out = os.popen('./DAGMaker.sh ' + exposurestring ).read()
+
+
                                     os.chdir("..")
                                     print out
-                                    f = open(os.path.join(self.processingdir,logstring+hexnite+'.log'),'w')
+                                    f = open(os.path.join(self.processingdir,logstring+hexnite+'.dagmakerlog'),'w')
                                     f.write(out)
                                     f.close()
                                     tt = time.time()
@@ -436,6 +451,10 @@ class eventmanager:
                                         'source /cvmfs/fermilab.opensciencegrid.org/products/common/etc/setup; setup jobsub_client; '
                                         'jobsub_submit_dag -G des --role=DESGW file://' + self.dagfile).read()
                                     print out
+                                    f = open(os.path.join(self.processingdir, logstring + hexnite + '.dagsumbitlog'), 'w')
+                                    f.write(out)
+                                    f.close()
+
                                     if 'non-zero exit status' in out:
                                         dt.sendEmailSubject(self.trigger_id,
                                                             'Error in submitting hex dag for processing: ' + out)
@@ -470,7 +489,7 @@ class eventmanager:
                                     didwork = True
                                 print 'didwork',didwork
                                 print 'dagfile',self.dagfile
-                                sys.exit()
+                                #sys.exit()
                                 #raw_input()
 
                 if not didwork:
@@ -479,12 +498,21 @@ class eventmanager:
                     #raw_input()
 
 
-                #HERE YOU NEED TO ADD TO HEXSTRATEGYDICT DATABASE
-
                 if time.time() - pptime > postprocessingtime: #happens every 30 minutes or so...
                     pptime = time.time()
                     print '***** Firing post processing script *****'
                     #sys.exit()
+
+                    ppout = self.pp.communicate()
+
+                    if self.thisevent.postprocint > 0:
+                        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint)+'.log')),'w')
+                        f.write(ppout)
+                        f.close()
+                    self.thisevent.postprocint += 1
+                    self.backend.save(self.thisevent)
+                    self.backend.commit()
+
                     self.submit_post_processing()
                 #sys.exit()
                 print 'Waiting 10s to check from mountain...'
@@ -542,15 +570,15 @@ class eventmanager:
                 + ' --triggerid ' + self.trigger_id + ' --season 70 --ups True']
         print args
 
-        sys.exit()
-        p = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
+        #sys.exit()
+        self.pp = subprocess.Popen(args,stdout=PIPE, stderr=PIPE,shell=True)
         #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
         #print 'going'*1000
-        print p.communicate()
+        #print self.pp.communicate()
         #print 'gone'*1000
         #p = subprocess.Popen(args,stdin=None, stdout=None, stderr=None, close_fds=True,shell=True)
         #p.communicate()
-        sys.exit()
+        #sys.exit()
         return
 
 
