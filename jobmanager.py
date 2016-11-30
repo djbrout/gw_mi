@@ -538,6 +538,7 @@ class eventmanager:
         for f in fl:
             expnumlist += f.expnum.strip()+' '
         print expnumlist
+        expnumlist = '475905  475909  475913  475917  475921  475925  475929  475933  475937  475941  475945  475949  475953  475957  475961'
         print 'FIRING TIMs CODE'
         try:
             os.mkdir(os.path.join(self.trigger_path,self.trigger_id,'candidates'))
