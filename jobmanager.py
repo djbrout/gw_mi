@@ -572,7 +572,7 @@ class eventmanager:
         print args
 
         #sys.exit()
-        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))),'w')
+        f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint)))+'.log','w')
         self.pp = subprocess.Popen(args,stdout=f, stderr=f,shell=True)
         #p = subprocess.Popen(args, stdin=None, stdout=None, stderr=None, close_fds=True, shell=True)
         #print 'going'*1000
