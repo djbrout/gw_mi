@@ -506,6 +506,7 @@ class eventmanager:
                     ppout = self.pp.communicate()
 
                     if self.thisevent.postprocint > 0:
+                        print ppout
                         f = open(os.path.join(self.processingdir,'postproc_attempt'+str(int(self.thisevent.postprocint))+'.log'),'w')
                         f.write(ppout)
                         f.close()
@@ -515,7 +516,7 @@ class eventmanager:
 
                     self.submit_post_processing()
                 #sys.exit()
-                print 'Waiting 10s to check from mountain...'
+                #print 'Waiting 10s to check from mountain...'
                 #sys.exit()
                 time.sleep(10)#looping over checking the mountain top
 
