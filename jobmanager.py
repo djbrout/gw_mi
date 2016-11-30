@@ -43,7 +43,7 @@ hardjson = False
 hj = ['M249148-6-UTC-2016-8-17-5_23_00-test.json']
 
 
-doimmediateremove = True
+doimmediateremove = False
 
 # DATABASE = 'destest' #We can write here
 
@@ -240,7 +240,7 @@ class eventmanager:
         index = -1
         submission_counter = 0
         maxsub = 10000
-        postprocessingtime = 100 #every half hour fire off Tim's code for post-processing
+        postprocessingtime = 2000 #every half hour fire off Tim's code for post-processing
         while keepgoing:
             #os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
             index += 1
@@ -538,7 +538,7 @@ class eventmanager:
         for f in fl:
             expnumlist += f.expnum.strip()+' '
         print expnumlist
-        expnumlist = '475905  475909  475913  475917  475921  475925  475929  475933  475937  475941  475945  475949  475953  475957  475961'
+        #expnumlist = '475905  475909  475913  475917  475921  475925  475929  475933  475937  475941  475945  475949  475953  475957  475961'
         print 'FIRING TIMs CODE'
         try:
             os.mkdir(os.path.join(self.trigger_path,self.trigger_id,'candidates'))
