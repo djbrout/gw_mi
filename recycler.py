@@ -94,6 +94,7 @@ class event:
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
+        recycler_mjd = 57773
 
         if self.skymap is None:
             self.skymap = os.path.join(outputDir,'lalinference.fits.gz')
