@@ -90,6 +90,7 @@ class event:
         skipAll = config["skipAll"]
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
+        mjd = 57773
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
