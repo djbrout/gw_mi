@@ -39,6 +39,8 @@ class event:
         else:
             self.recycler_mjd = config["start_of_season"] + (now - season_start_date).days
 
+        self.recycler_mjd = '57773'
+
         # Setup website directories
         self.mapspath = os.path.join(outfolder, "maps/")
         if not os.path.exists(self.mapspath):
