@@ -39,7 +39,7 @@ class event:
         else:
             self.recycler_mjd = config["start_of_season"] + (now - season_start_date).days
 
-        self.recycler_mjd = 57773
+        #self.recycler_mjd = 57773
 
         # Setup website directories
         self.mapspath = os.path.join(outfolder, "maps/")
@@ -90,11 +90,11 @@ class event:
         skipAll = config["skipAll"]
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
-        mjd = 57773
+        #mjd = 57773
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
-        recycler_mjd = 57773
+        #recycler_mjd = 57773
 
         if self.skymap is None:
             self.skymap = os.path.join(outputDir,'lalinference.fits.gz')
