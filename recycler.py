@@ -294,6 +294,7 @@ class event:
             obsSlots.readObservingRecord(self.trigger_id, mapDir)
 
         integrated_prob = np.sum(self.prob)
+        self.weHaveParamFile = False
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
                      MJD=self.event_params['MJD'],
@@ -335,7 +336,7 @@ class event:
                      M2='NAN',
                      nHexes=self.prob.size,
                      time_processed=self.now.strftime("%H:%M %B %d, %Y "),
-                     boc=self.event_params['boc'],
+                     boc='NAN',
                      CentralFreq='NAN',
                      best_slot=self.best_slot,
                      n_slots=self.n_slots,
