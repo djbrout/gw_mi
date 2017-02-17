@@ -35,8 +35,8 @@ default_map_name : lalinference.fits.gz
 trigger_id : "G274296"
 wrap_all_triggers : False
 
-mjd : 57382.152
-force_mjd : False
+mjd : 57801.5
+force_mjd : True
 
 recycler_mjd : 57385.
 force_recycler_mjd : False
