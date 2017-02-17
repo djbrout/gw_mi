@@ -32,7 +32,7 @@ default_map_name : lalinference.fits.gz
 
 ####Only used for running recycler.py standalone!####
 
-trigger_id : "M263925"
+trigger_id : "G274296"
 wrap_all_triggers : False
 
 mjd : 57382.152
