@@ -29,6 +29,10 @@ def sendFirstTriggerEmail(trigger_id,far):
     else:
         you = ['djbrout@gmail.com']
 
+    if config.sendtexts:
+        t = ['7737578495@msg.fi.google.com','3017883369@mms.att.net','6173357963@mms.att.net','2153008763@mms.att.net']
+        you.extend(t)
+
     for y in you:
         msg['Subject'] =  'Trigger '+trigger_id+' FAR: '+str(far)
         msg['From'] = me
@@ -38,8 +42,8 @@ def sendFirstTriggerEmail(trigger_id,far):
         s.sendmail(me, y, msg.as_string())
         s.quit()
 
-    if config.sendtexts:
-        os.system('curl http://textbelt.com/text -d number=2153008763 -d "message=New Trigger FAR:'+str(far)+'"')
+    #if config.sendtexts:
+    #    os.system('curl http://textbelt.com/text -d number=2153008763 -d "message=New Trigger FAR:'+str(far)+'"')
     print 'Trigger email sent...'
 
 def get_skymap(skymap_url,skymap_path):
