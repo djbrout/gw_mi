@@ -32,14 +32,14 @@ default_map_name : skyprobcc_cWB.fits
 
 ####Only used for running recycler.py standalone!####
 
-trigger_id : "G274296"
+trigger_id : "G275404"
 wrap_all_triggers : False
 
-mjd : 57801.5
+mjd : 57809.5
 force_mjd : True
 
-recycler_mjd : 57385.
-force_recycler_mjd : False
+recycler_mjd : 57812.
+force_recycler_mjd : True
 
 skymap_filename : 'Default' #Set to default if you wish to use the LIGO map from the trigger xml
 #skymap_filename : '/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/M189424_WNB682-LIB_C.fits.gz' #Override if you wish
