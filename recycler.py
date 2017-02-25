@@ -743,8 +743,8 @@ if __name__ == "__main__":
 
         if 'bayestar' in skymap_filename:
             print 'bayestar' * 500
-            print 'waiting 2 minutes for lalinference map otherwise compute using bayestar...'
-            #time.sleep(120)
+            print 'waiting 20 seconds for lalinference map otherwise compute using bayestar...'
+            time.sleep(20)
             if os.path.exists(os.path.join(trigger_path,trigger_id) + '/wehavelal'):
                 print 'bayestar skipped because we have lalinference map'
                 sys.exit()
