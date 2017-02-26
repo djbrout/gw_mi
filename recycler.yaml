@@ -2,7 +2,7 @@ trigger_path  : '/data/des41.a/data/desgw/gw_mi/real-triggers'
 real_or_sim: 'real' #must switch between 'sim' and 'real'
 start_of_season : 57279.
 start_of_season_date : '09/14/2015'
-end_of_season : 57400.
+end_of_season : 57990.
 
 sendEmailsToEveryone : True
 sendtexts : True
@@ -36,7 +36,7 @@ trigger_id : "M275435"
 wrap_all_triggers : False
 
 mjd : 57809.5
-force_mjd : True
+force_mjd : False
 
 recycler_mjd : 57812.
 force_recycler_mjd : False
