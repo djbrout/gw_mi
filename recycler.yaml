@@ -4,8 +4,8 @@ start_of_season : 57279.
 start_of_season_date : '09/14/2015'
 end_of_season : 57400.
 
-sendEmailsToEveryone : True
-sendtexts : True
+sendEmailsToEveryone : False
+sendtexts : False
 
 events_observed : ['GW150914' , 'GW151226']
 
