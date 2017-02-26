@@ -1,11 +1,11 @@
-trigger_path  : '/data/des41.a/data/desgw/gw_mi/test-triggers'
+trigger_path  : '/data/des41.a/data/desgw/gw_mi/real-triggers'
 real_or_sim: 'real' #must switch between 'sim' and 'real'
 start_of_season : 57279.
 start_of_season_date : '09/14/2015'
 end_of_season : 57400.
 
-sendEmailsToEveryone : False
-sendtexts : False
+sendEmailsToEveryone : True
+sendtexts : True
 
 events_observed : ['GW150914' , 'GW151226']
 
@@ -41,5 +41,5 @@ force_mjd : True
 recycler_mjd : 57812.
 force_recycler_mjd : False
 
-skymap_filename : '/data/des41.a/data/desgw/gw_mi/test-triggers/M275435/lalinference.fits.gz' #'/data/des41.a/data/desgw/gw_mi/real-triggers/G275404/bayestar.fits.gz' #Set to default if you wish to use the LIGO map from the trigger xml
+skymap_filename : 'Defualt' #'/data/des41.a/data/desgw/gw_mi/real-triggers/G275404/bayestar.fits.gz' #Set to default if you wish to use the LIGO map from the trigger xml
 #skymap_filename : '/data/des41.a/data/desgw/gw_mi/test-triggers/M189424/M189424_WNB682-LIB_C.fits.gz' #Override if you wish
