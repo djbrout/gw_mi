@@ -91,6 +91,8 @@ class event:
         skipAll = config["skipAll"]
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
+        print mjd, self.event_params['MJD']
+        raw_input()
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
@@ -339,6 +341,7 @@ class event:
         raw_input('checking comparison of probs!!!!'*10)
 
         self.weHaveParamFile = True
+
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
                      MJD=self.event_params['MJD'],
