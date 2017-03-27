@@ -36,8 +36,8 @@ export EUPS_PATH=${EUPS_PATH}:/data/des41.a/data/desgw/osgsetup/eeups/fnaleups
 export DES_SERVICES=/data/des41.a/data/desgw/maininjector_devel_dillon/diffim_db_files/desservices.ini
 export PYTHON_PATH=${PYTHON_PATH}:/data/des41.a/data/desgw/
 export PYTHONPATH=${PYTHONPATH}:/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/blitztest/cvmfs/des.opensciencegrid.org/fnal/anaconda2/envs/default/lib/python2.7/site-packages/
-export DESGW_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.6
-export DESGW_DATA_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v2.6/data/
+export DESGW_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v3.0
+export DESGW_DATA_DIR=/data/des41.a/data/desgw/osgsetup/eeups/fnaleups/Linux64/gw/v3.0/data/
 
 setup --nolocks pyslalib
 setup --nolocks pygcn
