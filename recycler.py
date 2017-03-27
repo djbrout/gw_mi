@@ -338,7 +338,7 @@ class event:
         print self.sumligoprob,integrated_prob
         raw_input('checking comparison of probs!!!!'*10)
 
-        self.weHaveParamFile = False
+        self.weHaveParamFile = True
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
                      MJD=self.event_params['MJD'],
