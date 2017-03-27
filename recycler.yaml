@@ -10,7 +10,7 @@ isfirsthalf: False
 issecondhalf: False
 
 
-skipjson: False
+skipjson: True
 
 sendEmailsToEveryone : False
 sendtexts : False
