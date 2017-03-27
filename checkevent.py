@@ -185,6 +185,13 @@ def process_gcn(payload, root):
         event_params['CentralFreq'] = str(root.find("./What/Param[@name='CentralFreq']").attrib['value'])+' '+str(root.find("./What/Param[@name='CentralFreq']").attrib['unit'])
     except:
         event_params['CentralFreq'] = '-999.'
+    try:
+        event_params['probhasns'] = str(root.find("./What/Param[@name='ProbHasNS']").attrib['value']) + ' ' + str(
+            root.find("./What/Param[@name='ProbHasNS']").attrib['unit'])
+    except:
+        event_params['probhasns'] = '0.'
+
+
     event_params['time_processed'] = '-999'
 
     #set to defualt

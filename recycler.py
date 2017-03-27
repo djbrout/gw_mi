@@ -116,9 +116,11 @@ class event:
                 print 'THERE IS NO PARAMFILE, HARDCODING THE DISTANCE TO THE CONFIG DIST.'
                 distance = config["distance"]
 
-        eventtype = self.event_params['boc']
-        probhasns = self.event_params['probhasns']
-
+        eventtype = self.event_params['boc'
+        try:
+            probhasns = self.event_params['probhasns']
+        except:
+            probhasns = 0. #for old maps...
         gethexobstype = None
 
         if eventtype == 'Burst':
