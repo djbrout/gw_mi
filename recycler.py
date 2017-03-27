@@ -10,6 +10,7 @@ import yaml
 import obsSlots
 import time
 import jobmanager
+import pytz
 from threading import Thread
 sys.path.append("/data/des41.a/data/desgw/")
 
@@ -37,9 +38,9 @@ class event:
         if config["force_recycler_mjd"]:
             self.recycler_mjd = config["recycler_mjd"]
         else:
-            self.recycler_mjd = config["start_of_season"] + (now - season_start_date).days
+            self.recycler_mjd = self.getmjd(now)
+            #self.recycler_mjd = config["start_of_season"] + (now - season_start_date).days
 
-        #self.recycler_mjd = 57773
 
         # Setup website directories
         self.mapspath = os.path.join(outfolder, "maps/")
@@ -90,10 +91,12 @@ class event:
         skipAll = config["skipAll"]
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
-        #mjd = 57773
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
+
+        start_days_since_burst = self.recycler_mjd - self.mjd
+
         #recycler_mjd = 57773
 
         if self.skymap is None:
@@ -109,7 +112,26 @@ class event:
                 print 'THERE IS NO PARAMFILE, HARDCODING THE DISTANCE TO THE CONFIG DIST.'
                 distance = config["distance"]
 
-        self.distance = distance
+        eventtype = self.event_params['boc']
+
+        gethexobstype = None
+
+        if eventtype == 'burst':
+            gethexobstype = 'BH'
+            self.distance = 1.
+        elif eventtype == 'blackhole':
+            gethexobstype = 'BH'
+            self.distance = 1.
+        elif eventtype == 'neutronstar':
+            gethexobstype = 'NS'
+            self.distance = -999 #gets dist from header of ligo image
+        else: #we dont know what we're looking at... do default obs for lightcurve
+            gethexobstype = 'BH'
+            self.distance = 1.
+
+
+
+        #self.distance = distance
 
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
@@ -128,8 +150,9 @@ class event:
         print 'skymap',self.skymap
 
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
-                    self.skymap, mjd, trigger_id, outputDir, mapDir, distance=distance,
-                    exposure_list=exposure_length, filter_list=filter_list,resolution=64,
+                    self.skymap, trigger_id, outputDir, mapDir, distance=self.distance,
+                    trigger_type=gethexobstype,start_days_since_burst=start_days_since_burst,
+                    exposure_list=exposure_length, filter_list=filter_list,resolution=64
                     overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
@@ -651,6 +674,17 @@ class event:
                                            self.trigger_id + '_trigger.html') + ' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/' + self.trigger_id + '/')
         return
 
+    def getmjd(self,datet):
+        mjd_epoch = datetime.datetime(1858, 11, 17)
+        print 'FIX ME UTC OR NOT?!?'*100
+        mjdd = datetime.timedelta(datet-mjd_epoch)
+        mjd = mjdd.total_seconds() / 3600. / 24.
+        return mjd
+
+    def mjd_to_datetime(self,mjd):
+        mjd_epoch = datetime.datetime(1858, 11, 17, tzinfo=pytz.utc)
+        d = mjd_epoch + datetime.timedelta(mjd)
+        return d
 
 if __name__ == "__main__":
 
