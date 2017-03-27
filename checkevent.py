@@ -30,7 +30,7 @@ def sendFirstTriggerEmail(trigger_id,far):
         you = ['djbrout@gmail.com']
 
     if config.sendtexts:
-        t = ['7737578495@msg.fi.google.com','3017883369@mms.att.net','6173357963@mms.att.net','2153008763@mms.att.net']
+        t = ['7737578495@msg.fi.google.com','3017883369@mms.att.net','6173357963@mms.att.net','2153008763@mms.att.net','6307654596@tmomail.net']
         you.extend(t)
 
     for y in you:
