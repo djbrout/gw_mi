@@ -698,7 +698,7 @@ class event:
     def getmjd(self,datet):
         mjd_epoch = datetime.datetime(1858, 11, 17)
         print 'FIX ME UTC OR NOT?!?'*100
-        mjdd = datetime.timedelta(datet-mjd_epoch)
+        mjdd = datet-mjd_epoch
         mjd = mjdd.total_seconds() / 3600. / 24.
         return mjd
 
