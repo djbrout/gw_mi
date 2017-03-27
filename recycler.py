@@ -92,8 +92,8 @@ class event:
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
         #print mjd, self.event_params['MJD']
-        if self.event_params['MJD'] == 'NAN':
-            self.event_params['MJD'] = str(mjd)
+        # if self.event_params['MJD'] == 'NAN':
+        #     self.event_params['MJD'] = str(mjd)
         #raw_input()
         outputDir = self.outfolder
         mapDir = self.mapspath
@@ -346,7 +346,7 @@ class event:
 
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
-                     MJD=self.event_params['MJD'],
+                     MJD=self.mjd,
                      ETA=self.event_params['ETA'],
                      FAR=self.event_params['FAR'],
                      ChirpMass=self.event_params['ChirpMass'],
