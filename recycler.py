@@ -117,22 +117,24 @@ class event:
                 distance = config["distance"]
 
         eventtype = self.event_params['boc']
+        probhasns = self.event_params['probhasns']
 
         gethexobstype = None
 
-        if eventtype == 'burst':
+        if eventtype == 'Burst':
             gethexobstype = 'BH'
             self.distance = 1.
-        elif eventtype == 'blackhole':
-            gethexobstype = 'BH'
-            self.distance = 1.
-        elif eventtype == 'neutronstar':
-            gethexobstype = 'NS'
-            self.distance = -999 #gets dist from header of ligo image
+        elif eventtype == 'CBC':
+            if probhasns > config['probHasNS_threshold']:
+                gethexobstype = 'NS'
+                self.distance = -999
+            else:
+                gethexobstype = 'BH'
+                self.distance = 1.
         else: #we dont know what we're looking at... do default obs for lightcurve
+            print 'WE DONT KNOW WHAT WERE LOOKING AT!'*5
             gethexobstype = 'BH'
             self.distance = 1.
-        print 'NEED TO CHECK LIGO NOMENCLATURE'*100
 
 
         #self.distance = distance

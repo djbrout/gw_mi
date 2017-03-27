@@ -12,6 +12,8 @@ issecondhalf: False
 
 skipjson: True
 
+probHasNS_threshold: .5
+
 sendEmailsToEveryone : False
 sendtexts : False
 
