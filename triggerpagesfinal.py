@@ -15,6 +15,8 @@ def nowUTC():
     return now
 
 def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
+    print 'inside triggerpages'
+    print event_paramfile
     event_params = np.load(event_paramfile)
     d = mjd_to_datetime(float(str(event_params['MJD'])))
     n = nowUTC()
