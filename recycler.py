@@ -100,6 +100,8 @@ class event:
         recycler_mjd = self.recycler_mjd
 
         start_days_since_burst = self.recycler_mjd - self.mjd
+        start_days_since_burst = 1.
+
 
         #recycler_mjd = 57773
 
