@@ -178,7 +178,8 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                 </div> </h2>'
 
 
-    html +='<h2>Probability of Detection: '+str(round(float(str(event_params['integrated_prob'])),6))+'</h2>\
+    html +='<h2>DES X LIGO Probability of Detection: '+str(round(float(str(event_params['DESXLIGO_prob'])),6))+'</h2>\
+    <h2>LIGO Probability of Detection: ' + str(round(float(str(event_params['LIGO_prob'])), 6)) + '</h2>\
                         <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
                         <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
                         <h2>Type: '+str(event_params['boc'])+'</h2>\
@@ -658,7 +659,7 @@ def make_index_page(webpage_dir, real_or_sim=None):
                         onclick="DoNav(\'Triggers/'+trig+'/'+trig+'_trigger.html\');">\
                           <td></td>\
                           <td >'+trig+'</td>\
-                          <td >'+str(round(float(str(params['integrated_prob'])), 6))+'</td>\
+                          <td >'+str(round(float(str(params['DESXLIGO_prob'])), 6))+'</td>\
                           <td >'+str(params['FAR'])+'</td>\
                           <td >'+str(params['ChirpMass'])+'</td>\
                           <td >'+str(params['MJD'])+'</td>\
