@@ -10,7 +10,7 @@ isfirsthalf: False
 issecondhalf: False
 
 
-skipjson: True
+skipjson: False
 
 probHasNS_threshold: .5
 
