@@ -4,8 +4,16 @@ start_of_season : 57279.
 start_of_season_date : '09/14/2015'
 end_of_season : 57990.
 
-sendEmailsToEveryone : True
-sendtexts : True
+
+ishalfnight: False
+isfirsthalf: False
+issecondhalf: False
+
+
+skipjson: False
+
+sendEmailsToEveryone : False
+sendtexts : False
 
 events_observed : ['GW150914' , 'GW151226']
 
@@ -18,17 +26,11 @@ time_budget : 40.0 # hours
 maxHexesPerSlot : 6  # for dividing up the night
 
 distance : 60.
-force_distance : True
+force_distance : False
 
 skipAll : False
 
-
-
 default_map_name : skyprobcc_cWB.fits
-
-
-
-
 
 ####Only used for running recycler.py standalone!####
 

@@ -128,7 +128,7 @@ class event:
         else: #we dont know what we're looking at... do default obs for lightcurve
             gethexobstype = 'BH'
             self.distance = 1.
-
+        print 'NEED TO CHECK LIGO NOMENCLATURE'*100
 
 
         #self.distance = distance
@@ -152,7 +152,8 @@ class event:
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     self.skymap, trigger_id, outputDir, mapDir, distance=self.distance,
                     trigger_type=gethexobstype,start_days_since_burst=start_days_since_burst,
-                    exposure_list=exposure_length, filter_list=filter_list,resolution=64
+                    exposure_list=exposure_length, filter_list=filter_list,resolution=64,
+                    halfNight=config['ishalfnight'], firstHalf=config['isfirsthalf'],
                     overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
@@ -168,7 +169,7 @@ class event:
                 n_slots, mapDirectory=mapDir, simNumber=trigger_id,
                 maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
                 exposure_list=exposure_length, filter_list=filter_list,
-                skipJson=True)
+                trigger_type=gethexobstype, skipJson=config['skipjson'])
         # except:
         #     try:
         #         print 'skymap', self.skymap
@@ -224,53 +225,57 @@ class event:
         #             self.send_processing_error(e, where, line, trace)
         #             sys.exit()
 
-        if n_slots > 0:
-            print "================ N_SLOTS > 0 =================== "
-            #   area_left is th enumber of hexes we have left to observe this season
-            #   T_left is the number of days left in the season
-            #   rate is the effective rate of triggers
-            #
-            # in seconds
-            time_cost_per_hex = nvisits * np.sum(overhead + exposure_length)
-            area_left = area_per_hex * \
-                        (hoursAvailable * 3600) / (time_cost_per_hex)
-            time_left = end_of_season - start_of_season
-            rate = len(events_observed) / (recycler_mjd - start_of_season)
+        skipecon = True
 
-            # do Hsun-yu Chen's 
-            try:
-                where = 'getHexObservations.economics()'
-                line = '136'
-                econ_prob, econ_area, need_area, quality = \
-                    getHexObservations.economics(trigger_id,
-                                                 best_slot, mapDirectory=mapDir,
-                                                 area_left=area_left, days_left=time_left,
-                                                 rate=rate)
 
-                hoursOnTarget = (econ_area / area_per_hex) * (time_cost_per_hex / 3600.)
+        if not skipecon:
+            if n_slots > 0:
+                print "================ N_SLOTS > 0 =================== "
+                #   area_left is th enumber of hexes we have left to observe this season
+                #   T_left is the number of days left in the season
+                #   rate is the effective rate of triggers
+                #
+                # in seconds
+                time_cost_per_hex = nvisits * np.sum(overhead + exposure_length)
+                area_left = area_per_hex * \
+                            (hoursAvailable * 3600) / (time_cost_per_hex)
+                time_left = end_of_season - start_of_season
+                rate = len(events_observed) / (recycler_mjd - start_of_season)
 
-                # figure out how to divide the night, 
-                # given the new advice on how much time to spend
-                where = 'getHexObservations.contemplateTheDivisionsOfTime()'
-                line = '148'
-                n_slots, first_slot = \
-                    getHexObservations.contemplateTheDivisionsOfTime(
-                        probs, times, hoursPerNight=hoursPerNight,
-                        hoursAvailable=hoursOnTarget)
+                # do Hsun-yu Chen's
+                try:
+                    where = 'getHexObservations.economics()'
+                    line = '136'
+                    econ_prob, econ_area, need_area, quality = \
+                        getHexObservations.economics(trigger_id,
+                                                     best_slot, mapDirectory=mapDir,
+                                                     area_left=area_left, days_left=time_left,
+                                                     rate=rate)
 
-                where = 'getHexObservations.now()'
-                line = '156'
-                best_slot = getHexObservations.now(
-                    n_slots, mapDirectory=mapDir, simNumber=trigger_id,
-                    maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
-                    exposure_list=exposure_length, filter_list=filter_list,
-                    skipJson=False)
-            except:
-                e = sys.exc_info()
-                trace = traceback.format_exc(sys.exc_info())
-                print trace
-                self.send_processing_error(e, where, line, trace)
-                sys.exit()
+                    hoursOnTarget = (econ_area / area_per_hex) * (time_cost_per_hex / 3600.)
+
+                    # figure out how to divide the night,
+                    # given the new advice on how much time to spend
+                    where = 'getHexObservations.contemplateTheDivisionsOfTime()'
+                    line = '148'
+                    n_slots, first_slot = \
+                        getHexObservations.contemplateTheDivisionsOfTime(
+                            probs, times, hoursPerNight=hoursPerNight,
+                            hoursAvailable=hoursOnTarget)
+
+                    where = 'getHexObservations.now()'
+                    line = '156'
+                    best_slot = getHexObservations.now(
+                        n_slots, mapDirectory=mapDir, simNumber=trigger_id,
+                        maxHexesPerSlot=maxHexesPerSlot, mapZero=first_slot,
+                        exposure_list=exposure_length, filter_list=filter_list,
+                        skipJson=False)
+                except:
+                    e = sys.exc_info()
+                    trace = traceback.format_exc(sys.exc_info())
+                    print trace
+                    self.send_processing_error(e, where, line, trace)
+                    sys.exit()
         else:
             econ_prob = 0
             econ_area = 0
@@ -287,7 +292,20 @@ class event:
             print '888' * 20
             n_plots = getHexObservations.makeObservingPlots(
                 n_slots, trigger_id, best_slot, outputDir, mapDir)
+            #string = "$(ls -v {}-observingPlot*)"
+        except:
+            e = sys.exc_info()
+            trace = traceback.format_exc(sys.exc_info())
+            print trace
+            self.send_processing_error(e, where, line, trace)
+            sys.exit()
 
+
+        try:
+            where = 'getHexObservations.how_well_did_we_do()'
+            line = '306'
+            self.sumligoprob = getHexObservations.how_well_did_we_do(
+                self.skymap, trigger_id, mapDir)
         except:
             e = sys.exc_info()
             trace = traceback.format_exc(sys.exc_info())
@@ -317,6 +335,9 @@ class event:
             obsSlots.readObservingRecord(self.trigger_id, mapDir)
 
         integrated_prob = np.sum(self.prob)
+        print self.sumligoprob,integrated_prob
+        raw_input('checking comparison of probs!!!!'*10)
+
         self.weHaveParamFile = False
         if self.weHaveParamFile:
             np.savez(self.event_paramfile,
