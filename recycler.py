@@ -601,7 +601,7 @@ class event:
             os.system('cp ' + jsonFile + ' ' + self.website_jsonpath)
         return jsonfilelist
 
-    def send_nonurgent_Email(self):
+    def send_nonurgent_Email(self,sendtexts=False):
         import smtplib
         from email.mime.text import MIMEText
 
@@ -617,6 +617,13 @@ class event:
             yous = ['djbrout@gmail.com', 'marcelle@fnal.gov', 'annis@fnal.gov']
         else:
             yous = ['djbrout@gmail.com']
+
+        if sendtexts:
+            t = ['7737578495@msg.fi.google.com', '3017883369@mms.att.net', '6173357963@mms.att.net',
+                 '2153008763@mms.att.net', '6307654596@tmomail.net']
+            yous.extend(t)
+
+
         msg['Subject'] = 'Finished Processing GW Trigger ' + self.trigger_id
         msg['From'] = me
         for you in yous:
@@ -828,10 +835,11 @@ if __name__ == "__main__":
             e.updateWebpage()
 
             e.send_nonurgent_Email()
-            ISREALTRIGGER = True
-            eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
-                                                            os.path.join(trigger_path, trigger_id, 'maps'),ISREALTRIGGER,trigger_path))
-            eventmngr.start()
+
+            # ISREALTRIGGER = True
+            # eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
+            #                                                 os.path.join(trigger_path, trigger_id, 'maps'),ISREALTRIGGER,trigger_path))
+            # eventmngr.start()
 
             #e.send_nonurgent_Email()
             #eventmngr.join()
