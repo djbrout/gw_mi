@@ -15,8 +15,8 @@ def nowUTC():
     return now
 
 def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
-    print 'inside triggerpages'
-    print event_paramfile
+    #print 'inside triggerpages'
+    #print event_paramfile
     event_params = np.load(event_paramfile)
     d = mjd_to_datetime(float(str(event_params['MJD'])))
     n = nowUTC()
@@ -656,12 +656,23 @@ def make_index_page(webpage_dir, real_or_sim=None):
         params = np.load(os.path.join(outfolder, trig + '_params.npz'))
 
         d = mjd_to_datetime(float(str(params['MJD'])))
-
-        indextable += '<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" \
+        try:
+            indextable += '<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" \
                         onclick="DoNav(\'Triggers/'+trig+'/'+trig+'_trigger.html\');">\
                           <td></td>\
                           <td >'+trig+'</td>\
                           <td >'+str(round(float(str(params['DESXLIGO_prob'])), 6))+'</td>\
+                          <td >'+str(params['FAR'])+'</td>\
+                          <td >'+str(params['ChirpMass'])+'</td>\
+                          <td >'+str(params['MJD'])+'</td>\
+                          <td >'+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</td>\
+                        </tr>'
+        except:
+            indextable += '<tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);" \
+                        onclick="DoNav(\'Triggers/'+trig+'/'+trig+'_trigger.html\');">\
+                          <td></td>\
+                          <td >'+trig+'</td>\
+                          <td >'+str(round(float(str(params['integrated_prob'])), 6))+'</td>\
                           <td >'+str(params['FAR'])+'</td>\
                           <td >'+str(params['ChirpMass'])+'</td>\
                           <td >'+str(params['MJD'])+'</td>\
