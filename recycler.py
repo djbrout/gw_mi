@@ -91,8 +91,10 @@ class event:
         skipAll = config["skipAll"]
         exposure_length = np.array(exposure_length)
         mjd = self.mjd
-        print mjd, self.event_params['MJD']
-        raw_input()
+        #print mjd, self.event_params['MJD']
+        if self.event_params['MJD'] == 'NAN':
+            self.event_params['MJD'] = str(mjd)
+        #raw_input()
         outputDir = self.outfolder
         mapDir = self.mapspath
         recycler_mjd = self.recycler_mjd
