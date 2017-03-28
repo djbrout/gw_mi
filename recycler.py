@@ -152,7 +152,7 @@ class event:
             exposure_length = config["exposure_length_NS"]
 
         exposure_length = np.array(exposure_length)
-
+        self.exposure_length = exposure_length
 
         if config["force_distance"]:
             self.distance = config["distance"]
@@ -427,11 +427,12 @@ class event:
                      filename=self.skymap
                      )
 
-    def getContours(self, exposure_length, config):
+    def getContours(self, config):
         import matplotlib.pyplot as plt
 
-        if exposure_length is None:
-            exposure_length = config["exposure_length"]
+        #if exposure_length is None:
+        #    exposure_length = config["exposure_length"]
+        exposure_length= self.exposure_length
         image_dir = self.website_imagespath
         map_dir = self.mapspath
 
@@ -775,7 +776,7 @@ if __name__ == "__main__":
 
     force_mjd = config["force_mjd"]
 
-    exposure_length = config["exposure_length"]
+    #exposure_length = config["exposure_length"]
 
     # Override defaults with command line arguments
     # THESE NOT GUARANTEED TO WORK EVER SINCE WE SWITCHED TO YAML
@@ -793,8 +794,8 @@ if __name__ == "__main__":
             dontwrap = True
         elif o in ["-mjd","--mjd"]:
             mjd = float(a)
-        elif o in ["-exp","--exposure_length"]:
-            exposure_length = float(a)
+        #elif o in ["-exp","--exposure_length"]:
+        #    exposure_length = float(a)
         elif o in ["-hours","--hours_available"]:
             hours_available = float(a)
         elif o in ["-sky","--skymapfilename"]:
@@ -856,8 +857,8 @@ if __name__ == "__main__":
                                    trigger_id),
                       trigger_id, mjd, config)
 
-            e.mapMaker(trigger_id, skymap_filename, exposure_length, config)
-            e.getContours(exposure_length, config)
+            e.mapMaker(trigger_id, skymap_filename, config)
+            e.getContours(config)
             jsonfilelist = e.makeJSON(config)
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
