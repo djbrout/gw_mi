@@ -73,7 +73,7 @@ class event:
         '''
         os.system('kinit -k -t /var/keytab/desgw.keytab desgw/des/des41.fnal.gov@FNAL.GOV')
 
-    def mapMaker(self, trigger_id, skymap, exposure_length, config):
+    def mapMaker(self, trigger_id, skymap, config):
         import os
         import yaml
         import getHexObservations
