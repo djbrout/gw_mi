@@ -603,8 +603,8 @@ class event:
         from time import gmtime, strftime
         timeprocessed = strftime("%H:%M:%S GMT \t %b %d, %Y", gmtime())
 
-        exptimes = ', '.join(map(str, config['exposure_length']))
-        expf = ', '.join(map(str, config['exposure_filter']))
+        #exptimes = ', '.join(map(str, config['exposure_length']))
+        #expf = ', '.join(map(str, config['exposure_filter']))
 
         try:
             boc = self.event_params['boc']
