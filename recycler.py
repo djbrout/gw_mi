@@ -155,6 +155,7 @@ class event:
 
         exposure_length = np.array(exposure_length)
         self.exposure_length = exposure_length
+        self.time_budget = hoursAvailable
 
         if config["force_distance"]:
             self.distance = config["distance"]
@@ -180,12 +181,18 @@ class event:
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     self.skymap, trigger_id, outputDir, mapDir, distance=self.distance,
                     trigger_type=gethexobstype,start_days_since_burst=start_days_since_burst,
-                    exposure_list=exposure_length, filter_list=filter_list,resolution=64,
+                    exposure_list=exposure_length, filter_list=filter_list,resolution=config['resolution'],
                     halfNight=config['ishalfnight'], firstHalf=config['isfirsthalf'],
                     overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             # figure out how to divide the night
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
             # line = '102'
+
+        print 'probs',probs
+        print 'times', times
+        print 'slotDuration', slotDuration
+        print 'hoursPerNight', hoursPerNight
+        raw_input()
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
                 probs, times, hoursPerNight=hoursPerNight,
                 hoursAvailable=hoursAvailable)
@@ -393,8 +400,8 @@ class event:
                      codeDistance=self.distance,
                      exposure_times=exposure_length,
                      exposure_filter=filter_list,
-                     hours=config['time_budget'],
-                     nvisits=config['nvisits'],
+                     hours=self.time_budget,
+                     #nvisits=config['nvisits'],
                      mapname='NAN',
                      filename=self.skymap
                      )
@@ -423,8 +430,8 @@ class event:
                      codeDistance=self.distance,
                      exposure_times=exposure_length,
                      exposure_filter=filter_list,
-                     hours=config['time_budget'],
-                     nvisits=config['nvisits'],
+                     hours=self.time_budget,
+                     #nvisits=config['nvisits'],
                      mapname='NAN',
                      filename=self.skymap
                      )

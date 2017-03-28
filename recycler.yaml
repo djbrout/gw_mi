@@ -27,6 +27,9 @@ events_observed : ['GW150914' , 'GW151226']
 area_per_hex : 3.0 # sq deg
 overhead : 30. #sec
 
+# Optimization params
+resolution: 64 #for map making
+
 
 distance : 60.
 force_distance : False
