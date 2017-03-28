@@ -176,21 +176,21 @@ class event:
             #        overhead=overhead, maxHexesPerSlot=maxHexesPerSlot, skipAll=skipAll)
             #except ValueError:
 
-        print 'skymap',self.skymap
-
-
-        print 'skymap',self.skymap
-        print 'distance',self.distance
-        print 'gethexobstype',gethexobstype
-        print 'start_days_since_burst',start_days_since_burst
-        print 'exposure_length',exposure_length
-        print 'filter_list',filter_list
-        print 'resolution',config['resolution']
-        print 'halfnight',config['ishalfnight']
-        print 'firsthalf', config['isfirsthalf']
-        print 'overhead',overhead
-        print 'maxHexesPerSlot',maxHexesPerSlot
-        print 'skipAll',skipAll
+        # print 'skymap',self.skymap
+        #
+        #
+        # print 'skymap',self.skymap
+        # print 'distance',self.distance
+        # print 'gethexobstype',gethexobstype
+        # print 'start_days_since_burst',start_days_since_burst
+        # print 'exposure_length',exposure_length
+        # print 'filter_list',filter_list
+        # print 'resolution',config['resolution']
+        # print 'halfnight',config['ishalfnight']
+        # print 'firsthalf', config['isfirsthalf']
+        # print 'overhead',overhead
+        # print 'maxHexesPerSlot',maxHexesPerSlot
+        # print 'skipAll',skipAll
 
         #raw_input()
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
@@ -203,10 +203,10 @@ class event:
             # where = 'getHexObservations.contemplateTheDivisionsOfTime()'
             # line = '102'
 
-        print 'probs',probs
-        print 'times', times
-        print 'slotDuration', slotDuration
-        print 'hoursPerNight', hoursPerNight
+        # print 'probs',probs
+        # print 'times', times
+        # print 'slotDuration', slotDuration
+        # print 'hoursPerNight', hoursPerNight
         #raw_input()
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
                 probs, times, hoursPerNight=hoursPerNight,
