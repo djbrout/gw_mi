@@ -340,8 +340,9 @@ class event:
             print '888' * 20
             print n_slots, trigger_id, best_slot, outputDir, mapDir
             print '888' * 20
-            n_plots = getHexObservations.makeObservingPlots(
-                n_slots, trigger_id, best_slot, outputDir, mapDir, allSky=True )
+            if not config['skipPlots']:
+                n_plots = getHexObservations.makeObservingPlots(
+                    n_slots, trigger_id, best_slot, outputDir, mapDir, allSky=True )
             #string = "$(ls -v {}-observingPlot*)"
         except:
             e = sys.exc_info()
