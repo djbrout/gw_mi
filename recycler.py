@@ -468,19 +468,19 @@ class event:
 
         if self.n_slots<1:
             counter = getHexObservations.nothingToObserveShowSomething(self.trigger_id, self.outfolder, self.mapspath)
-            iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
-            oname = self.trigger_id + "-observingPlot.gif"
-            os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
+            # iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
+            # oname = self.trigger_id + "-observingPlot.gif"
+            # os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
             iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
             oname = self.trigger_id + "-probabilityPlot.png"
             os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
         #if self.n_slots > 0:
         if True:
-            print 'Converting Observing Plots to .gif'
-            os.system('convert $(for ((a=0; a<50; a++)); do printf -- "-delay 50 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-%s.png " $a; done;) '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
-            #os.system('convert -delay 70 -loop 0 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-*.png '+
-            #          os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
-            os.system('cp '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif '+ image_dir)
+            # print 'Converting Observing Plots to .gif'
+            # os.system('convert $(for ((a=0; a<50; a++)); do printf -- "-delay 50 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-%s.png " $a; done;) '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
+            # #os.system('convert -delay 70 -loop 0 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-*.png '+
+            # #          os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
+            # os.system('cp '+os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif '+ image_dir)
             iname = self.trigger_id + "-" + str(self.best_slot) + "-maglim-eq.png"
             oname = self.trigger_id + "_limitingMagMap.png"
             os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
@@ -782,6 +782,28 @@ class event:
             if not self.config['skipPlots']:
                 n_plots = getHexObservations.makeObservingPlots(
                     self.n_slots, self.trigger_id, self.best_slot, self.outputDir, self.mapDir, allSky=True )
+
+                image_dir = self.website_imagespath
+                map_dir = self.mapspath
+
+                if self.n_slots < 1:
+                    counter = getHexObservations.nothingToObserveShowSomething(self.trigger_id, self.outfolder,
+                                                                               self.mapspath)
+                    iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
+                    oname = self.trigger_id + "-observingPlot.gif"
+                    os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
+                    iname = self.trigger_id + "-" + str(self.best_slot) + "-ligo-eq.png"
+                    oname = self.trigger_id + "-probabilityPlot.png"
+                    os.system('cp ' + os.path.join(self.outfolder, iname) + ' ' + os.path.join(image_dir, oname))
+                # if self.n_slots > 0:
+                if True:
+                    print 'Converting Observing Plots to .gif'
+                    os.system('convert $(for ((a=0; a<50; a++)); do printf -- "-delay 50 ' + os.path.join(map_dir,
+                                        self.trigger_id) + '-observingPlot-%s.png " $a; done;) ' + os.path.join(
+                        map_dir, self.trigger_id) + '-observingPlot.gif')
+                    # os.system('convert -delay 70 -loop 0 '+os.path.join(map_dir,self.trigger_id)+'-observingPlot-*.png '+
+                    #          os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif')
+                    os.system('cp ' + os.path.join(map_dir, self.trigger_id) + '-observingPlot.gif ' + image_dir)
             #string = "$(ls -v {}-observingPlot*)"
         except:
             e = sys.exc_info()
