@@ -35,6 +35,7 @@ distance : 60.
 force_distance : False
 
 skipAll : True
+skipPlots: True
 
 default_map_name : skyprobcc_cWB.fits
 
