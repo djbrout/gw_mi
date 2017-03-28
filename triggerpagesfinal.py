@@ -147,7 +147,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <h2></h2><h2>'
 
     maps = []
-    for fff in os.listdir(os.path.basename(event_paramfile)):
+    for fff in os.listdir('./real-triggers/'+trigger_id+'/'):
         if '.fits' in fff:
             maps.append(fff.split('.')[0])
 
