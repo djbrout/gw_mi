@@ -34,7 +34,7 @@ resolution: 128 #for map making
 distance : 60.
 force_distance : False
 
-skipAll : False
+skipAll : True
 skipPlots: False
 
 default_map_name : skyprobcc_cWB.fits
