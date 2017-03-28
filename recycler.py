@@ -178,6 +178,21 @@ class event:
 
         print 'skymap',self.skymap
 
+
+        print 'skymap',self.skymap
+        print 'distance',self.distance
+        print 'gethexobstype',gethexobstype
+        print 'start_days_since_burst',start_days_since_burst
+        print 'exposure_length',exposure_length
+        print 'filter_list',filter_list
+        print 'resolution',config['resolution']
+        print 'halfnight',config['ishalfnight']
+        print 'firsthalf', config['isfirsthalf']
+        print 'overhead',overhead
+        print 'maxHexesPerSlot',maxHexesPerSlot
+        print 'skipAll',skipAll
+
+        raw_input()
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     self.skymap, trigger_id, outputDir, mapDir, distance=self.distance,
                     trigger_type=gethexobstype,start_days_since_burst=start_days_since_burst,
