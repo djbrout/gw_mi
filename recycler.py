@@ -416,7 +416,7 @@ class event:
                      exposure_times=exposure_length,
                      exposure_filter=filter_list,
                      hours=self.time_budget,
-                     #nvisits=config['nvisits'],
+                     nvisits=-999,#config['nvisits'],
                      mapname='NAN',
                      filename=self.skymap
                      )
@@ -446,7 +446,7 @@ class event:
                      exposure_times=exposure_length,
                      exposure_filter=filter_list,
                      hours=self.time_budget,
-                     #nvisits=config['nvisits'],
+                     nvisits=-999,#config['nvisits'],
                      mapname='NAN',
                      filename=self.skymap
                      )

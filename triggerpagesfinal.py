@@ -18,6 +18,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
     #print 'inside triggerpages'
     #print event_paramfile
     event_params = np.load(event_paramfile)
+
     d = mjd_to_datetime(float(str(event_params['MJD'])))
     n = nowUTC()
     try:
@@ -143,43 +144,29 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
-                        <h2></h2>'
+                        <h2></h2><h2>'
 
-    if 'bayestar' in str(event_params['filename']):
-            html+='<h2><div class="btn-group">\
-                        <button\
-                        type = "button"\
-                        style="width:260px; background-color:white; color:black"\
-                        class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
-                        <button\
-                        type="button"\
-                        style="width:260px; background-color:transparent; color:white"\
-                        class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
-                        </div> </h2>'
-    elif 'lalinference' in str(event_params['filename']):
-            html += '<h2><div class="btn-group">\
-                <button\
-                type="button"\
-                style="width:260px; background-color:transparent; color:white"\
-                class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
-                <button\
-                type="button"\
-                style="width:260px; background-color:white; color:black"\
-                class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
-                </div></h2>'
-    else:
-            html += '<h2><div class="btn-group">\
-                <button\
-                type="button"\
-                style="width:260px; background-color:transparent; color:white"\
-                class="btn btn-outline btn-outline-xl outline-light"> Bayestar </button>\
-                <button\
-                type="button"\
-                style="width:260px; background-color:transparent; color:white"\
-                class="btn btn-outline btn-outline-xl outline-light"> Lalinference </button>\
-                </div> </h2>'
+    maps = []
+    for fff in os.listdir(os.path.basename(event_paramfile)):
+        if '.fits' in fff:
+            maps.append(fff.split('.')[0])
+
+    for map in maps:
+        if map in str(event_params['filename']):
+                html+='<div class="btn-group">\
+                            <button\
+                            type = "button"\
+                            style="width:260px; background-color:white; color:black"\
+                            class="btn btn-outline btn-outline-xl outline-light"> '+map+' </button>'
+        else:
+                html += '<div class="btn-group">\
+                    <button\
+                    type="button"\
+                    style="width:260px; background-color:transparent; color:white"\
+                    class="btn btn-outline btn-outline-xl outline-light"> '+map+' </button>'
 
 
+    html += '</h2>'
     html +='<h2>in our hexes, LIGO Probability of Detection: ' + str(round(float(str(event_params['LIGO_prob'])), 6)) + '</h2>\ \
          <h2>DES X LIGO Probability of Detection: '+str(round(float(str(event_params['DESXLIGO_prob'])),6))+'</h2>\
                         <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
