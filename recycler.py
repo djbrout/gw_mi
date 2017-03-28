@@ -752,7 +752,7 @@ class event:
 
     def updateWebpage(self):
         os.system('scp -r DES_GW_Website/Triggers/'+self.trigger_id+' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/')
-        os.system('scp DES_GW_Website/*.html codemanager@desweb.fnal.gov:/des_web/www/html/desgw/')
+        os.system('scp DES_GW_Website/* codemanager@desweb.fnal.gov:/des_web/www/html/desgw/')
         tp.makeNewPage(os.path.join(self.outfolder, self.trigger_id + '_trigger.html'), self.trigger_id,self.event_paramfile)
         os.system('scp -r ' + os.path.join(self.outfolder,
                                            self.trigger_id + '_trigger.html') + ' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/' + self.trigger_id + '/')
