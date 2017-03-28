@@ -28,7 +28,7 @@ area_per_hex : 3.0 # sq deg
 overhead : 30. #sec
 
 # Optimization params
-resolution: 64 #for map making
+resolution: 128 #for map making
 
 
 distance : 60.
