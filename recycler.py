@@ -80,7 +80,6 @@ class event:
 
 
         overhead = config["overhead"]
-        hoursAvailable = config["time_budget"]
         nvisits = config["nvisits"]
         area_per_hex = config["area_per_hex"]
         start_of_season = config["start_of_season"]
@@ -144,12 +143,15 @@ class event:
             filter_list = config["exposure_filter_BH"]
             maxHexesPerSlot = config["maxHexesPerSlot_BH"]
             exposure_length = config["exposure_length_BH"]
+            hoursAvailable = config["time_budget_BH"]
+
 
 
         else:
             filter_list = config["exposure_filter_NS"]
             maxHexesPerSlot = config["maxHexesPerSlot_NS"]
             exposure_length = config["exposure_length_NS"]
+            hoursAvailable = config["time_budget_NS"]
 
         exposure_length = np.array(exposure_length)
         self.exposure_length = exposure_length
