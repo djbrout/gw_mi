@@ -80,7 +80,7 @@ class event:
 
 
         overhead = config["overhead"]
-        nvisits = config["nvisits"]
+        #nvisits = config["nvisits"]
         area_per_hex = config["area_per_hex"]
         start_of_season = config["start_of_season"]
         end_of_season = config["end_of_season"]
