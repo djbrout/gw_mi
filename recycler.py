@@ -757,10 +757,10 @@ class event:
         os.system('scp ' + os.path.join(self.outfolder,
                                         self.trigger_id + '-and-sim-cumprobs.png') + ' ./DES_GW_Website/Triggers/' + self.trigger_id + '/images/')
 
-    def updateWebpage(self):
+    def updateWebpage(self,real_or_sim):
         os.system('scp -r DES_GW_Website/Triggers/'+self.trigger_id+' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/')
         os.system('scp DES_GW_Website/* codemanager@desweb.fnal.gov:/des_web/www/html/desgw/')
-        tp.makeNewPage(os.path.join(self.outfolder, self.trigger_id + '_trigger.html'), self.trigger_id,self.event_paramfile)
+        tp.makeNewPage(os.path.join(self.outfolder, self.trigger_id + '_trigger.html'), self.trigger_id,self.event_paramfile,real_or_sim=real_or_sim)
         os.system('scp -r ' + os.path.join(self.outfolder,
                                            self.trigger_id + '_trigger.html') + ' codemanager@desweb.fnal.gov:/des_web/www/html/desgw/Triggers/' + self.trigger_id + '/')
         return
@@ -931,7 +931,7 @@ if __name__ == "__main__":
             jsonfilelist = e.makeJSON(config)
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
-            e.updateWebpage()
+            e.updateWebpage(real_or_sim)
             e.send_nonurgent_Email()
             e.makeObservingPlots()
 

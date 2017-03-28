@@ -14,7 +14,7 @@ def nowUTC():
     now = dt.utcnow()
     return now
 
-def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None):
+def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=None,real_or_sim='real'):
     #print 'inside triggerpages'
     #print event_paramfile
     event_params = np.load(event_paramfile)
@@ -148,7 +148,13 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <h2></h2><h2>'
 
     maps = []
-    for fff in os.listdir('./real-triggers/'+trigger_id+'/'):
+
+    if real_or_sim == 'real':
+        subdir = 'real-triggers'
+    if real_or_sim == 'sim':
+        subdir = 'test-triggers'
+
+    for fff in os.listdir('./'+subdir+'/'+trigger_id+'/'):
         if '.fits' in fff:
             maps.append(fff.split('.')[0])
 
