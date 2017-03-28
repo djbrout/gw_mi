@@ -78,18 +78,15 @@ class event:
         import yaml
         import getHexObservations
 
-        filter_list = config["exposure_filter"]
+
         overhead = config["overhead"]
-        maxHexesPerSlot = config["maxHexesPerSlot"]
         hoursAvailable = config["time_budget"]
-        maxHexesPerSlot = config["maxHexesPerSlot"]
         nvisits = config["nvisits"]
         area_per_hex = config["area_per_hex"]
         start_of_season = config["start_of_season"]
         end_of_season = config["end_of_season"]
         events_observed = config["events_observed"]
         skipAll = config["skipAll"]
-        exposure_length = np.array(exposure_length)
         mjd = self.mjd
         #print mjd, self.event_params['MJD']
         # if self.event_params['MJD'] == 'NAN':
@@ -109,14 +106,14 @@ class event:
             self.skymap = os.path.join(outputDir,'lalinference.fits.gz')
 
         # If distance is not set in config use xml distance
-        if config["force_distance"]:
-            distance = config["distance"]
-        else:
-            if self.weHaveParamFile:
-                distance = self.event_params["MaxDistance"]
-            else:
-                print 'THERE IS NO PARAMFILE, HARDCODING THE DISTANCE TO THE CONFIG DIST.'
-                distance = config["distance"]
+        # if config["force_distance"]:
+        #     distance = config["distance"]
+        # else:
+        #     if self.weHaveParamFile:
+        #         distance = self.event_params["MaxDistance"]
+        #     else:
+        #         print 'THERE IS NO PARAMFILE, HARDCODING THE DISTANCE TO THE CONFIG DIST.'
+        #         distance = config["distance"]
 
         eventtype = self.event_params['boc']
         try:
@@ -124,6 +121,7 @@ class event:
         except:
             probhasns = 0. #for old maps...
         gethexobstype = None
+
 
         if eventtype == 'Burst':
             gethexobstype = 'BH'
@@ -140,6 +138,24 @@ class event:
             gethexobstype = 'BH'
             self.distance = 1.
 
+
+
+        if gethexobstype == 'BH':
+            filter_list = config["exposure_filter_BH"]
+            maxHexesPerSlot = config["maxHexesPerSlot_BH"]
+            exposure_length = config["exposure_length_BH"]
+
+
+        else:
+            filter_list = config["exposure_filter_NS"]
+            maxHexesPerSlot = config["maxHexesPerSlot_NS"]
+            exposure_length = config["exposure_length_NS"]
+
+        exposure_length = np.array(exposure_length)
+
+
+        if config["force_distance"]:
+            self.distance = config["distance"]
 
         #self.distance = distance
 
@@ -345,8 +361,8 @@ class event:
             obsSlots.readObservingRecord(self.trigger_id, mapDir)
 
         integrated_prob = np.sum(self.prob)
-        print self.sumligoprob,integrated_prob
-        raw_input('checking comparison of probs!!!!'*10)
+        print '-'*20+'>','LIGO PROB: %.3f \tLIGO X DES PROB: %.3f' % (self.sumligoprob,integrated_prob)
+        #raw_input('checking comparison of probs!!!!'*10)
 
         self.weHaveParamFile = True
 
