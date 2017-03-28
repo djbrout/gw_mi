@@ -84,6 +84,11 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
           document.location.href = theUrl;\
           }\
           </script>\
+          <style type="text/css">\
+            img {\
+            background-image: url("../../image_placeholder.jpg")\
+            }\
+            </style>\
             </head>' + \
             '<body data-spy="scroll" data-target="nav"> \
                 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>\
@@ -138,7 +143,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         <div class="gallery-item" style="width: 50%; left: 50%; margin-right: -50%; transform: translate(50%, 0%)">\
                          <div class="gallery-thumb" >\
                             <img name="Trigger" src="images/'+str(trigger_id)+'-observingPlot.gif" \
-                            onerror="this.src=\'../image_placeholder.jpg\'"class="img-responsive" alt="2nd gallery Thumb" width="50%">\
+                            class="img-responsive" alt="2nd gallery Thumb" width="50%">\
                             <div class="image-overlay"></div>\
                             <a href="images/'+str(trigger_id)+'-observingPlot.gif" class="gallery-zoom"><i class="fa fa-eye"></i></a>\
                             <a href="images/'+str(trigger_id)+'-observingPlot.gif" download class="gallery-link"><i class="fa fa-link"></i></a>\
