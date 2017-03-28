@@ -192,7 +192,7 @@ class event:
         print 'maxHexesPerSlot',maxHexesPerSlot
         print 'skipAll',skipAll
 
-        raw_input()
+        #raw_input()
         probs, times, slotDuration, hoursPerNight = getHexObservations.prepare(
                     self.skymap, trigger_id, outputDir, mapDir, distance=self.distance,
                     trigger_type=gethexobstype,start_days_since_burst=start_days_since_burst,
@@ -207,7 +207,7 @@ class event:
         print 'times', times
         print 'slotDuration', slotDuration
         print 'hoursPerNight', hoursPerNight
-        raw_input()
+        #raw_input()
         n_slots, first_slot = getHexObservations.contemplateTheDivisionsOfTime(
                 probs, times, hoursPerNight=hoursPerNight,
                 hoursAvailable=hoursAvailable)
