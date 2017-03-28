@@ -334,22 +334,22 @@ class event:
             quality = 1.0
 
         # make observation plots
-        try:
-            where = 'getHexObservations.makeObservingPlots()'
-            line = '176'
-            print '888' * 20
-            print n_slots, trigger_id, best_slot, outputDir, mapDir
-            print '888' * 20
-            if not config['skipPlots']:
-                n_plots = getHexObservations.makeObservingPlots(
-                    n_slots, trigger_id, best_slot, outputDir, mapDir, allSky=True )
-            #string = "$(ls -v {}-observingPlot*)"
-        except:
-            e = sys.exc_info()
-            trace = traceback.format_exc(sys.exc_info())
-            print trace
-            self.send_processing_error(e, where, line, trace)
-            sys.exit()
+        # try:
+        #     where = 'getHexObservations.makeObservingPlots()'
+        #     line = '176'
+        #     print '888' * 20
+        #     print n_slots, trigger_id, best_slot, outputDir, mapDir
+        #     print '888' * 20
+        #     if not config['skipPlots']:
+        #         n_plots = getHexObservations.makeObservingPlots(
+        #             n_slots, trigger_id, best_slot, outputDir, mapDir, allSky=True )
+        #     #string = "$(ls -v {}-observingPlot*)"
+        # except:
+        #     e = sys.exc_info()
+        #     trace = traceback.format_exc(sys.exc_info())
+        #     print trace
+        #     self.send_processing_error(e, where, line, trace)
+        #     sys.exit()
 
 
         try:
@@ -372,6 +372,7 @@ class event:
         self.need_area = need_area
         self.quality = quality
 
+
         np.savez(os.path.join(self.outfolder, 'mapmaker_results.npz')
                  , best_slot=best_slot
                  , n_slots=n_slots
@@ -388,6 +389,10 @@ class event:
         integrated_prob = np.sum(self.prob)
         print '-'*20+'>','LIGO PROB: %.3f \tLIGO X DES PROB: %.3f' % (self.sumligoprob,integrated_prob)
         #raw_input('checking comparison of probs!!!!'*10)
+
+
+        self.outputDir = outputDir
+        self.mapDir = mapDir
 
         self.weHaveParamFile = True
 
@@ -770,6 +775,21 @@ class event:
         d = mjd_epoch + datetime.timedelta(mjd)
         return d
 
+    def makeObservingPlots(self):
+        try:
+            where = 'getHexObservations.makeObservingPlots()'
+            line = '776'
+            if not self.config['skipPlots']:
+                n_plots = getHexObservations.makeObservingPlots(
+                    self.n_slots, self.trigger_id, self.best_slot, self.outputDir, self.mapDir, allSky=True )
+            #string = "$(ls -v {}-observingPlot*)"
+        except:
+            e = sys.exc_info()
+            trace = traceback.format_exc(sys.exc_info())
+            print trace
+            self.send_processing_error(e, where, line, trace)
+            sys.exit()
+
 if __name__ == "__main__":
 
     try:
@@ -888,8 +908,8 @@ if __name__ == "__main__":
             e.make_cumulative_probs()
             e.updateTriggerIndex(real_or_sim=real_or_sim)
             e.updateWebpage()
-
             e.send_nonurgent_Email()
+            e.makeObservingPlots()
 
             # ISREALTRIGGER = True
             # eventmngr = Thread(target=jobmanager.eventmanager, args=(trigger_id, jsonfilelist,os.path.join(trigger_path,trigger_id),
