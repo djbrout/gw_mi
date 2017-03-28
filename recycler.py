@@ -143,7 +143,7 @@ class event:
             filter_list = config["exposure_filter_BH"]
             maxHexesPerSlot = config["maxHexesPerSlot_BH"]
             exposure_length = config["exposure_length_BH"]
-            hoursAvailable = config["time_budget_BH"]
+            hoursAvailable = config["time_budget_for_BH"]
 
 
 
@@ -151,7 +151,7 @@ class event:
             filter_list = config["exposure_filter_NS"]
             maxHexesPerSlot = config["maxHexesPerSlot_NS"]
             exposure_length = config["exposure_length_NS"]
-            hoursAvailable = config["time_budget_NS"]
+            hoursAvailable = config["time_budget_for_NS"]
 
         exposure_length = np.array(exposure_length)
         self.exposure_length = exposure_length
