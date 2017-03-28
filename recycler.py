@@ -145,8 +145,6 @@ class event:
             exposure_length = config["exposure_length_BH"]
             hoursAvailable = config["time_budget_for_BH"]
 
-
-
         else:
             filter_list = config["exposure_filter_NS"]
             maxHexesPerSlot = config["maxHexesPerSlot_NS"]
@@ -165,6 +163,8 @@ class event:
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
 
+
+        self.gethexobstype = gethexobstype
         # make the maps
         #try:
         #where = 'getHexObservations'
@@ -424,7 +424,8 @@ class event:
                      hours=self.time_budget,
                      nvisits=-999,#config['nvisits'],
                      mapname='NAN',
-                     filename=self.skymap
+                     filename=self.skymap,
+                     gethexobstype=self.gethexobstype
                      )
         else:
             np.savez(self.event_paramfile,
@@ -454,7 +455,8 @@ class event:
                      hours=self.time_budget,
                      nvisits=-999,#config['nvisits'],
                      mapname='NAN',
-                     filename=self.skymap
+                     filename=self.skymap,
+                     gethexobstype=self.gethexobstype
                      )
 
     def getContours(self, config):
