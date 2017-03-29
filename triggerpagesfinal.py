@@ -145,6 +145,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
+                        <h5 style="color: white">'+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h5> <h5 style="color: white">FAR: '+str(event_params['FAR'])+'</h5>\
                         <h2></h2><h2>'
 
     maps = []
@@ -176,8 +177,6 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
     html += '</h2>'
     html +='<h2>LIGO Probability of Detection (in our hexes): ' + str(round(float(str(event_params['LIGO_prob'])), 6)) + '</h2>\
          <h2>DES X LIGO Probability of Detection: '+str(round(float(str(event_params['DESXLIGO_prob'])),6))+'</h2>\
-                        <h2>Last Processed: '+str(n.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
-                        <h2>Trigger Time: '+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h2>\
                         <h2>Trigger Type: '+str(event_params['boc'])+'</h2>\
                         <h2>Strategy: ' + str(event_params['gethexobstype']) + '</h2>\
     <a href="'+str(trigger_id)+'_JSON.zip" download class="btn btn-outline btn-outline-xl outline-light">Download .json <span class="fa fa-download"></span></a>\
@@ -244,6 +243,12 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                         </tr>\
                     </thead>\
                     <tbody>\
+                    <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
+                            <th></th>\
+                            <td></td>\
+                            <td>Last Processing</td>\
+                            <td>'+str(n.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</td>\
+                        </tr>\
                         <tr onmouseover="ChangeColor(this, true);" onmouseout="ChangeColor(this, false);">\
                             <th></th>\
                             <td>nHexes</td>\
