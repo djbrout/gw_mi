@@ -145,7 +145,7 @@ def makeNewPage(outfilename,trigger_id,event_paramfile,processing_param_file=Non
                           </div>\
                         </div>\
                         <h1>Trigger '+str(trigger_id)+'</h1>\
-                        <h5 style="color: white">'+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h5> <h5 style="color: white">FAR: '+str(event_params['FAR'])+'</h5>\
+                        <h4 style="color: white">'+str(d.strftime('%H:%M:%S \t %b %d, %Y UTC'))+'</h4> <h4 style="color: white">FAR: '+str(event_params['FAR'])+'</h4>\
                         <h2></h2><h2>'
 
     maps = []
