@@ -901,7 +901,9 @@ if __name__ == "__main__":
                 #                               trigger_id, config['default_map_name'])
                 #print os.path.join(trigger_path, trigger_id,'default_skymap.txt')
                 #print os.path.join(trigger_path, trigger_id,'default_skymap.txt').read()
-                skymap_filename = open(os.path.join(trigger_path, trigger_id,'default_skymap.txt'),'r').read()
+                skymap_filename = os.path.join(trigger_path, trigger_id,
+                                               open(os.path.join(trigger_path, trigger_id,
+                                                                 'default_skymap.txt'),'r').read())
             except:
                badtriggers = open('badtriggers.txt', 'a')
                badtriggers.write(trigger_id + '\n')
