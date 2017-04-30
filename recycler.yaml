@@ -76,7 +76,7 @@ maxHexesPerSlot_BH : 18  # related to maxHexesPerSlot_NS by x3 for x3 less image
 
 ####Only used for running recycler.py standalone!####
 
-trigger_id : "G275697"
+trigger_id : "G277583"
 wrap_all_triggers : False
 
 mjd : 57809.5
