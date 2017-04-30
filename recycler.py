@@ -892,7 +892,8 @@ if __name__ == "__main__":
             except:
                 mjd = '99999'
         if skymap_filename is None:
-            try:
+            #try:
+            if True:
                 #mapname = open(os.path.join(trigger_path,
                 #                            trigger_id,
                 #                            config['default_map_name']), 'r').read()
@@ -900,11 +901,11 @@ if __name__ == "__main__":
                 #                               trigger_id, config['default_map_name'])
                 print os.path.join(trigger_path, trigger_id,'default_skymap.txt')
                 print os.path.join(trigger_path, trigger_id,'default_skymap.txt').read()
-                skymap_filename =os.path.join(trigger_path, trigger_id,'default_skymap.txt').read()
-            except:
-                badtriggers = open('badtriggers.txt', 'a')
-                badtriggers.write(trigger_id + '\n')
-                print 'Could not find skymap url file'
+                skymap_filename = os.path.join(trigger_path, trigger_id,'default_skymap.txt').read()
+            #except:
+            #    badtriggers = open('badtriggers.txt', 'a')
+            #    badtriggers.write(trigger_id + '\n')
+            #    print 'Could not find skymap url file'
 
         if 'bayestar' in skymap_filename:
             print 'bayestar' * 500
